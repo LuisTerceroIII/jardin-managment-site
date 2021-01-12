@@ -1,0 +1,60 @@
+.form-presentation-main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 1990px;
+    background-image: url("https://images.pexels.com/photos/1858409/pexels-photo-1858409.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.form-presentation-title {
+    font-family: 'Playfair Display', serif;
+    text-align: center;
+    margin-top: 10%;
+    font-size: 225%;
+}
+
+.form-presentation-form-container {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+}
+.form-presentation-input {
+    border-style: none;
+    height: 22px;
+
+
+}
+
+
+.form-presentation-label {
+    margin-top: 3%;
+    margin-bottom: 2%;
+    font-family: 'Roboto', sans-serif;
+    font-size: 105%;
+    font-weight: 580;
+    color: black;
+    background-color: #eeeeee;
+
+}
+
+.form-presentation-button {
+    background-color: #eceaea;
+    height: 40px;
+    width: 225px;
+    margin-top: 5%;
+    text-align: center;
+    border: 4px solid #030303;
+    border-radius: 10%;
+    font-size: 100%;
+    font-family: 'Roboto', sans-serif;
+    transition: height 0.5s;
+    align-self: center;
+
+}
+.form-presentation-button:hover {
+    border: 5px solid white;
+    height: 60px;
+    background-color: #ffe10e;
+}

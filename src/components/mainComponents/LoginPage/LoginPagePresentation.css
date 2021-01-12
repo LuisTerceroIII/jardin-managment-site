@@ -1,0 +1,53 @@
+.welcomePage-main-container {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: 35% 20% 20% 20%;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-image: url("https://images.pexels.com/photos/4068317/pexels-photo-4068317.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260");
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.9;
+}
+
+.logo-container {
+    width: 300px;
+    color: black;
+}
+
+.welcomePage-title {
+    font-size: 355%;
+    font-family: 'Playfair Display', serif;
+    text-align: center;
+}
+
+.break-line {
+    width: 190px;
+    border: 1px solid black;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -15%;
+
+}
+.welcomePage-buttons {
+    display: flex;
+    margin-top: 10%;
+    width: 8em;
+    height: 2em;
+    cursor: pointer;
+    border: 5px solid red;
+
+
+}
+
+.login-button-welcome-page {
+    background-color: #bc8a8a;
+    color: white;
+    border-style: none;
+    border-radius: 10%;
+    font-size: 17px;
+    width: 100px;
+    height: 40px;
+}
