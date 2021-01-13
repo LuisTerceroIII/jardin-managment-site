@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import './EditProductPresentation.css'
 import {useForm} from "react-hook-form";
 import InputColor from "react-input-color";
@@ -6,67 +6,75 @@ import InputColor from "react-input-color";
 export const EditProductPresentation = (props) => {
 
     const [color, setColor] = React.useState({});
-    const { register, handleSubmit, errors } = useForm();
-    const onSubmit = data => {
-        const garment = {
-            comment: data.comment,
-            gender: data.gender,
-            madeIn: data.madeIn,
-            mainMaterial: data.mainMaterial,
-            mainColor: color.hex,
-            price: data.price,
-            size: data.size,
-            type: data.type
-        }
+    const [submitButton , setSubmitButton] = useState("id")
+    const { register, handleSubmit } = useForm();
 
-        props.setCreateRequest({
-            newGarment : garment
-        })
+    const onSubmit = data => {
+
+        if(submitButton === "sendPatchGarment") {
+            props.setPatchGarment(true)
+            props.setEditRequest(data)
+        } else {
+            props.setSearchGarment(true)
+            props.setGarmentToUpdateId(data.id)
+        }
     };
+
     const onChangeColor = (e) => {
         setColor(e)
     }
+
     const genders = props.genders.map((gender, index) => {
         return (
-            <option key={index}>{gender}</option>
+            props.garmentToUpdate.gender === gender ? <option selected={true} key={index} >{gender}</option> :<option key={index} >{gender}</option>
         )
     })
     const materials = props.materials.map((material,index) => {
         return(
-            <option key={index}>{material}</option>
+            props.garmentToUpdate.mainMaterial === material ? <option selected={true} key={index}>{material}</option> : <option key={index}>{material}</option>
         );
     });
     const madeIn = props.madeIn.map((country,index) => {
         return(
-            <option key={index}>{country}</option>
+
+            props.garmentToUpdate.madeIn === country ? <option selected={true} key={index}>{country}</option> : <option key={index}>{country}</option>
         );
     });
 
     return (
         <div className={'form-presentation-main-container'}>
             <h1 className={'form-presentation-title'}>{props.title}</h1>
+
+
             <form className={'form-presentation-form-container'} onSubmit={handleSubmit(onSubmit)}>
 
-                <label className={'form-presentation-label'}>Tipo de prenda</label>
-                <input name="type" className={'form-presentation-input'}
+                <label className={'form-presentation-label'}> Id </label>
+                <input name="id" className={'form-presentation-input'}
                        ref={register({
-                           required : true
+                    required : false
+                    })}/>
+                <button type={"submit"} onClick={() => setSubmitButton("id") } className={'form-presentation-crate-button form-presentation-button'}>Buscar</button>
+
+                <label className={'form-presentation-label'}>Tipo de prenda</label>
+                <input name="type" className={'form-presentation-input'} defaultValue={props.garmentToUpdate.type}
+                       ref={register({
+                           required : false
                        })}
                 />
-                {errors.type && <span>Tipo requerido</span>}
 
                 <label className={'form-presentation-label'}>Talle</label>
-                <input className={'form-presentation-input'}
+                <input className={'form-presentation-input'} defaultValue={props.garmentToUpdate.size}
+                       onChange={()=> null}
                        name={"size"}
                        ref={register({
-                           required : true
+                           required : false
                        })}
                 />
                 <label className={'form-presentation-label'}>Genero</label>
                 <select className={'form-presentation-input'}
                         name={"gender"}
                         ref={register({
-                            required : true
+                            required : false
                         })}
                 >
                     {genders}
@@ -76,7 +84,7 @@ export const EditProductPresentation = (props) => {
                 <select className={'form-presentation-input'}
                         name="mainMaterial"
                         ref={register({
-                            required : true
+                            required : false
                         })}
                 >
                     {materials}
@@ -86,7 +94,7 @@ export const EditProductPresentation = (props) => {
                 <select className={'form-presentation-input'}
                         name={"madeIn"}
                         ref={register({
-                            required : true
+                            required : false
                         })}
                 >
                     {madeIn}
@@ -94,11 +102,12 @@ export const EditProductPresentation = (props) => {
 
 
                 <label className={'form-presentation-label'}>Precio</label>
-                <input type={'number'}
+                <input type={'number'} defaultValue={props.garmentToUpdate.price}
+                       onChange={()=> null}
                        className={'form-presentation-input'}
                        name={"price"}
                        ref={register({
-                           required : true
+                           required : false
                        })}
                 />
 
@@ -112,16 +121,17 @@ export const EditProductPresentation = (props) => {
                 <label className={'form-presentation-label'}>Imagenes</label>
 
                 <label className={'form-presentation-label'}>Comentario</label>
-                <textarea className={'form-presentation-textarea'}
+                <textarea className={'form-presentation-textarea'} defaultValue={props.garmentToUpdate.comment}
+                          onChange={()=> null}
                           name={"comment"}
                           ref={register({
-                              required : true
+                              required : false
                           })}
                           rows={2}
                 />
 
-
-                <input type={"submit"} value={"Crear"} className={'form-presentation-crate-button form-presentation-button'}/>
+                    <input type={"submit"} value={"Crear"} className={'form-presentation-crate-button form-presentation-button'}
+                           onClick={() => setSubmitButton("sendPatchGarment")}/>
 
             </form>
         </div>

@@ -3,7 +3,6 @@ import axios from "axios";
 export const JardinApiService = () => {
 
     const processLogin = async (username, password) => {
-        console.log("DENTRO!!!!!!!!!")
         try {
             const response = await axios.post("http://localhost:3030/management/jardin-api/v1/login",{
                 username : username || "hi", // Se agrego || y los datos comenzaros a llegar con valores completos al servidor. ?????.
@@ -15,7 +14,7 @@ export const JardinApiService = () => {
                 }
             })
             console.log(response.data) // Respuesta servidor, se espera un True o False. -> response.data
-
+            return response
 
         } catch (err) {
             console.log(err)
@@ -37,13 +36,33 @@ export const JardinApiService = () => {
         }
     }
 
+    const getGarmentById = async (id) => {
+        try {
+            return axios({
+                url : `http://localhost:3030/management/jardin-api/v1/garment/${id}`,
+                method : 'GET',
+                headers : {
+                    "Content-Type": "application/json"
+                },
+                auth : {
+                    username : 'LuisTerceroIII',
+                    password : "5611858Morf"
+                },
+                params : {
+                    id : id || null
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
     const getGarmentByQuery = async (queryGarment) => {
         try {
             return await axios({
                 url: "http://localhost:3030/management/jardin-api/v1/garment/search",
                 method: "GET",
                 headers: {
-                    "Content-Type": "application/json",
+                    "Content-Type": "application/json"
                 },
                 auth: {
                     username: "LuisTerceroIII",
@@ -81,12 +100,42 @@ export const JardinApiService = () => {
         } catch (err) {
             console.log(err)
         }
-
     }
+
+    const patchGarmentById = async (garmentToUpdate) => {
+        const {id} = garmentToUpdate
+        try {
+            return await axios({
+                url: `http://localhost:3030/management/jardin-api/v1/garment/${id}`,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                auth: {
+                    username: "LuisTerceroIII",
+                    password: "5611858Morf"
+                },
+                data: {
+                    gender: garmentToUpdate.gender || null,
+                    size: garmentToUpdate.size || null,
+                    type: garmentToUpdate.type || null,
+                    madeIn: garmentToUpdate.madeIn || null,
+                    mainMaterial : garmentToUpdate.mainMaterial || null,
+                    price : garmentToUpdate.price || null,
+                    comment : garmentToUpdate.comment || null
+                }
+            });
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
     return ({
         processLogin: processLogin,
         getAll: getAllGarments,
+        getGarmentById : getGarmentById,
         getGarmentByQuery : getGarmentByQuery,
-        saveWithoutPictures : saveWithoutPictures
+        saveWithoutPictures : saveWithoutPictures,
+        patchGarmentById: patchGarmentById
     })
 }

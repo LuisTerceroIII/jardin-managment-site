@@ -11,7 +11,6 @@ export const LoginPagePresentation = (props) => {
             username: data.username,
             password: data.password
         })
-
     };
 
     return (

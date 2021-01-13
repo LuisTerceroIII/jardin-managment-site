@@ -1,12 +1,13 @@
-import React from 'react';
+import React,{useState, useEffect} from 'react';
 import {EditProductPresentation} from "./EditProductPresentation";
 import {useHistory} from "react-router-dom";
+import {JardinApiService} from "../../../services/JardinApiService";
 
 export const EditProductContainer = (props) => {
     // Form variables values  ------------------------------------------------------
-    const genders = ['Mujer', 'Hombre', 'Unisex'];
-    const materials = ['Algodón', 'Lino', 'Poliéster', 'Viscosa', 'Lana', 'Ramio', 'Cáñamo', 'Seda', 'Nylon', 'Lycra'];
-    const madeIn = ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antarctica', 'Antigua and Barbuda',
+    const genders = ['','Mujer', 'Hombre', 'Unisex'];
+    const materials = ['','Algodón', 'Lino', 'Poliéster', 'Viscosa', 'Lana', 'Ramio', 'Cáñamo', 'Seda', 'Nylon', 'Lycra'];
+    const madeIn = ['','Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antarctica', 'Antigua and Barbuda',
         'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados',
         'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana',
         'Brazil', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burma', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde',
@@ -37,10 +38,58 @@ export const EditProductContainer = (props) => {
     // history.push("/rutaAIr")
     const history = useHistory()
 
+    const [garmentToUpdate,setGarmentToUpdate] = useState({
+        id : "",
+        type : "",
+        size : "",
+        mainColor : "",
+        gender: "",
+        mainMaterial : "",
+        madeIn : "",
+        price : "",
+        comment : ""
+    })
+
+    const [garmentToUpdateId,setGarmentToUpdateId] = useState("")
+
+    const [searchGarment,setSearchGarment] = useState(false)
+    const [patchGarment,setPatchGarment] = useState(false)
+
+
+    useEffect(() => {
+
+        if(searchGarment === true) {
+            const response = JardinApiService().getGarmentById(garmentToUpdateId)
+            response.then(garment => {
+                setGarmentToUpdate(garment.data)
+            }).catch(err => console.log("Id no existe o servidor no responde",err))
+            setSearchGarment(false)
+        }
+        if(patchGarment === true) {
+            setPatchGarment(false)
+            const response = JardinApiService().patchGarmentById(props.editRequest)
+            response.then(res => {
+                props.setEditResponse(res.data)
+                history.push("/edit/result")
+            }).catch(err => console.log("ENTRE AL ERROR ;(",err))
+        }
+
+
+
+    },[props.editRequest,searchGarment])
+
     return(
         <EditProductPresentation title={title}
                                  genders={genders}
                                  materials={materials}
-                                 madeIn={madeIn} />
+                                 madeIn={madeIn}
+                                 garmentToUpdate={garmentToUpdate}
+                                 setGarmentToUpdate={setGarmentToUpdate}
+                                 setGarmentToUpdateId={setGarmentToUpdateId}
+                                 garmentToUpdateId={garmentToUpdateId}
+                                 setSearchGarment={setSearchGarment}
+                                 setPatchGarment={setPatchGarment}
+                                 setEditRequest={props.setEditRequest}
+        />
     )
 }

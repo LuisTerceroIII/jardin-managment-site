@@ -12,10 +12,14 @@ export const LoginPageContainer = (props) => {
     useEffect( () => {
         if(!utils().isEmpty(credentials)) {
             const processLogin = JardinApiService().processLogin(credentials.username,credentials.password)
-            if(processLogin) props.setLogin(true)
+            processLogin.then((res) => {
+                if(res.data) {
+                    props.setLogin(true)
+                }
+
+            }).catch(err => console.log(err))
             setCredentials({})
         }
-
     },[credentials])
 
     return (
