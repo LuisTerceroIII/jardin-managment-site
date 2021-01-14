@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import './EditProductPresentation.css'
 import {useForm} from "react-hook-form";
 import InputColor from "react-input-color";
@@ -9,14 +9,18 @@ export const EditProductPresentation = (props) => {
     const [submitButton , setSubmitButton] = useState("id")
     const { register, handleSubmit } = useForm();
 
+    useEffect( () => {
+
+    },[props.garmentToUpdate,props.idNotFound])
+
     const onSubmit = data => {
 
         if(submitButton === "sendPatchGarment") {
             props.setPatchGarment(true)
             props.setEditRequest(data)
         } else {
-            props.setSearchGarment(true)
             props.setGarmentToUpdateId(data.id)
+            props.setSearchGarment(true)
         }
     };
 
@@ -49,10 +53,11 @@ export const EditProductPresentation = (props) => {
             <form className={'form-presentation-form-container'} onSubmit={handleSubmit(onSubmit)}>
 
                 <label className={'form-presentation-label'}> Id </label>
-                <input name="id" className={'form-presentation-input'}
+                <input name="id" className={'form-presentation-input'} defaultValue={props.garmentToUpdateId}
                        ref={register({
                     required : false
                     })}/>
+                {props.idNotFound === false && <span>Id no existe</span>}
                 <button type={"submit"} onClick={() => setSubmitButton("id") } className={'form-presentation-crate-button form-presentation-button'}>Buscar</button>
 
                 <label className={'form-presentation-label'}>Tipo de prenda</label>
@@ -130,7 +135,7 @@ export const EditProductPresentation = (props) => {
                           rows={2}
                 />
 
-                    <input type={"submit"} value={"Crear"} className={'form-presentation-crate-button form-presentation-button'}
+                    <input type={"submit"} value={"Editar"} className={'form-presentation-crate-button form-presentation-button'}
                            onClick={() => setSubmitButton("sendPatchGarment")}/>
 
             </form>

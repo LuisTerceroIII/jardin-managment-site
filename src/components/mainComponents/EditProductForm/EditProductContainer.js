@@ -55,14 +55,29 @@ export const EditProductContainer = (props) => {
     const [searchGarment,setSearchGarment] = useState(false)
     const [patchGarment,setPatchGarment] = useState(false)
 
+    const [idNotFound,setIDNotFound] = useState(true)
+
 
     useEffect(() => {
 
         if(searchGarment === true) {
+            console.log("Dentro de searchGarment", "Garment id : " , garmentToUpdateId)
             const response = JardinApiService().getGarmentById(garmentToUpdateId)
             response.then(garment => {
-                setGarmentToUpdate(garment.data)
-            }).catch(err => console.log("Id no existe o servidor no responde",err))
+                if(garment.status === 404) {
+                    setIDNotFound(false)
+                    setGarmentToUpdate({id : "",type : "",size : "",mainColor : "",gender: "",mainMaterial : "",madeIn : "",price : "",comment : ""})
+                }
+                if(garment.status === 500) {
+                    console.log("Error interno del servidor")
+                    setIDNotFound(false)
+                    setGarmentToUpdate({id : "",type : "",size : "",mainColor : "",gender: "",mainMaterial : "",madeIn : "",price : "",comment : ""})
+                }
+                if(garment.status === 202) {
+                    setIDNotFound(true)
+                    setGarmentToUpdate(garment.data)
+                }
+            })
             setSearchGarment(false)
         }
         if(patchGarment === true) {
@@ -90,6 +105,7 @@ export const EditProductContainer = (props) => {
                                  setSearchGarment={setSearchGarment}
                                  setPatchGarment={setPatchGarment}
                                  setEditRequest={props.setEditRequest}
+                                 idNotFound={idNotFound}
         />
     )
 }

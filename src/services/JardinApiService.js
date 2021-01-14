@@ -38,7 +38,7 @@ export const JardinApiService = () => {
 
     const getGarmentById = async (id) => {
         try {
-            return axios({
+            return await axios({
                 url : `http://localhost:3030/management/jardin-api/v1/garment/${id}`,
                 method : 'GET',
                 headers : {
@@ -53,7 +53,8 @@ export const JardinApiService = () => {
                 }
             })
         } catch (err) {
-            console.log(err);
+            console.log("Dentro de error")
+             return err.response
         }
     }
     const getGarmentByQuery = async (queryGarment) => {
