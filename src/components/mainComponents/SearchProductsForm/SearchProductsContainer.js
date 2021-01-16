@@ -16,7 +16,7 @@ export const SearchProductsContainer = (props) => {
 
     // Form variables values  ------------------------------------------------------
     const types = ["","Bufanda","Camisa","Campera","Chaqueta","Gorro","Herb","Pantalon","Remera","Zapato"]
-    const sizes = ["","1g","30","33","36","44","5","55cm","L","s","XL","M","S"]
+    const sizes = ["","30","33","36","44","5","55cm","L","s","XL","M","S"]
     const genders = ["",'Unisex','Mujer', 'Hombre'];
     //const madeIn = ["","Afghanistan","Argentina","Argetina","Chile","China","Italia","United States","USA","Italy"]
     const materials = ['','Algodón', 'Lino', 'Poliéster', 'Viscosa', 'Lana', 'Ramio', 'Cáñamo', 'Seda', 'Nylon', 'Lycra',"Ceda","Corderoi","Jean","lana","Sintetico"];

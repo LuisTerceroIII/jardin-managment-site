@@ -10,6 +10,7 @@ import {ResultOfSearchContainer} from "./components/mainComponents/ResultOfSearc
 import './App.css';
 import {ResultOfCreateContainer} from "./components/mainComponents/ResultOfCreate/ResultOfCreateContainer";
 import {ResultOfEditContainer} from "./components/mainComponents/ResultOfEdit/ResultOfEditContainer";
+import {ResultOfDeleteContainer} from "./components/mainComponents/ResultOfDelete/ResultOfDeleteContainer";
 
 
 /*
@@ -53,6 +54,9 @@ import {ResultOfEditContainer} from "./components/mainComponents/ResultOfEdit/Re
          updatedGarment : {}
      })
 
+     const [deleteResponse,setDeleteResponse] = useState({
+         deletedGarment : {}
+     })
 
     return (
         <Router >
@@ -93,7 +97,8 @@ import {ResultOfEditContainer} from "./components/mainComponents/ResultOfEdit/Re
 
             {/*DELETE PAGE*/}
           <Route exact path={'/delete'} component={'DeleteProductContainer'}>
-              {login === false ? <Redirect to={'/'}/> : <DeleteProductContainer/> }
+              {login === false ? <Redirect to={'/'}/> : <DeleteProductContainer setDeleteResponse={setDeleteResponse}
+              /> }
           </Route>
 
             {/*********** SECONDARY PAGES************/}
@@ -112,6 +117,11 @@ import {ResultOfEditContainer} from "./components/mainComponents/ResultOfEdit/Re
             {/*RESULTS OF EDIT PAGE*/}
             <Route exact path={'/edit/result'} component={'ResultOfEditContainer'}>
                 {login === false ? <Redirect to={'/'}/> : <ResultOfEditContainer  setEditRequest={setEditRequest} editResponse={editResponse}/> }
+            </Route>
+
+            {/*RESULTS OF DELETE PAGE*/}
+            <Route exact path={'/delete/result'} component={'ResultOfDeleteContainer'}>
+                {login === false ? <Redirect to={'/'}/> : <ResultOfDeleteContainer deleteResponse={deleteResponse}/> }
             </Route>
 
         </Router>

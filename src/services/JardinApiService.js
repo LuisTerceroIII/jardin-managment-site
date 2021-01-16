@@ -131,12 +131,31 @@ export const JardinApiService = () => {
         }
     }
 
+    const deleteGarmentById = async (id) => {
+        try {
+            return await axios({
+                url: `http://localhost:3030/management/jardin-api/v1/garment/delete/${id}`,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                auth: {
+                    username: "LuisTerceroIII",
+                    password: "5611858Morf"
+                }
+            })
+        } catch (err) {
+            console.log("Error, no se apodido conectar con el servidor",err)
+        }
+    }
+
     return ({
         processLogin: processLogin,
         getAll: getAllGarments,
         getGarmentById : getGarmentById,
         getGarmentByQuery : getGarmentByQuery,
         saveWithoutPictures : saveWithoutPictures,
-        patchGarmentById: patchGarmentById
+        patchGarmentById: patchGarmentById,
+        deleteGarmentById :deleteGarmentById
     })
 }
