@@ -17,21 +17,66 @@ export const JardinApiService = () => {
             return response
 
         } catch (err) {
-            console.log(err)
+            if(err.response) {
+                if(err.response.status === 404) {
+                    console.log("Not valid credentials!")
+                    console.log("Credenciales no validas!")
+                }
+                if(err.response.status === 500) {
+                    console.log("Error: request could not be sent",err)
+                    console.log("Error, no se a podido conectar con el servidor",err)
+                }
+
+            } else {
+                console.log("Error: request could not be sent")
+                console.log("Error, no se a podido conectar con el servidor")
+            }
+            return err.response
+        }
+    }
+
+    const logout =  async (credentials) => {
+        try {
+            return await axios({
+                url : `http://localhost:3030/management/jardin-api/v1/logout`,
+                method : 'POST',
+                headers : {
+                    "Content-Type": "application/json"
+                },
+                auth : {
+                    username : "LuisTerceroIII",
+                    password : "5611858Morf"
+                },
+                data : credentials
+            })
+        } catch (err) {
+            if(err.response) {
+                console.log("Error: request could not be sent",err)
+                console.log("Error, no se a podido conectar con el servidor",err)
+            } else {
+                console.log("Error: request could not be sent")
+                console.log("Error, no se a podido conectar con el servidor")
+            }
+            return null
         }
     }
 
     const getAllGarments = async () => {
         try {
-            const garments =  await axios.get("http://localhost:3030/management/jardin-api/v1/garment", {
+            return await axios.get("http://localhost:3030/management/jardin-api/v1/garment", {
                 auth: {
                     username: "LuisTerceroIII",
                     password: "5611858Morf"
                 }
             })
-            return garments.data
         } catch (err) {
-            console.log(err)
+            if(err.response) {
+                console.log("Error: request could not be sent",err)
+                console.log("Error, no se a podido conectar con el servidor",err)
+            } else {
+                console.log("Error: request could not be sent")
+                console.log("Error, no se a podido conectar con el servidor")
+            }
             return null
         }
     }
@@ -53,7 +98,23 @@ export const JardinApiService = () => {
                 }
             })
         } catch (err) {
-            console.log("Dentro de error")
+            if(err.response) {
+                const statusCode = err.response.status;
+                switch (statusCode) {
+                    case 404 :
+                        console.log("Invalid ID",err)
+                        console.log("ID invalido",err)
+                        break;
+                    default :
+                        console.log("Error: request could not be sent",err)
+                        console.log("Error, no se a podido conectar con el servidor",err)
+                }
+            } else {
+                console.log("Error: request could not be sent")
+                console.log("Error, no se a podido conectar con el servidor")
+            }
+
+
              return err.response
         }
     }
@@ -80,7 +141,13 @@ export const JardinApiService = () => {
                 }
             });
         } catch (err) {
-            console.log(err)
+            if(err.response) {
+                console.log("Error: request could not be sent",err)
+                console.log("Error, no se a podido conectar con el servidor",err)
+            } else {
+                console.log("Error: request could not be sent")
+                console.log("Error, no se a podido conectar con el servidor")
+            }
         }
     }
 
@@ -99,7 +166,8 @@ export const JardinApiService = () => {
                 data: garment
             })
         } catch (err) {
-            console.log(err)
+            console.log("Error: request could not be sent",err)
+            console.log("Error, no se a podido conectar con el servidor",err)
         }
     }
 
@@ -127,7 +195,21 @@ export const JardinApiService = () => {
                 }
             });
         } catch (err) {
-            console.log(err)
+            if(err.response) {
+                const statusCode = err.response.status;
+                switch (statusCode) {
+                    case 404 :
+                        console.log("Invalid ID",err)
+                        console.log("ID invalido",err)
+                        break;
+                    default :
+                        console.log("Error: request could not be sent",err)
+                        console.log("Error, no se a podido conectar con el servidor",err)
+                }
+            } else {
+                console.log("Error: request could not be sent")
+                console.log("Error, no se a podido conectar con el servidor")
+            }
         }
     }
 
@@ -145,12 +227,27 @@ export const JardinApiService = () => {
                 }
             })
         } catch (err) {
-            console.log("Error, no se apodido conectar con el servidor",err)
+            if(err.response) {
+                const statusCode = err.response.status;
+                switch (statusCode) {
+                    case 404 :
+                        console.log("Invalid ID",err)
+                        console.log("ID invalido",err)
+                        break;
+                    default :
+                        console.log("Error: request could not be sent",err)
+                        console.log("Error, no se a podido conectar con el servidor",err)
+                }
+            } else {
+                console.log("Error: request could not be sent")
+                console.log("Error, no se a podido conectar con el servidor")
+            }
         }
     }
 
     return ({
         processLogin: processLogin,
+        logout : logout,
         getAll: getAllGarments,
         getGarmentById : getGarmentById,
         getGarmentByQuery : getGarmentByQuery,

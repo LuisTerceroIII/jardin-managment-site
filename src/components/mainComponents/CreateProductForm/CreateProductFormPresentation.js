@@ -2,6 +2,9 @@ import React from 'react';
 import './CreateProductFormPresentation.css'
 import InputColor from 'react-input-color';
 import { useForm } from "react-hook-form";
+import {formData} from "../../../componentData/formsData";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome } from "@fortawesome/free-solid-svg-icons";
 
 
 export const CreateProductFormPresentation = (props) => {
@@ -27,17 +30,17 @@ export const CreateProductFormPresentation = (props) => {
     const onChangeColor = (e) => {
         setColor(e)
     }
-    const genders = props.genders.map((gender, index) => {
+    const genders = formData.genders.map((gender, index) => {
         return (
             <option key={index}>{gender}</option>
         )
     })
-    const materials = props.materials.map((material,index) => {
+    const materials = formData.materials.map((material,index) => {
         return(
             <option key={index}>{material}</option>
         );
     });
-    const madeIn = props.madeIn.map((country,index) => {
+    const madeIn = formData.madeIn.map((country,index) => {
         return(
             <option key={index}>{country}</option>
         );
@@ -45,7 +48,8 @@ export const CreateProductFormPresentation = (props) => {
 
     return (
         <div className={'form-presentation-main-container'}>
-            <h1 className={'form-presentation-title'}>{props.title}</h1>
+            <FontAwesomeIcon icon={['fas','fa-arrow-left']} />
+            <h1 className={'form-presentation-title'}>{formData.title}</h1>
             <form className={'form-presentation-form-container'} onSubmit={handleSubmit(onSubmit)}>
 
                 <label className={'form-presentation-label'}>Tipo de prenda</label>

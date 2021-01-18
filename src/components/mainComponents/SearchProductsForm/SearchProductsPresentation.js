@@ -1,6 +1,7 @@
 import React from 'react'
 import {useForm} from "react-hook-form";
 import InputColor from "react-input-color";
+import {formData} from "../../../componentData/formsData";
 
 
 export const SearchProductsPresentation = (props) => {
@@ -10,27 +11,27 @@ export const SearchProductsPresentation = (props) => {
     const onChangeColor = (e) => {
         setColor(e)
     }
-    const types = props.types.map((type,index) => {
+    const types = formData.types.map((type,index) => {
         return (
             <option key={index}>{type}</option>
         )
     })
-    const sizes = props.sizes.map((size,index) => {
+    const sizes = formData.sizes.map((size,index) => {
         return (
             <option key={index}>{size}</option>
         )
     })
-    const genders = props.genders.map((gender, index) => {
+    const genders = formData.genders.map((gender, index) => {
         return (
             <option key={index}>{gender}</option>
         )
     })
-    const materials = props.materials.map((material,index) => {
+    const materials = formData.materials.map((material,index) => {
         return(
             <option key={index}>{material}</option>
         );
     });
-    const madeIn = props.madeIn.map((country,index) => {
+    const madeIn = formData.madeIn.map((country,index) => {
         return(
             <option key={index}>{country}</option>
         );
@@ -61,7 +62,7 @@ export const SearchProductsPresentation = (props) => {
 
     return (
         <div className={'form-presentation-main-container'}>
-            <h1 className={'form-presentation-title'}>{props.title}</h1>
+            <h1 className={'form-presentation-title'}>{formData.title}</h1>
             <form className={'form-presentation-form-container'} onSubmit={handleSubmit(onSubmit)}>
 
                 <label className={'form-presentation-label'}>Tipo de prenda</label>

@@ -2,6 +2,7 @@ import React,{useState,useEffect} from 'react';
 import './EditProductPresentation.css'
 import {useForm} from "react-hook-form";
 import InputColor from "react-input-color";
+import {formData} from "../../../componentData/formsData";
 
 export const EditProductPresentation = (props) => {
 
@@ -28,17 +29,17 @@ export const EditProductPresentation = (props) => {
         setColor(e)
     }
 
-    const genders = props.genders.map((gender, index) => {
+    const genders = formData.genders.map((gender, index) => {
         return (
             props.garmentToUpdate.gender === gender ? <option selected={true} key={index} >{gender}</option> :<option key={index} >{gender}</option>
         )
     })
-    const materials = props.materials.map((material,index) => {
+    const materials = formData.materials.map((material,index) => {
         return(
             props.garmentToUpdate.mainMaterial === material ? <option selected={true} key={index}>{material}</option> : <option key={index}>{material}</option>
         );
     });
-    const madeIn = props.madeIn.map((country,index) => {
+    const madeIn = formData.madeIn.map((country,index) => {
         return(
 
             props.garmentToUpdate.madeIn === country ? <option selected={true} key={index}>{country}</option> : <option key={index}>{country}</option>
@@ -47,7 +48,7 @@ export const EditProductPresentation = (props) => {
 
     return (
         <div className={'form-presentation-main-container'}>
-            <h1 className={'form-presentation-title'}>{props.title}</h1>
+            <h1 className={'form-presentation-title'}>{formData.title}</h1>
 
 
             <form className={'form-presentation-form-container'} onSubmit={handleSubmit(onSubmit)}>

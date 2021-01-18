@@ -24,6 +24,7 @@ import {ResultOfDeleteContainer} from "./components/mainComponents/ResultOfDelet
     //login variable control if user give valid credentials
      //Login variable controls the access to other pages. If login is false, no one can pass the login page.
     const [login,setLogin] = useState(false)
+     const [credentials,setCredentials] = useState({})
 
     // Variables utilizadas para buscar productos.
      //SearchProductsContainer usa : query y setQueryResponse
@@ -63,12 +64,14 @@ import {ResultOfDeleteContainer} from "./components/mainComponents/ResultOfDelet
 
             {/*LOGIN PAGE*/}
           <Route exact path={'/'} component={'LoginPageContainer'}>
-              {login === true ? <Redirect to={'/actions'}/> : <LoginPageContainer login={login} setLogin={setLogin}/>}
+              {login === true ? <Redirect to={'/actions'}/> : <LoginPageContainer login={login} setLogin={setLogin}
+                                                                                  credentials={credentials} setCredentials={setCredentials}
+              />}
           </Route>
 
             {/*ACTIONS PAGE*/}
           <Route exact path={'/actions'} component={'ActionPageContainer'}>
-              {login === false ? <Redirect to={'/'}/> : <ActionPageContainer/> }
+              {login === false ? <Redirect to={'/'}/> : <ActionPageContainer setLogin={setLogin} credentials={credentials} setCredentials={setCredentials}/> }
           </Route>
 
           {/***************************        MAIN PAGES: CREATE,SEARCH,EDIT,DELETE     **************************/}

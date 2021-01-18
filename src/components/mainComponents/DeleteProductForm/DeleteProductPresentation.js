@@ -7,8 +7,11 @@ export const DeleteProductPresentation = (props) => {
     const { register, handleSubmit, errors } = useForm();
     const garmentToDelete = props.garmentToDelete
 
+    const deleteGarment = () => {
+        props.setDeleteGarment(true)
+    }
+
     const processID_OnSubmit = (data) => {
-        console.log(data,data.id);
         props.setGarmentToDeleteId(data.id)
         props.setSearchGarment(true)
     }
@@ -22,7 +25,7 @@ export const DeleteProductPresentation = (props) => {
                        })}
                 />
                 {errors.id && <span>  <br/>ID requerido  <br/></span>}
-                {props.idNotFound === false && <span>  <br/>Id no existe</span>}
+                {props.idNotFound === true && <span>  <br/>Id no existe</span>}
                 <br/>
                 <button type={"submit"} className={'form-presentation-crate-button form-presentation-button'}>Buscar</button>
             </form>
@@ -38,7 +41,7 @@ export const DeleteProductPresentation = (props) => {
                 <li>Precio : {garmentToDelete.price}</li>
                 <li>Comentario : {garmentToDelete.comment}</li>
             </ul>
-            <button className={'form-presentation-crate-button form-presentation-button'} onClick={() => {props.setDeleteGarment(true)}}>Eliminar</button>
+            <button className={'form-presentation-crate-button form-presentation-button'} onClick={deleteGarment}>Eliminar</button>
 
         </React.Fragment>
     )

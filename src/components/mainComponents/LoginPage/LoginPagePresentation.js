@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import './LoginPagePresentation.css';
 import { useForm } from "react-hook-form";
 
@@ -12,6 +12,7 @@ export const LoginPagePresentation = (props) => {
             password: data.password
         })
     };
+    useEffect(() => {},[props.invalidCredentials])
 
     return (
             <div className={'welcomePage-main-container'}>
@@ -37,7 +38,11 @@ export const LoginPagePresentation = (props) => {
                             minLength: 2
                         })}/>
                         {errors.password && <span className={'password-required-error'}>The password is required</span>}
+
+                        {props.invalidCredentials && <span>Credenciales invalidas!</span>}
                     </div>
+
+
 
                     <button type={"submit"}>Send</button>
                 </form>

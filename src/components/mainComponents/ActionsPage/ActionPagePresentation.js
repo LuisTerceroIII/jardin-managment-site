@@ -12,8 +12,12 @@ export const ActionPagePresentation = (props) => {
         )
     })
     return (
+        <React.Fragment>
             <ul>
                 {LinksCRUD}
             </ul>
+            <button onClick={props.logout} > Log out</button>
+        </React.Fragment>
+
     )
 }

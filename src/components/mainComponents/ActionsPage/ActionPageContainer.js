@@ -1,7 +1,17 @@
 import { ActionPagePresentation } from "./ActionPagePresentation";
 import React from "react";
+import {JardinApiService} from "../../../services/JardinApiService";
 
-export const ActionPageContainer = () => {
+export const ActionPageContainer = (props) => {
+    const logout = () => {
+        props.setLogin(false)
+        JardinApiService().logout(props.credentials).then( res => {
+            if(res) {
+                console.log(res.status)
+            }
+        })
+        props.setCredentials({})
+    }
     const paths = [
         {
             name : "CREATE",
@@ -21,6 +31,6 @@ export const ActionPageContainer = () => {
         }
     ]
     return (
-        <ActionPagePresentation  paths={paths}/>
+        <ActionPagePresentation  paths={paths} logout={logout}/>
     )
 }
