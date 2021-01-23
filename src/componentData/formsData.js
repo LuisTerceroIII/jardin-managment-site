@@ -24,6 +24,6 @@ export const formData = {
         'Tunisia', 'Turkey', 'Turkmenistan', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States',
         'Uruguay', 'Uzbekistan', 'Vanuatu', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe'],
     types : ["","Bufanda","Camisa","Campera","Chaqueta","Gorro","Herb","Pantalon","Remera","Zapato","Short"],
-    sizes : ["","30","33","36","44","5","55cm","L","s","XL","M","S"]
+    sizes : ["","30","33","38","36","44","5","55cm","L","s","XL","M","S"]
 
 }

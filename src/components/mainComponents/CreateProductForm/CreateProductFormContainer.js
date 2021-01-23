@@ -1,8 +1,9 @@
-import React,{useEffect} from 'react';
+import React,{useEffect,useState} from 'react';
 import {CreateProductFormPresentation} from "./CreateProductFormPresentation.js";
 import {useHistory} from "react-router-dom";
 import {utils} from "../../../utilFunctions/utils";
 import {JardinApiService} from "../../../services/JardinApiService";
+import localStore from "store";
 
 
 export const CreateProductFormContainer = (props) => {
@@ -30,30 +31,43 @@ export const CreateProductFormContainer = (props) => {
 
                 Estos dos parecen redundantes, pero nos
      */
+
     useEffect(() => {
-        const saveWithoutPictures = JardinApiService().saveWithoutPictures(props.createRequest.newGarment)
+        const sessionToken = localStore.get("sessionToken") || null
+        if(sessionToken) { // Valida que se este navegando con una sesion abierta
+            if(!utils().isEmpty(props.createRequest.newGarment)) { // valida que se llame
+                const saveWithoutPictures = JardinApiService().saveWithoutPictures(props.createRequest.newGarment,sessionToken)
+                saveWithoutPictures.then(res => {
+                    if(res) {// valida que exista algo como respuesta
+                        let response = res.data
+                        props.setCreateResponse(response) // se setea la respuesta para actualizar el estado del componente de resultado
+                        console.log(res.status)
 
-        saveWithoutPictures.then(res => {
+                        if(res.status === 401) { // Valida, si falla por token invalido
+                            // se vuelven todos los estado que comprueban el logeo a su estado inicial.
+                            localStore.remove("sessionToken")
+                            props.setCredentials({})
+                            props.setLogin(false)
+                        }
+                        if(!utils().isEmpty(props.createRequest.newGarment) && res.data) {
+                            history.push("/create/result")
+                        }
 
-            if(res) {
-                let response = res.data
-                props.setCreateResponse(response)
-                console.log(res.status)
-                if(!utils().isEmpty(props.createRequest.newGarment) && res.data) {
-                    history.push("/create/result")
-                }
-
-                if(!utils().isEmpty(props.createRequest.newGarment) && res.data === false) {
-                    history.push("/create/result")
-                }
+                        if(!utils().isEmpty(props.createRequest.newGarment) && res.data === false) {
+                            history.push("/create/result")
+                        }
+                    }
+                })
             }
-        })
-
+        } else {
+            console.log("Sesion vencida, esta vence cada 24hrs.")
+            props.setCredentials({})
+            localStore.remove("sessionToken")
+            props.setLogin(false)
+        }
     },[props.createRequest.newGarment])
 
     return (
-        <CreateProductFormPresentation setCreateRequest={props.setCreateRequest}
-
-        />
+        <CreateProductFormPresentation setCreateRequest={props.setCreateRequest}/>
     )
 }
