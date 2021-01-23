@@ -1,15 +1,15 @@
 import { ActionPagePresentation } from "./ActionPagePresentation";
-import React from "react";
+import React, {useEffect} from "react";
 import {JardinApiService} from "../../../services/JardinApiService";
+import Cookie from "js-cookie"
+import localStore from "store";
 
 export const ActionPageContainer = (props) => {
+   /* useEffect(() => {
+    },[])*/
     const logout = () => {
+        localStore.remove("sessionToken")
         props.setLogin(false)
-        JardinApiService().logout(props.credentials).then( res => {
-            if(res) {
-                console.log(res.status)
-            }
-        })
         props.setCredentials({})
     }
     const paths = [

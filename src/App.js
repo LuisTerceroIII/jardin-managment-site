@@ -11,7 +11,7 @@ import './App.css';
 import {ResultOfCreateContainer} from "./components/mainComponents/ResultOfCreate/ResultOfCreateContainer";
 import {ResultOfEditContainer} from "./components/mainComponents/ResultOfEdit/ResultOfEditContainer";
 import {ResultOfDeleteContainer} from "./components/mainComponents/ResultOfDelete/ResultOfDeleteContainer";
-
+import Cookie from 'js-cookie'
 
 /*
     La aplicación "Jardín Managment" es un "CRUD" con el objetivo de brindar una opción amigable
@@ -21,6 +21,8 @@ import {ResultOfDeleteContainer} from "./components/mainComponents/ResultOfDelet
 * */
 
  function App() {
+
+
     //login variable control if user give valid credentials
      //Login variable controls the access to other pages. If login is false, no one can pass the login page.
     const [login,setLogin] = useState(false)
@@ -59,6 +61,9 @@ import {ResultOfDeleteContainer} from "./components/mainComponents/ResultOfDelet
          deletedGarment : {}
      })
 
+     useEffect(() => {
+     },[])
+
     return (
         <Router >
 
@@ -81,6 +86,8 @@ import {ResultOfDeleteContainer} from "./components/mainComponents/ResultOfDelet
                 {login === false ? <Redirect to={'/'}/> : <CreateProductFormContainer  createRequest={createRequest}
                                                                                        setCreateRequest={setCreateRequest}
                                                                                        setCreateResponse={setCreateResponse}
+                                                                                       setLogin={setLogin}
+                                                                                       setCredentials={setCredentials}
 
                 />}
           </Route>
@@ -88,19 +95,26 @@ import {ResultOfDeleteContainer} from "./components/mainComponents/ResultOfDelet
           <Route exact path={'/search'} component={'SearchProductFormContainer'}>
                 {login === false ? <Redirect to={'/'}/> : <SearchProductsContainer setQueryResponse={setQueryResponse}
                                                                                    setQuery={setQuery}
-                                                                                   query={query}/>}
+                                                                                   query={query}
+                                                                                   setLogin={setLogin}
+                                                                                   setCredentials={setCredentials}/>}
+
           </Route>
 
             {/*EDIT PRODUCT PAGE*/}
           <Route exact path={'/edit'} component={'EditProductContainer'}>
               {login === false ? <Redirect to={'/'}/> : <EditProductContainer  editRequest={editRequest}
                                                                                setEditRequest={setEditRequest}
-                                                                               setEditResponse={setEditResponse} /> }
+                                                                               setEditResponse={setEditResponse}
+                                                                               setLogin={setLogin}
+                                                                               setCredentials={setCredentials} /> }
           </Route>
 
             {/*DELETE PAGE*/}
           <Route exact path={'/delete'} component={'DeleteProductContainer'}>
               {login === false ? <Redirect to={'/'}/> : <DeleteProductContainer setDeleteResponse={setDeleteResponse}
+                                                                                setLogin={setLogin}
+                                                                                setCredentials={setCredentials}
               /> }
           </Route>
 

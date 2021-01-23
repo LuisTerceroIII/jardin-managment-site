@@ -4,75 +4,73 @@ export const JardinApiService = () => {
 
     const processLogin = async (username, password) => {
         try {
-            const response = await axios.post("http://localhost:3030/management/jardin-api/v1/login",{
-                username : username || "hi", // Se agrego || y los datos comenzaros a llegar con valores completos al servidor. ?????.
-                password : password || "5666"
-            },{
-                auth : {
-                    username: "LuisTerceroIII",
-                    password: "5611858Morf"
-                }
-            })
-            console.log(response.data) // Respuesta servidor, se espera un True o False. -> response.data
-            return response
-
-        } catch (err) {
-            if(err.response) {
-                if(err.response.status === 404) {
-                    console.log("Not valid credentials!")
-                    console.log("Credenciales no validas!")
-                }
-                if(err.response.status === 500) {
-                    console.log("Error: request could not be sent",err)
-                    console.log("Error, no se a podido conectar con el servidor",err)
-                }
-
-            } else {
-                console.log("Error: request could not be sent")
-                console.log("Error, no se a podido conectar con el servidor")
-            }
-            return err.response
-        }
-    }
-
-    const logout =  async (credentials) => {
-        try {
-            return await axios({
-                url : `http://localhost:3030/management/jardin-api/v1/logout`,
-                method : 'POST',
-                headers : {
-                    "Content-Type": "application/json"
-                },
-                auth : {
-                    username : "LuisTerceroIII",
-                    password : "5611858Morf"
-                },
-                data : credentials
-            })
-        } catch (err) {
-            if(err.response) {
-                console.log("Error: request could not be sent",err)
-                console.log("Error, no se a podido conectar con el servidor",err)
-            } else {
-                console.log("Error: request could not be sent")
-                console.log("Error, no se a podido conectar con el servidor")
-            }
-            return null
-        }
-    }
-
-    const getAllGarments = async () => {
-        try {
-            return await axios.get("http://localhost:3030/management/jardin-api/v1/garment", {
+            const response = await axios.post("http://localhost:3030/management/jardin-api/v1/login", {
+                username: username || "hi", // Se agrego || y los datos comenzaros a llegar con valores completos al servidor. ?????.
+                password: password || "5666"
+            }, {
                 auth: {
                     username: "LuisTerceroIII",
                     password: "5611858Morf"
                 }
             })
+
+            console.log(response.data) // Respuesta servidor, se espera un True o False. -> response.data
+            return response
+
         } catch (err) {
-            if(err.response) {
-                console.log("Error: request could not be sent",err)
-                console.log("Error, no se a podido conectar con el servidor",err)
+            if (err.response) {
+                const statusCodeRes = err.response.status
+                switch (statusCodeRes) {
+                    case 401:
+                        console.log("Expired session, login again", err)
+                        console.log("Sesion expirada, ingresa nuevamente", err)
+                        break;
+                    case 404:
+                        console.log("Not valid credentials!")
+                        console.log("Credenciales no validas!")
+                        break;
+                    case 500 :
+                        console.log("Error: fail server", err)
+                        console.log("Error, no se a podido conectar con el servidor", err)
+                        break;
+                    default:
+                        console.log("Error: request could not be sent")
+                        console.log("Error, no se a podido conectar con el servidor")
+                }
+                return err.response
+            }
+        }
+    }
+
+    const getAllGarments = async (sessionToken) => {
+        try {
+            return await axios({
+                url: `http://localhost:3030/management/jardin-api/v1/garment`,
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    "sessionToken": sessionToken
+                },
+                auth: {
+                    username: 'LuisTerceroIII',
+                    password: "5611858Morf"
+                }
+            })
+        } catch (err) {
+            if (err.response) {
+                const statusCode = err.response.status;
+                switch (statusCode) {
+                    case 401 :
+                        console.log("Expired session, log in again", err)
+                        console.log("Sesion expirada, ingresa nuevamente", err)
+                        break;
+                    case 500 :
+                        console.log("Error: fail server",err)
+                        console.log("Error, no se a podido conectar con el servidor",err)
+                        break;
+                    default :
+                        console.log("Error: ",err)
+                }
             } else {
                 console.log("Error: request could not be sent")
                 console.log("Error, no se a podido conectar con el servidor")
@@ -81,13 +79,14 @@ export const JardinApiService = () => {
         }
     }
 
-    const getGarmentById = async (id) => {
+    const getGarmentById = async (id,sessionToken) => {
         try {
             return await axios({
                 url : `http://localhost:3030/management/jardin-api/v1/garment/${id}`,
                 method : 'GET',
                 headers : {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "sessionToken" : sessionToken
                 },
                 auth : {
                     username : 'LuisTerceroIII',
@@ -105,9 +104,16 @@ export const JardinApiService = () => {
                         console.log("Invalid ID",err)
                         console.log("ID invalido",err)
                         break;
-                    default :
-                        console.log("Error: request could not be sent",err)
+                    case 401 :
+                        console.log("Expired session, log in again", err)
+                        console.log("Sesion expirada, ingresa nuevamente", err)
+                        break;
+                    case 500 :
+                        console.log("Error: fail server",err)
                         console.log("Error, no se a podido conectar con el servidor",err)
+                        break;
+                    default :
+                        console.log("Error: ",err)
                 }
             } else {
                 console.log("Error: request could not be sent")
@@ -118,13 +124,15 @@ export const JardinApiService = () => {
              return err.response
         }
     }
-    const getGarmentByQuery = async (queryGarment) => {
+
+    const getGarmentByQuery = async (queryGarment,sessionToken) => {
         try {
             return await axios({
                 url: "http://localhost:3030/management/jardin-api/v1/garment/search",
                 method: "GET",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "sessionToken" : sessionToken
                 },
                 auth: {
                     username: "LuisTerceroIII",
@@ -141,9 +149,21 @@ export const JardinApiService = () => {
                 }
             });
         } catch (err) {
-            if(err.response) {
-                console.log("Error: request could not be sent",err)
-                console.log("Error, no se a podido conectar con el servidor",err)
+            if (err.response) {
+                const statusCodeRes = err.response.status
+                switch (statusCodeRes) {
+                    case 401:
+                        console.log("Expired session, login again", err)
+                        console.log("Sesion expirada, ingresa nuevamente", err)
+                        break;
+                    case 500 :
+                        console.log("Error: fail server", err)
+                        console.log("Error, no se a podido conectar con el servidor", err)
+                        break;
+                    default:
+                        console.log("Error: ",err)
+                }
+                return err.response
             } else {
                 console.log("Error: request could not be sent")
                 console.log("Error, no se a podido conectar con el servidor")
@@ -151,13 +171,14 @@ export const JardinApiService = () => {
         }
     }
 
-    const saveWithoutPictures = async (garment) => {
+    const saveWithoutPictures = async (garment,sessionToken) => {
         try {
             return await axios({
                 url: "http://localhost:3030/management/jardin-api/v1/garment/post",
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "sessionToken" : sessionToken
                 },
                 auth: {
                     username: "LuisTerceroIII",
@@ -166,19 +187,37 @@ export const JardinApiService = () => {
                 data: garment
             })
         } catch (err) {
-            console.log("Error: request could not be sent",err)
-            console.log("Error, no se a podido conectar con el servidor",err)
+            if(err.response) {
+                const statusCode = err.response.status;
+                switch (statusCode) {
+                    case 401 :
+                        console.log("Expired session, log in again", err)
+                        console.log("Sesion expirada, ingresa nuevamente", err)
+                        break;
+                    case 500 :
+                        console.log("Error: fail server",err)
+                        console.log("Error, no se a podido conectar con el servidor",err)
+                        break;
+                    default :
+                        console.log("Error: ",err)
+                }
+            } else {
+                console.log("Error: request could not be sent")
+                console.log("Error, no se a podido conectar con el servidor")
+            }
+            return err.response
         }
     }
 
-    const patchGarmentById = async (garmentToUpdate) => {
+    const patchGarmentById = async (garmentToUpdate,sessionToken) => {
         const {id} = garmentToUpdate
         try {
             return await axios({
                 url: `http://localhost:3030/management/jardin-api/v1/garment/${id}`,
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "sessionToken" : sessionToken
                 },
                 auth: {
                     username: "LuisTerceroIII",
@@ -202,9 +241,16 @@ export const JardinApiService = () => {
                         console.log("Invalid ID",err)
                         console.log("ID invalido",err)
                         break;
-                    default :
-                        console.log("Error: request could not be sent",err)
+                    case 401 :
+                        console.log("Expired session, log in again", err)
+                        console.log("Sesion expirada, ingresa nuevamente", err)
+                        break;
+                    case 500 :
+                        console.log("Error: fail server",err)
                         console.log("Error, no se a podido conectar con el servidor",err)
+                        break;
+                    default :
+                        console.log("Error: ",err)
                 }
             } else {
                 console.log("Error: request could not be sent")
@@ -213,13 +259,14 @@ export const JardinApiService = () => {
         }
     }
 
-    const deleteGarmentById = async (id) => {
+    const deleteGarmentById = async (id,sessionToken) => {
         try {
             return await axios({
                 url: `http://localhost:3030/management/jardin-api/v1/garment/delete/${id}`,
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "sessionToken" : sessionToken
                 },
                 auth: {
                     username: "LuisTerceroIII",
@@ -230,9 +277,17 @@ export const JardinApiService = () => {
             if(err.response) {
                 const statusCode = err.response.status;
                 switch (statusCode) {
+                    case 401 :
+                        console.log("Expired session, log in again", err)
+                        console.log("Sesion expirada, ingresa nuevamente", err)
+                        break;
                     case 404 :
                         console.log("Invalid ID",err)
                         console.log("ID invalido",err)
+                        break;
+                    case 500 :
+                        console.log("Error: fail server",err)
+                        console.log("Error, no se a podido conectar con el servidor",err)
                         break;
                     default :
                         console.log("Error: request could not be sent",err)
@@ -247,7 +302,6 @@ export const JardinApiService = () => {
 
     return ({
         processLogin: processLogin,
-        logout : logout,
         getAll: getAllGarments,
         getGarmentById : getGarmentById,
         getGarmentByQuery : getGarmentByQuery,

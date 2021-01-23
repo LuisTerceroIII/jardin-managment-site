@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {DeleteProductPresentation} from "./DeleteProductPresentation";
 import {JardinApiService} from "../../../services/JardinApiService";
 import {useHistory} from "react-router-dom";
+import localStore from "store";
 
 /*
 * El componente de borrado tiene dos botones, 1 para buscar un producto por su id
@@ -46,50 +47,72 @@ export const DeleteProductContainer = (props) => {
     const history = useHistory()
 
     useEffect(() => {
-        if(searchGarment && garmentToDeleteID !== "") { //Entra si searchGamrnet es verdadero y si se ingreso un valor de id, es decir ya no es "" un string vacio, sino un numero
-            const response = JardinApiService().getGarmentById(garmentToDeleteID)
-            response.then(res => {
-                if(res) {
-                    //Cambia el estado del garmente que se renderiza en view con los datos del recurso recibido con el id ingresado.
-                    setGarmentToDelete(res.data)
-                    if(res.status === 404) {
-                        setIDNotFound(true)
+        const sessionToken = localStore.get("sessionToken") || null
+        if(sessionToken) {
+            if(searchGarment && garmentToDeleteID !== "") { //Entra si searchGamrnet es verdadero y si se ingreso un valor de id, es decir ya no es "" un string vacio, sino un numero
+                const response = JardinApiService().getGarmentById(garmentToDeleteID,sessionToken)
+                response.then(res => {
+                    if(res) {
+                        //Cambia el estado del garmente que se renderiza en view con los datos del recurso recibido con el id ingresado.
+                        setGarmentToDelete(res.data)
+
+                        if(res.status === 401) {
+                            localStore.remove("sessionToken")
+                            props.setCredentials({})
+                            props.setLogin(false)
+
+                        }
+                        if(res.status === 404) {
+                            setIDNotFound(true)
+                        }
+                        if(res.status === 202) {
+                            setIDNotFound(false)
+                        }
                     }
-                    if(res.status === 202) {
-                        setIDNotFound(false)
+                })
+                //Se setea searchGarment en falso para que no vuelva a entrar, salvo que se oprima el boton otra vez.
+                setSearchGarment(false)
+            }
+
+            if(deleteGarment && garmentToDelete.id !== "") {
+                const responseOfDelete = JardinApiService().deleteGarmentById(garmentToDelete.id,sessionToken)
+                responseOfDelete.then(res => {
+                    if(res) {//Preguntamos esto, para asegurarnos no tener errores de undefined o typeError
+                        if(res.status === 401) {
+                            localStore.remove("sessionToken")
+                            props.setCredentials({})
+                            props.setLogin(false)
+
+                        }
+                        if(res.status === 202) {
+                            props.setDeleteResponse(res.data)
+                            history.push('delete/result')
+                        }
+                        if(res.status === 404) {
+                            props.setDeleteResponse({ // Se carga un objeto vacia para mostrar en la ruta "resultado"
+                                id : "",
+                                type : "",
+                                size : "",
+                                mainColor : "",
+                                gender: "",
+                                mainMaterial : "",
+                                madeIn : "",
+                                price : "",
+                                comment : ""
+                            })
+                            history.push('delete/result') // Redirecciona a nueva ruta.
+                        }
                     }
-                }
-            })
-            //Se setea searchGarment en falso para que no vuelva a entrar, salvo que se oprima el boton otra vez.
-            setSearchGarment(false)
+                })
+                setDeleteGarment(false)
+            }
+        } else {
+            console.log("Sesion vencida, esta vence cada 24hrs.")
+            props.setCredentials({})
+            localStore.remove("sessionToken")
+            props.setLogin(false)
         }
 
-        if(deleteGarment && garmentToDelete.id !== "") {
-            const responseOfDelete = JardinApiService().deleteGarmentById(garmentToDelete.id)
-            responseOfDelete.then(res => {
-                if(res) {//Preguntamos esto, para asegurarnos no tener errores de undefined o typeError
-                    if(res.status === 202) {
-                        props.setDeleteResponse(res.data)
-                        history.push('delete/result')
-                    }
-                    if(res.status === 404) {
-                        props.setDeleteResponse({ // Se carga un objeto vacia para mostrar en la ruta "resultado"
-                            id : "",
-                            type : "",
-                            size : "",
-                            mainColor : "",
-                            gender: "",
-                            mainMaterial : "",
-                            madeIn : "",
-                            price : "",
-                            comment : ""
-                        })
-                        history.push('delete/result') // Redirecciona a nueva ruta.
-                    }
-                }
-            })
-            setDeleteGarment(false)
-        }
     },[searchGarment,deleteGarment])
 
     return(
