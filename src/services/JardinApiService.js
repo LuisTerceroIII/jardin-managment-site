@@ -14,7 +14,7 @@ export const JardinApiService = () => {
                 }
             })
 
-            console.log(response.data) // Respuesta servidor, se espera un True o False. -> response.data
+            console.log(response.data?.validCredentials) // Respuesta servidor, se espera un True o False. -> response.data
             return response
 
         } catch (err) {

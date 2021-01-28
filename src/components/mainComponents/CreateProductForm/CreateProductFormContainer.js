@@ -34,27 +34,31 @@ export const CreateProductFormContainer = (props) => {
 
     useEffect(() => {
         const sessionToken = localStore.get("sessionToken") || null
+
         if(sessionToken) { // Valida que se este navegando con una sesion abierta
             if(!utils().isEmpty(props.createRequest.newGarment)) { // valida que se llame
                 const saveWithoutPictures = JardinApiService().saveWithoutPictures(props.createRequest.newGarment,sessionToken)
                 saveWithoutPictures.then(res => {
                     if(res) {// valida que exista algo como respuesta
-                        let response = res.data
-                        props.setCreateResponse(response) // se setea la respuesta para actualizar el estado del componente de resultado
-                        console.log(res.status)
+                        let response = res?.data
 
-                        if(res.status === 401) { // Valida, si falla por token invalido
+                        props.setCreateResponse({
+                            created : response?.created,
+                            newGarment : response?.createdGarment
+                        }) // se setea la respuesta para actualizar el estado del componente de resultado
+                        console.log(res.status)
+                        if(res?.status === 401) { // Valida, si falla por token invalido
                             // se vuelven todos los estado que comprueban el logeo a su estado inicial.
                             localStore.remove("sessionToken")
                             props.setCredentials({})
                             props.setLogin(false)
                         }
-                        if(!utils().isEmpty(props.createRequest.newGarment) && res.data) {
-                            history.push("/create/result")
+                        if(!utils().isEmpty(props.createRequest.newGarment) && response?.created) {
+                            history.push("/create/upload-images")
                         }
 
-                        if(!utils().isEmpty(props.createRequest.newGarment) && res.data === false) {
-                            history.push("/create/result")
+                        if(!utils().isEmpty(props.createRequest.newGarment) && response?.created === false) {
+                            history.push("/create/upload-images")
                         }
                     }
                 })

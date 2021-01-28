@@ -38,22 +38,22 @@ export const EditProductContainer = (props) => {
             if(searchGarment === true) {
                 const response = JardinApiService().getGarmentById(garmentToUpdateId,sessionToken)
                 response.then(garment => {
-                    if(garment.status === 401) {
+                    if(garment?.status === 401) {
                         localStore.remove("sessionToken")
                         props.setCredentials({})
                         props.setLogin(false)
 
                     }
-                    if(garment.status === 404) {
+                    if(garment?.status === 404) {
                         setIDNotFound(false)
                         setGarmentToUpdate({id : "",type : "",size : "",mainColor : "",gender: "",mainMaterial : "",madeIn : "",price : "",comment : ""})
                     }
-                    if(garment.status === 500) {
+                    if(garment?.status === 500) {
                         console.log("Error interno del servidor")
                         setIDNotFound(false)
                         setGarmentToUpdate({id : "",type : "",size : "",mainColor : "",gender: "",mainMaterial : "",madeIn : "",price : "",comment : ""})
                     }
-                    if(garment.status === 202) {
+                    if(garment?.status === 202) {
                         setIDNotFound(true)
                         setGarmentToUpdate(garment.data)
                     }
@@ -65,7 +65,7 @@ export const EditProductContainer = (props) => {
                 const response = JardinApiService().patchGarmentById(props.editRequest,sessionToken)
                 response.then(res => {
 
-                    if(res.status === 401) {
+                    if(res?.status === 401) {
                         localStore.remove("sessionToken")
                         props.setCredentials({})
                         props.setLogin(false)

@@ -12,10 +12,15 @@ export const ResultOfSearchPresentation = (props) => {
         )
     })
     return(
+        <React.Fragment>
+            <ul>
+                <p>Resultados:</p>
+                {results}
+            </ul>
+            <button className={'form-presentation-crate-button form-presentation-button'} onClick={props.goToMenu} >
+                Volver
+            </button>
+        </React.Fragment>
 
-        <ul>
-            <p>Resultados:</p>
-            {results}
-        </ul>
     )
 }

@@ -2,8 +2,15 @@ import React from 'react'
 
 export const ResultOfCreatePresentation = (props) => {
 
+
+
     return (
-        <p>Result of create was : {props.createRsponse ? "Success" : "Not create" }</p>
+      <React.Fragment>
+          <p>Result of create was : {props.createRsponse.created ? "Success" : "Not create" }</p>
+          <button className={'form-presentation-crate-button form-presentation-button'} onClick={props.goToMenu} >
+              Volver
+          </button>
+      </React.Fragment>
 
     )
 }
