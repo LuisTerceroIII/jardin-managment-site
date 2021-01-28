@@ -13,6 +13,9 @@ export const  ResultOfEditPresentation = (props) => {
                  Genero: ${garment.gender} Material principal: ${garment.mainMaterial} Origen: ${garment.madeIn}
                   Precio: ${garment.price} Comentario: "${garment.comment}"`}
         </span>
+           <button className={'form-presentation-crate-button form-presentation-button'} onClick={props.goToMenu} >
+               Volver
+           </button>
        </div>
     )
 }

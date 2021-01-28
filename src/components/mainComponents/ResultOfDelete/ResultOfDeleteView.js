@@ -16,6 +16,9 @@ export const ResultOfDeleteView = (props) => {
                 <li>Precio : {garmentToDelete.price}</li>
                 <li>Comentario : {garmentToDelete.comment}</li>
             </ul>
+            <button className={'form-presentation-crate-button form-presentation-button'} onClick={props.goToMenu} >
+                Volver
+            </button>
         </React.Fragment>
 
     )

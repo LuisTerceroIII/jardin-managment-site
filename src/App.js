@@ -12,6 +12,7 @@ import {ResultOfCreateContainer} from "./components/mainComponents/ResultOfCreat
 import {ResultOfEditContainer} from "./components/mainComponents/ResultOfEdit/ResultOfEditContainer";
 import {ResultOfDeleteContainer} from "./components/mainComponents/ResultOfDelete/ResultOfDeleteContainer";
 import Cookie from 'js-cookie'
+import {ImagesNewGarmentContainer} from "./components/ImagesNewGarment/ImagesNewGarmentContainer";
 
 /*
     La aplicación "Jardín Managment" es un "CRUD" con el objetivo de brindar una opción amigable
@@ -47,7 +48,10 @@ import Cookie from 'js-cookie'
      const [createRequest,setCreateRequest] = useState({
          newGarment : {}
      })
-     const [createResponse,setCreateResponse] = useState(false)
+     const [createResponse,setCreateResponse] = useState({
+         created : false,
+         newGarment : {}
+     })
 
      const [editRequest,setEditRequest] = useState({
          garmentToUpdate: {}
@@ -118,7 +122,7 @@ import Cookie from 'js-cookie'
               /> }
           </Route>
 
-            {/*********** SECONDARY PAGES************/}
+            {/*********** SECONDARIES PAGES************/}
 
             {/*RESULT OF CREATE PAGE*/}
             <Route exact path={'/create/result'} component={'ResultOfCreateContainer'}>
@@ -139,6 +143,12 @@ import Cookie from 'js-cookie'
             {/*RESULTS OF DELETE PAGE*/}
             <Route exact path={'/delete/result'} component={'ResultOfDeleteContainer'}>
                 {login === false ? <Redirect to={'/'}/> : <ResultOfDeleteContainer deleteResponse={deleteResponse}/> }
+            </Route>
+
+            {/*********************************************/}
+            {/* Images Component*/}
+            <Route exact path={'/create/upload-images'} component={'ImagesNewGarmentContainer'}>
+                {login === false ? <Redirect to={'/'}/> : <ImagesNewGarmentContainer createResponse={createResponse}/>   }
             </Route>
 
         </Router>
