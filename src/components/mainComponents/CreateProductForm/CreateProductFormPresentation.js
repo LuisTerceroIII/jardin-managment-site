@@ -1,11 +1,55 @@
-import React from 'react';
+import React,{useCallback} from 'react';
 import './CreateProductFormPresentation.css'
 import InputColor from 'react-input-color';
 import { useForm } from "react-hook-form";
 import {formData} from "../../../componentData/formsData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome } from "@fortawesome/free-solid-svg-icons";
+import {useDropzone} from 'react-dropzone'
+import axios from "axios"
+import localStore from "store";
 
+function Dropzone() {
+    const onDrop = useCallback(acceptedFiles => {
+
+        const garment = {
+            comment: "color rojo",
+            gender: "Hombre",
+            madeIn: "Chile",
+            mainMaterial: "Lino",
+            mainColor: "AB231",
+            price: 9000,
+            size: "L",
+            type: "Pantalon"
+        }
+        const file = acceptedFiles[0];
+        console.log(file)
+        const formData = new FormData();
+        formData.append("file",file)
+        const sessionToken = localStore.get("sessionToken") || null
+        axios.post(`http://localhost:3030/management/jardin-api/v1/garment/`,formData, {
+            headers : {
+                "Content-Type": "multipart/form-data",
+                "sessionToken" : sessionToken
+            },
+            auth : {
+                username : 'LuisTerceroIII',
+                password : "5611858Morf"
+            }
+        }).then(res => console.log(res)).catch(err => console.log(err))
+    }, [])
+    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
+
+    return (
+        <div {...getRootProps()}>
+            <input {...getInputProps()} />
+            {
+                isDragActive ?
+                    <p>Drop the image here ...</p> :
+                    <p>Drag 'n' drop some images here, or click to select</p>
+            }
+        </div>
+    )
+}
 
 export const CreateProductFormPresentation = (props) => {
 
@@ -115,7 +159,7 @@ export const CreateProductFormPresentation = (props) => {
 
                 />
                 <label className={'form-presentation-label'}>Imagenes</label>
-
+                <Dropzone />
                 <label className={'form-presentation-label'}>Comentario</label>
                 <textarea className={'form-presentation-textarea'}
                           name={"comment"}

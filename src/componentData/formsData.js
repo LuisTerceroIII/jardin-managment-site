@@ -23,7 +23,7 @@ export const formData = {
         'Switzerland', 'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Togo', 'Tonga', 'Trinidad and Tobago',
         'Tunisia', 'Turkey', 'Turkmenistan', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States',
         'Uruguay', 'Uzbekistan', 'Vanuatu', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe'],
-    types : ["","Bufanda","Camisa","Campera","Chaqueta","Gorro","Herb","Pantalon","Remera","Zapato","Short"],
+    types : ["","Bufanda","Camisa","Campera","Chaqueta","Gorro","Herb","Pantalon","Remera","Zapato","Short","Zapatillas","Guantes"],
     sizes : ["","30","33","38","36","44","5","55cm","L","s","XL","M","S"]
 
 }

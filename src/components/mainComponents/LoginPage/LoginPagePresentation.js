@@ -1,6 +1,7 @@
-import React,{useEffect} from "react";
+import React,{useEffect,useState} from "react";
 import './LoginPagePresentation.css';
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
 export const LoginPagePresentation = (props) => {
 
@@ -12,6 +13,7 @@ export const LoginPagePresentation = (props) => {
             password: data.password
         })
     };
+
     useEffect(() => {},[props.invalidCredentials])
 
     return (
@@ -42,11 +44,8 @@ export const LoginPagePresentation = (props) => {
                         {props.invalidCredentials && <span>Credenciales invalidas!</span>}
                     </div>
 
-
-
                     <button type={"submit"}>Send</button>
                 </form>
-
             </div>
 
 
