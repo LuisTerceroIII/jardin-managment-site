@@ -1,23 +1,18 @@
-import React from 'react'
-import {Link} from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 
 export const ActionPagePresentation = (props) => {
-
-
-    const LinksCRUD = props.paths.map((path,index) => {
-        return (
-            <li key={index}>
-                <Link to={path.path} >{path.name}</Link>
-            </li>
-        )
-    })
+  const LinksCRUD = props.paths.map((path, index) => {
     return (
-        <React.Fragment>
-            <ul>
-                {LinksCRUD}
-            </ul>
-            <button onClick={props.logout} > Log out</button>
-        </React.Fragment>
-
-    )
-}
+      <li key={index}>
+        <Link to={path.path}>{path.name}</Link>
+      </li>
+    );
+  });
+  return (
+    <React.Fragment>
+      <ul>{LinksCRUD}</ul>
+      <button onClick={props.logout}> Log out</button>
+    </React.Fragment>
+  );
+};

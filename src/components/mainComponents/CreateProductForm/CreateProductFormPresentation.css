@@ -51,6 +51,7 @@
     font-family: 'Roboto', sans-serif;
     transition: height 0.5s;
     align-self: center;
+    cursor: pointer;
 
 }
 .form-presentation-button:hover {
