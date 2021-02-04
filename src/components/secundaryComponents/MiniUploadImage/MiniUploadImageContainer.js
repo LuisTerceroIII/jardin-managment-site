@@ -26,6 +26,11 @@ export const MiniUploadImageContainer = (props) => {
       });
     }
     if (acceptedFiles !== "") {
+      setUpload({
+        uploading: true,
+        uploaded: false,
+        error: false,
+      });
       uploadImage(acceptedFiles);
       setAcceptedFiles("");
     }
