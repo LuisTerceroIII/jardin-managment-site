@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -12,10 +12,16 @@ import Loader from "react-loader-spinner";
 import "./UploadImageView.css";
 
 export const UploadImageView = (props) => {
+  useEffect(() => {
+    console.log(props.imageURL);
+  }, [props.imageURL]);
   const onDrop = useCallback((acceptedFiles) => {
     props.uploadImage(acceptedFiles);
   }, []);
-  const { getRootProps, getInputProps } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    disabled: props.disabled,
+  });
   return (
     <div className={"upload-image-main-container"}>
       <div {...getRootProps()}>

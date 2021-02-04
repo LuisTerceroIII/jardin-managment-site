@@ -1,0 +1,9 @@
+.mini-upload-image-group-main-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.mini-upload-image-group-mini-upload-component {
+    padding: 1%;
+}

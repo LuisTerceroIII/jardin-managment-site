@@ -17,6 +17,7 @@ export const UploadImageContainer = (props) => {
     uploaded: false,
     error: false,
   });
+  const [disabled, setDisabled] = useState(false);
   //Esta variable sirve porque, cuando no es === "", se muestra la imagen que este en la url
   const [imageURL, setImageURL] = useState("");
   const sessionToken = localStore.get("sessionToken") || null;
@@ -47,17 +48,24 @@ export const UploadImageContainer = (props) => {
             uploaded: true,
             error: false,
           });
+          setDisabled(true);
           const getImageReq = JardinApiService().getGarmentImage(
             garmentID,
             imageNumber,
             sessionToken
           );
           getImageReq.then((res) => {
-            console.log(res.data);
             if (res?.status === 200) {
               setImageURL(res.data);
+              console.log(res.data);
+              console.log(imageURL);
             }
           });
+        }
+        if (res?.status === 401) {
+          localStore.remove("sessionToken");
+          props.setCredentials({});
+          props.setLogin(false);
         }
         if (res?.status === 400 || res?.status === 500) {
           setUpload({
@@ -94,10 +102,10 @@ export const UploadImageContainer = (props) => {
         if (res?.status === 200) {
           setUpload({
             uploading: false,
-
             uploaded: false,
             error: false,
           });
+          setDisabled(false);
           setImageURL("");
         }
       })
@@ -115,6 +123,7 @@ export const UploadImageContainer = (props) => {
     <UploadImageView
       uploadImage={uploadImage}
       upload={upload}
+      disabled={disabled}
       imageURL={imageURL}
       deleteImage={deleteImage}
     />

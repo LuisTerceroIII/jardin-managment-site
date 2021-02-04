@@ -28,7 +28,9 @@ export const EditProductContainer = (props) => {
   const [searchGarment, setSearchGarment] = useState(false);
   const [patchGarment, setPatchGarment] = useState(false);
 
-  const [idNotFound, setIDNotFound] = useState(true);
+  const [idNotFound, setIDNotFound] = useState(false);
+
+  const [refreshImages, setRefreshImages] = useState(true);
 
   useEffect(() => {
     const sessionToken = localStore.get("sessionToken") || null;
@@ -45,7 +47,7 @@ export const EditProductContainer = (props) => {
             props.setLogin(false);
           }
           if (garment?.status === 404) {
-            setIDNotFound(false);
+            setIDNotFound(true);
             setGarmentToUpdate({
               id: "",
               type: "",
@@ -74,8 +76,11 @@ export const EditProductContainer = (props) => {
             });
           }
           if (garment?.status === 202) {
-            setIDNotFound(true);
+            setIDNotFound(false);
             setGarmentToUpdate(garment.data);
+            console.log(garment.data);
+            props.setEditResponse(garment.data);
+            setRefreshImages(true);
           }
         });
         setSearchGarment(false);
@@ -114,6 +119,10 @@ export const EditProductContainer = (props) => {
       setPatchGarment={setPatchGarment}
       setEditRequest={props.setEditRequest}
       idNotFound={idNotFound}
+      setCredentials={props.setCredentials}
+      setLogin={props.setLogin}
+      setRefresh={setRefreshImages}
+      refresh={refreshImages}
     />
   );
 };

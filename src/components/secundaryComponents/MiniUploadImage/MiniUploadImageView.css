@@ -1,0 +1,65 @@
+.mini-upload-image-main-container {
+    /*border: 5px solid white;*/
+    background-color: #e6ea72;
+    width: 135px;
+    height: 175px;
+    position: relative;
+}
+ .mini-upload-image-inside-box {
+     border: 2px solid ;
+     background-color: white;
+     width: 100px;
+     height: 110px;
+     position: relative;
+     left: 50%;
+     transform: translateX(-50%) translateY(11%);
+     transition: border 0.3s;
+ }
+
+.mini-upload-image-inside-box:hover {
+    border: 3px solid orange;
+
+}
+
+.camera-icon-mini-upload-image {
+     text-align: center;
+     font-size: 1.5em;
+     position: relative;
+     transform: translateY(150%);
+ }
+
+.button-delete-icon-mini-upload-image {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%) translateY(100%);
+    background-color: transparent;
+    border-style: none;
+    font-size: 1.1em;
+    color: #373636;
+    transition: font-size 0.3s;
+}
+
+.button-delete-icon-mini-upload-image:hover {
+    font-size: 1.2em;
+}
+
+.loader-mini-upload-image {
+    display: block;
+    text-align: center;
+    position: relative;
+    transform: translateY(140%);
+}
+
+.error-icon-mini-upload-image {
+    text-align: center;
+    font-size: 1.5em;
+    position: relative;
+    transform: translateY(150%);
+    color: #c12f2f;
+}
+
+.image-mini-upload-image {
+    position: relative;
+    width: 100px;
+    height: 110px;
+}

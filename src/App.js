@@ -133,6 +133,7 @@ function App() {
             editRequest={editRequest}
             setEditRequest={setEditRequest}
             setEditResponse={setEditResponse}
+            editResponse={editResponse}
             setLogin={setLogin}
             setCredentials={setCredentials}
           />
@@ -221,7 +222,11 @@ function App() {
         {login === false ? (
           <Redirect to={"/"} />
         ) : (
-          <ImagesNewGarmentContainer createResponse={createResponse} />
+          <ImagesNewGarmentContainer
+            createResponse={createResponse}
+            setLogin={setLogin}
+            setCredentials={setCredentials}
+          />
         )}
       </Route>
     </Router>

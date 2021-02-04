@@ -59,14 +59,16 @@ export const CreateProductFormContainer = (props) => {
             }
             if (
               !utils().isEmpty(props.createRequest.newGarment) &&
-              response?.created
+              response?.created &&
+              res?.status !== 500
             ) {
               history.push("/create/upload-images");
             }
 
             if (
               !utils().isEmpty(props.createRequest.newGarment) &&
-              response?.created === false
+              response?.created === false &&
+              res?.status !== 500
             ) {
               history.push("/create/upload-images");
             }

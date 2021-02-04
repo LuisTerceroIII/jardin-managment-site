@@ -302,6 +302,7 @@ export const JardinApiService = () => {
   };
 
   const postGarmentImage = async (id, imageNumber, formData, sessionToken) => {
+    console.log(id);
     try {
       return await axios.post(
         `http://localhost:3030/management/jardin-api/v1/garment-images/${id}/${imageNumber}`,
@@ -435,6 +436,50 @@ export const JardinApiService = () => {
       }
     }
   };
+  //TODO: Respuestas 200 ok,401,404,500
+  const getAllImagesLinks = async (id, sessionToken) => {
+    try {
+      return await axios.get(
+        `http://localhost:3030/management/jardin-api/v1/garment-images/${id}`,
+        {
+          headers: {
+            sessionToken: sessionToken,
+          },
+          auth: {
+            username: "LuisTerceroIII",
+            password: "5611858Morf",
+          },
+          params: {
+            id: id,
+          },
+        }
+      );
+    } catch (err) {
+      if (err.response) {
+        const statusCode = err.response?.status;
+        switch (statusCode) {
+          case 401:
+            console.log("Expired session, log in again", err);
+            console.log("Sesion expirada, ingresa nuevamente", err);
+            break;
+          case 404:
+            console.log("Invalid ID", err);
+            console.log("ID invalido", err);
+            break;
+          case 500:
+            console.log("Error: fail server", err);
+            console.log("Error, no se a podido conectar con el servidor", err);
+            break;
+          default:
+            console.log("Error: request could not be sent", err);
+            console.log("Error, no se a podido conectar con el servidor", err);
+        }
+      } else {
+        console.log("Error: request could not be sent");
+        console.log("Error, no se a podido conectar con el servidor");
+      }
+    }
+  };
 
   return {
     processLogin: processLogin,
@@ -447,5 +492,6 @@ export const JardinApiService = () => {
     postGarmentImage: postGarmentImage,
     getGarmentImage: getGarmentImage,
     deleteGarmentImage: deleteGarmentImage,
+    getAllImagesLinks: getAllImagesLinks,
   };
 };

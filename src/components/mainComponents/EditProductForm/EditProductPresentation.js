@@ -3,6 +3,7 @@ import "./EditProductPresentation.css";
 import { useForm } from "react-hook-form";
 import InputColor from "react-input-color";
 import { formData } from "../../../componentData/formsData";
+import MiniUploadImageGroupContainer from "../../secundaryComponents/MiniUploadImageGroup/MiniUploadImageGroupContainer";
 
 export const EditProductPresentation = (props) => {
   const [color, setColor] = React.useState({});
@@ -70,7 +71,7 @@ export const EditProductPresentation = (props) => {
             required: false,
           })}
         />
-        {props.idNotFound === false && <span>Id no existe</span>}
+        {props.idNotFound === true && <span>Id no existe</span>}
         <button
           type={"submit"}
           onClick={() => setSubmitButton("id")}
@@ -152,7 +153,14 @@ export const EditProductPresentation = (props) => {
           placement="right"
         />
         <label className={"form-presentation-label"}>Imagenes</label>
-
+        <MiniUploadImageGroupContainer
+          idNotFound={props.idNotFound}
+          id={props.garmentToUpdateId}
+          setCredentials={props.setCredentials}
+          setLogin={props.setLogin}
+          setRefresh={props.setRefresh}
+          refresh={props.refresh}
+        />
         <label className={"form-presentation-label"}>Comentario</label>
         <textarea
           className={"form-presentation-textarea"}
