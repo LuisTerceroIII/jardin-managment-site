@@ -19,6 +19,9 @@ export const SearchProductsContainer = (props) => {
   //Aca uso histoy para ir a otro componente (ruta) con el metodo push()
   // history.push("/rutaAIr")
   const history = useHistory();
+  const goLastPage = () => {
+    history.goBack();
+  };
 
   // Dado que la variable de estado que fijamos para renderizar este componente es query
   // y cuando la respuesta se renderiza en "ResultOfSearch" se setea un objeto vacio.
@@ -58,5 +61,10 @@ export const SearchProductsContainer = (props) => {
     }
   }, [props.query]);
 
-  return <SearchProductsPresentation setQuery={props.setQuery} />;
+  return (
+    <SearchProductsPresentation
+      setQuery={props.setQuery}
+      goLastPage={goLastPage}
+    />
+  );
 };

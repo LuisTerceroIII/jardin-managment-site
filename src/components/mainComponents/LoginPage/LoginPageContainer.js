@@ -6,6 +6,7 @@ import localStore from "store";
 
 export const LoginPageContainer = (props) => {
   const [invalidCredentials, setInvalidCredentials] = useState(false); // Bandera para mostrar un simple mensaje, is las credenciales no son validas
+  const [errorLoginReq, setErrorLoginReq] = useState(false);
   useEffect(() => {
     const sessionToken = localStore.get("sessionToken") || null;
     if (sessionToken) {
@@ -22,15 +23,22 @@ export const LoginPageContainer = (props) => {
       );
       processLogin
         .then((res) => {
+          console.log(res);
+          if (!res) {
+            setErrorLoginReq(true);
+            setInvalidCredentials(false);
+          }
           if (res?.data) {
             if (res.data?.validCredentials) {
               localStore.set("sessionToken", res.data.sessionToken);
               setInvalidCredentials(false);
+              setErrorLoginReq(false);
               props.setLogin(true);
             }
 
             if (res?.status === 404) {
               setInvalidCredentials(true);
+              setErrorLoginReq(false);
             }
             console.log(res?.status);
           }
@@ -47,13 +55,12 @@ export const LoginPageContainer = (props) => {
   }, [props.credentials]);
 
   return (
-    <React.Fragment>
-      <LoginPagePresentation
-        login={props.login}
-        setLogin={props.setLogin}
-        setCredentials={props.setCredentials}
-        invalidCredentials={invalidCredentials}
-      />
-    </React.Fragment>
+    <LoginPagePresentation
+      login={props.login}
+      setLogin={props.setLogin}
+      setCredentials={props.setCredentials}
+      invalidCredentials={invalidCredentials}
+      errorLoginReq={errorLoginReq}
+    />
   );
 };

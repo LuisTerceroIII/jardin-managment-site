@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ImagesNewGarmentView } from "./ImagesNewGarmentView";
 import { useHistory } from "react-router-dom";
+import { CreateProductFormPresentation } from "../CreateProductForm/CreateProductFormPresentation";
 
 export const ImagesNewGarmentContainer = (props) => {
   const history = useHistory();
@@ -17,6 +18,8 @@ export const ImagesNewGarmentContainer = (props) => {
       finish={finishUploadImages}
       CreateResponse={props.createResponse}
       instruction={instruction}
+      setCredentials={props.setCredentials}
+      setLogin={props.setLogin}
     />
   );
 };

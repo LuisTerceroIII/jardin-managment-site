@@ -10,6 +10,9 @@ export const EditProductContainer = (props) => {
   //Aca uso histoy para ir a otro componente (ruta) con el metodo push()
   // history.push("/rutaAIr")
   const history = useHistory();
+  const goLastPage = () => {
+    history.goBack();
+  };
 
   const [garmentToUpdate, setGarmentToUpdate] = useState({
     id: "",
@@ -30,16 +33,16 @@ export const EditProductContainer = (props) => {
 
   const [idNotFound, setIDNotFound] = useState(false);
 
+  // Esta variable regula que se recarge el componente MiniUploadImageGroup, ya que este componente se conecta con la API, pide los links
+  // de las images, y si un link cambia, es decir, se sube una imagen o se borra otra, se cambia este estado y se actualizan las images.
   const [refreshImages, setRefreshImages] = useState(true);
 
   useEffect(() => {
     const sessionToken = localStore.get("sessionToken") || null;
+
     if (sessionToken) {
       if (searchGarment === true) {
-        const response = JardinApiService().getGarmentById(
-          garmentToUpdateId,
-          sessionToken
-        );
+        const response = JardinApiService().getGarmentById(garmentToUpdateId);
         response.then((garment) => {
           if (garment?.status === 401) {
             localStore.remove("sessionToken");
@@ -123,6 +126,7 @@ export const EditProductContainer = (props) => {
       setLogin={props.setLogin}
       setRefresh={setRefreshImages}
       refresh={refreshImages}
+      goLastPage={goLastPage}
     />
   );
 };

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./LoginPagePresentation.css";
 import { useForm } from "react-hook-form";
-import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 
 export const LoginPagePresentation = (props) => {
   const { register, handleSubmit, errors } = useForm();
@@ -18,14 +19,19 @@ export const LoginPagePresentation = (props) => {
   return (
     <div className={"welcomePage-main-container"}>
       <div className={"logo-container"}>
-        <h1 className={"welcomePage-title"}>JARDÍN STOCK</h1>
-        <div className={"break-line"}></div>
+        <h1 className={"welcomePage-title"}>JARDÍN</h1>
+        <h1 className={"welcomePage-title"}>MANAGEMENT</h1>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className={"username-input-container"}>
-          <label id={"username"}>Username</label>
-          <input name={"username"} ref={register} />
+      <form
+        className={"login-form-main-container"}
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <div className={"input-container"}>
+          <label className={"label-login-input"} id={"username"}>
+            Username
+          </label>
+          <input className={"login-input"} name={"username"} ref={register} />
           {errors.username && (
             <span className={"password-required-error"}>
               The username is required
@@ -33,11 +39,14 @@ export const LoginPagePresentation = (props) => {
           )}
         </div>
 
-        <div className={"password-input-container"}>
-          <label id={"password"}>Password</label>
+        <div className={"input-container"}>
+          <label className={"label-login-input"} id={"password"}>
+            Password
+          </label>
           <input
             type={"password"}
             name={"password"}
+            className={"login-input"}
             ref={register({
               required: true,
               minLength: 2,
@@ -48,11 +57,25 @@ export const LoginPagePresentation = (props) => {
               The password is required
             </span>
           )}
-
           {props.invalidCredentials && <span>Credenciales invalidas!</span>}
+          {props.errorLoginReq && (
+            <span className={"login-server-error-icon"}>
+              {" "}
+              <FontAwesomeIcon icon={faExclamationTriangle} />
+            </span>
+          )}
+          {props.errorLoginReq && (
+            <span className={"login-server-error-message"}>
+              Server Error, try again later
+            </span>
+          )}
         </div>
 
-        <button type={"submit"}>Send</button>
+        <button className={"login-submit-button"} type={"submit"}>
+          Send
+        </button>
+
+        <div className={"login-server-error-icon-container"}></div>
       </form>
     </div>
   );

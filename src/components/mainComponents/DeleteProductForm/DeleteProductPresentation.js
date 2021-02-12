@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./DeleteProductPresentation.css";
 import { useForm } from "react-hook-form";
+import ProductCardContainer from "../../secundaryComponents/ProductCard/ProductCardContainer";
+import { formData } from "../../../componentData/formsData";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHandPointLeft } from "@fortawesome/free-solid-svg-icons";
+import DeleteProductCardContainer from "../../secundaryComponents/DeleteProductCard/DeleteProductCardContainer";
 
 export const DeleteProductPresentation = (props) => {
   const { register, handleSubmit, errors } = useForm();
   const garmentToDelete = props.garmentToDelete;
 
+  useEffect(() => {
+    console.log("GARMENT TO DELETE::::::::::::::::", garmentToDelete);
+  }, [garmentToDelete]);
   const deleteGarment = () => {
     props.setDeleteGarment(true);
   };
@@ -15,9 +23,21 @@ export const DeleteProductPresentation = (props) => {
     props.setSearchGarment(true);
   };
   return (
-    <React.Fragment>
-      <form onSubmit={handleSubmit(processID_OnSubmit)}>
-        <label> ID :</label>
+    <div className={"delete-product-view-main-container"}>
+      <h1 className={"delete-view-title title-main-actions"}>
+        {formData.title.delete}
+      </h1>
+      <div
+        className={"return-last-page-arrow-button"}
+        onClick={() => props.goLastPage()}
+      >
+        <FontAwesomeIcon icon={faHandPointLeft} />
+      </div>
+      <form
+        onSubmit={handleSubmit(processID_OnSubmit)}
+        className={"delete-product-form"}
+      >
+        <label className={"delete-product-view-id-label"}> ID :</label>
         <input
           name={"id"}
           defaultValue={props.garmentToDeleteID}
@@ -40,31 +60,20 @@ export const DeleteProductPresentation = (props) => {
           </span>
         )}
         <br />
-        <button
-          type={"submit"}
-          className={"form-presentation-crate-button form-presentation-button"}
-        >
+        <button type={"submit"} className={"form-presentation-button"}>
           Buscar
         </button>
       </form>
+      <div className={"delete-product-view-product-card-container"}>
+        <ProductCardContainer garment={garmentToDelete} />
+      </div>
 
-      <h3>Producto a eliminar : </h3>
-      <ul>
-        <li>ID : {garmentToDelete.id}</li>
-        <li>Tipo : {garmentToDelete.type}</li>
-        <li>Talle : {garmentToDelete.mainColor}</li>
-        <li>Genero : {garmentToDelete.gender}</li>
-        <li>Material principal : {garmentToDelete.mainMaterial}</li>
-        <li>Origen : {garmentToDelete.madeIn}</li>
-        <li>Precio : {garmentToDelete.price}</li>
-        <li>Comentario : {garmentToDelete.comment}</li>
-      </ul>
       <button
-        className={"form-presentation-crate-button form-presentation-button"}
+        className={"form-presentation-button delete-product-delete-button"}
         onClick={deleteGarment}
       >
         Eliminar
       </button>
-    </React.Fragment>
+    </div>
   );
 };

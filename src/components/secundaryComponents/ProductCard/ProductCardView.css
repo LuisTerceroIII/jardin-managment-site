@@ -1,0 +1,202 @@
+
+
+@media only screen and (max-width: 1499px) {
+    .product-card-main-container {
+        width: 90%;
+        height: 100%;
+        padding-top: 5%;
+        padding-bottom: 1%;
+        border-radius: 25px;
+        box-shadow: -1px 2px 11px 3px rgba(0,0,0,0.65);
+    }
+
+    .product-card-image-container {
+
+    }
+
+    .product-card-image-container img {
+        position: relative;
+        width: 70%;
+        max-width: 300px;
+        height: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 27px;
+        box-shadow: 0px 12px 38px -21px rgba(0,0,0,0.7)
+    }
+
+    .product-card-details {
+        display: flex;
+        flex-direction: column;
+        margin-top: 5%;
+        align-items: center;
+        justify-items: center;
+        font-family: 'Playfair Display', serif;
+        font-size: 90%;
+        margin-bottom: 6%;
+        position: relative;
+    }
+
+    .product-card-detail {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .product-card-detail-attribute-type {
+        font-weight: 599;
+    }
+    .product-card-divider-line {
+        width: 60%;
+    }
+
+    .splide {
+
+    }
+
+    .splide__arrows svg{
+        fill: #282727 !important;
+
+    }
+    .splide__pagination__page svg {
+        font-size: 0.5em;
+    }
+
+    .splide__arrow--prev {
+        left: 2em !important;
+        color: black !important;
+    }
+    .splide__arrow--next {
+        right: 1.9em !important;
+    }
+
+    .splide__pagination__page {
+
+    }
+    .splide__pagination__page.is-active {
+        transform: scale(1.4);
+        background: #262e31 !important;
+    }
+
+    .splide__pagination__page:hover {
+        cursor: pointer;
+        background: #000 !important;
+    }
+    /*
+    .splide__arrow  svg{
+        fill: #12deb5 !important;
+    }
+
+
+    .splide__pagination__page.is-active {
+        transform: scale(1.4);
+        background: #ff061f !important;
+    }
+    .splide__pagination__page.is-active:hover{
+        transform: scale(1.4);
+        background: #51a433 !important;
+    }*/
+
+}
+
+@media only screen and (min-width: 1500px) {
+    .product-card-image-container {
+        position: relative;
+        left: 10%;
+
+    }
+
+    .product-card-details {
+        position: relative;
+        right: 10%;
+
+    }
+}
+
+@media only screen and (min-width: 1500px) {
+    .product-card-main-container {
+        width: 70%;
+        height: 100%;
+        padding-top: 5%;
+        padding-bottom: 5%;
+        border-radius: 25px;
+        box-shadow: -1px 2px 11px 3px rgba(0,0,0,0.65);
+        display: grid;
+        align-items: center;
+        justify-items: center;
+        grid-template-columns: 1fr 1fr;
+
+    }
+
+    .product-card-image-container {
+
+    }
+
+    .product-card-image-container img {
+        position: relative;
+        width: 100%;
+        max-width: 300px;
+        height: auto;
+        border-radius: 27px;
+        box-shadow: 0px 12px 38px -26px rgba(0,0,0,0.7)
+    }
+
+    .product-card-details {
+        font-family: 'Playfair Display', serif;
+        font-size: 100%;
+        position: relative;
+        right: 20%;
+
+    }
+
+    .product-card-detail {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .product-card-detail-attribute-type {
+    }
+    .product-card-divider-line {
+        width: 100%;
+    }
+
+    .splide__arrows svg{
+        fill: #282727 !important;
+
+    }
+    .splide__pagination__page svg {
+    }
+
+    .splide__arrow--prev {
+        left: 2em !important;
+        color: black !important;
+    }
+    .splide__arrow--next {
+        right:19em !important;
+    }
+
+    .splide__pagination {
+    }
+    .splide__pagination__page.is-active {
+        background: #262e31 !important;
+    }
+
+    .splide__pagination__page:hover {
+        background: #000 !important;
+    }
+    /*
+    .splide__arrow  svg{
+        fill: #12deb5 !important;
+    }
+
+
+    .splide__pagination__page.is-active {
+        transform: scale(1.4);
+        background: #ff061f !important;
+    }
+    .splide__pagination__page.is-active:hover{
+        transform: scale(1.4);
+        background: #51a433 !important;
+    }*/
+}

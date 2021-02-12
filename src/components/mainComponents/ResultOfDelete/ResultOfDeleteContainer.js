@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ResultOfDeleteView } from "./ResultOfDeleteView";
 import { useHistory } from "react-router-dom";
 
@@ -7,6 +7,10 @@ export const ResultOfDeleteContainer = (props) => {
   const goToMenu = () => {
     history.push("/actions");
   };
+
+  useEffect(() => {
+    console.log(props.deleteResponse);
+  }, []);
 
   return (
     <ResultOfDeleteView

@@ -1,0 +1,15 @@
+@media only screen and (max-width: 1499px) {
+    .product-card-details {
+        left: 0% !important;
+    }
+
+}
+.product-card-details-delete {
+    width: 100%;
+    left: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center !important;
+}
+
+

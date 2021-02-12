@@ -4,6 +4,7 @@ import InputColor from "react-input-color";
 import { useForm } from "react-hook-form";
 import { formData } from "../../../componentData/formsData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHandPointLeft } from "@fortawesome/free-solid-svg-icons";
 
 export const CreateProductFormPresentation = (props) => {
   const [color, setColor] = React.useState({});
@@ -39,8 +40,13 @@ export const CreateProductFormPresentation = (props) => {
 
   return (
     <div className={"form-presentation-main-container"}>
-      <FontAwesomeIcon icon={["fas", "fa-arrow-left"]} />
-      <h1 className={"form-presentation-title"}>{formData.title}</h1>
+      <h1 className={"title-main-actions"}>{formData.title.create}</h1>
+      <div
+        className={"return-last-page-arrow-button"}
+        onClick={() => props.goLastPage()}
+      >
+        <FontAwesomeIcon icon={faHandPointLeft} />
+      </div>
       <form
         className={"form-presentation-form-container"}
         onSubmit={handleSubmit(onSubmit)}

@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { MiniUploadImageContainer } from "../MiniUploadImage/MiniUploadImageContainer";
 import "./MiniUploadImageGroupView.css";
-import { EditProductPresentation } from "../../mainComponents/EditProductForm/EditProductPresentation";
 
+/*
+ * Se muestran 6 Componentes que permiten modificar las images asociadas a un producto.
+ * */
 const MiniUploadImageGroupView = (props) => {
   const imagesLinks = props.imagesLinks;
-  useEffect(() => {
-    console.log("GROUPPP VIEW :::::: " + props.id);
-  }, []);
   return (
     <div className={"mini-upload-image-group-main-container"}>
       <div className={"mini-upload-image-group-mini-upload-component"}>

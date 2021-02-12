@@ -1,4 +1,5 @@
 import React from "react";
+import "./ResultOfSearchPresentation.css";
 
 export const ResultOfSearchPresentation = (props) => {
   const results = props.queryResponse.map((garment, key) => {

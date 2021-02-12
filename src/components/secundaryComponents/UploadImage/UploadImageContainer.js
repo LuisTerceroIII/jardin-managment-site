@@ -20,7 +20,6 @@ export const UploadImageContainer = (props) => {
   const [disabled, setDisabled] = useState(false);
   //Esta variable sirve porque, cuando no es === "", se muestra la imagen que este en la url
   const [imageURL, setImageURL] = useState("");
-  const sessionToken = localStore.get("sessionToken") || null;
   const garmentID = props.id;
   const imageNumber = props.imageNumber;
 
@@ -37,11 +36,18 @@ export const UploadImageContainer = (props) => {
     const uploadImageRequest = JardinApiService().postGarmentImage(
       garmentID,
       imageNumber,
-      formData,
-      sessionToken
+      formData
     );
     uploadImageRequest
       .then((res) => {
+        console.log("UPLOAD ::::::: " + res.status);
+        console.log("UPLOAD ::::::: " + res.data);
+        console.log("UPLOAD ::::::: " + JSON.stringify(res));
+        console.log("FUERA DE 401 $=!@#//!");
+        console.log(typeof res.status);
+        console.log(res.status === 401);
+        console.log("sigo aqui");
+
         if (res?.status === 201) {
           setUpload({
             uploading: false,
@@ -51,8 +57,7 @@ export const UploadImageContainer = (props) => {
           setDisabled(true);
           const getImageReq = JardinApiService().getGarmentImage(
             garmentID,
-            imageNumber,
-            sessionToken
+            imageNumber
           );
           getImageReq.then((res) => {
             if (res?.status === 200) {
@@ -62,11 +67,14 @@ export const UploadImageContainer = (props) => {
             }
           });
         }
-        if (res?.status === 401) {
-          localStore.remove("sessionToken");
+
+        if (res.status === 401) {
+          console.log("DENTRO DE 401 $=!@#//!");
           props.setCredentials({});
+          localStore.remove("sessionToken");
           props.setLogin(false);
         }
+
         if (res?.status === 400 || res?.status === 500) {
           setUpload({
             uploading: false,
@@ -76,11 +84,13 @@ export const UploadImageContainer = (props) => {
         }
       })
       .catch((err) => {
-        setUpload({
-          uploading: false,
-          uploaded: false,
-          error: true,
-        });
+        console.log(err);
+        if (err.response?.status === 401) {
+          console.log("DENTRO DE 401 $=!@#//!");
+          localStore.remove("sessionToken");
+          props.setCredentials({});
+          props.setLogin(false);
+        }
         setImageURL("");
       });
   };
@@ -93,8 +103,7 @@ export const UploadImageContainer = (props) => {
     });
     const deleteImageReq = JardinApiService().deleteGarmentImage(
       garmentID,
-      imageNumber,
-      sessionToken
+      imageNumber
     );
 
     deleteImageReq
@@ -107,6 +116,12 @@ export const UploadImageContainer = (props) => {
           });
           setDisabled(false);
           setImageURL("");
+        }
+
+        if (res?.status === 401) {
+          props.setCredentials({});
+          localStore.remove("sessionToken");
+          props.setLogin(false);
         }
       })
       .catch((err) => {

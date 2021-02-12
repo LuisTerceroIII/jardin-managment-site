@@ -28,7 +28,9 @@ export const DeleteProductContainer = (props) => {
     madeIn: "",
     price: "",
     comment: "",
+    images: {},
   });
+
   //Controla el id del recurso buscado.
   const [garmentToDeleteID, setGarmentToDeleteId] = useState("");
   //funciona como badnera, si esta activada se mostrara en vista una texto "Id no valido"
@@ -43,31 +45,64 @@ export const DeleteProductContainer = (props) => {
   //Aca uso histoy para ir a otro componente (ruta) con el metodo push()
   // history.push("/rutaAIr")
   const history = useHistory();
+  const goLastPage = () => {
+    history.goBack();
+  };
 
   useEffect(() => {
     const sessionToken = localStore.get("sessionToken") || null;
     if (sessionToken) {
       if (searchGarment && garmentToDeleteID !== "") {
         //Entra si searchGamrnet es verdadero y si se ingreso un valor de id, es decir ya no es "" un string vacio, sino un numero
-        const response = JardinApiService().getGarmentById(
-          garmentToDeleteID,
-          sessionToken
-        );
+        const response = JardinApiService().getGarmentById(garmentToDeleteID);
         response.then((res) => {
           if (res) {
             //Cambia el estado del garmente que se renderiza en view con los datos del recurso recibido con el id ingresado.
-            setGarmentToDelete(res.data);
+            //TODO: Crear un objeto garment, pedir links a API, y mezclar ambos objetos,
+            // el recebido por "getGarmentById" y el recibido por getImagesLinksByID
+            if (res.status === 202) {
+              const garment = res.data;
+              const imagesReq = JardinApiService().getAllImagesLinks(
+                res.data?.id
+              );
+              imagesReq.then((res) => {
+                console.log(res?.data);
+                if (res?.status === 200) {
+                  setGarmentToDelete({
+                    id: garment.id,
+                    type: garment.type,
+                    size: garment.size,
+                    mainColor: garment.mainColor,
+                    gender: garment.gender,
+                    mainMaterial: garment.mainMaterial,
+                    madeIn: garment.madeIn,
+                    price: garment.price,
+                    comment: garment.comment,
+                    images: res.data,
+                  });
+                } else {
+                  setGarmentToDelete({
+                    id: garment.id,
+                    type: garment.type,
+                    size: garment.size,
+                    mainColor: garment.mainColor,
+                    gender: garment.gender,
+                    mainMaterial: garment.mainMaterial,
+                    madeIn: garment.madeIn,
+                    price: garment.price,
+                    comment: garment.comment,
+                    images: {},
+                  });
+                }
+              });
 
-            if (res.status === 401) {
+              setIDNotFound(false);
+            } else if (res.status === 401) {
               localStore.remove("sessionToken");
               props.setCredentials({});
               props.setLogin(false);
-            }
-            if (res.status === 404) {
+            } else if (res.status === 404) {
               setIDNotFound(true);
-            }
-            if (res.status === 202) {
-              setIDNotFound(false);
             }
           }
         });
@@ -76,6 +111,13 @@ export const DeleteProductContainer = (props) => {
       }
 
       if (deleteGarment && garmentToDelete.id !== "") {
+        const deleteImagesReq = JardinApiService().deleteAllGarmentImages(
+          garmentToDeleteID
+        );
+        deleteImagesReq.then((res) => {
+          console.log("DELETE IMAGES REQ :::::::::::::", res);
+        });
+
         const responseOfDelete = JardinApiService().deleteGarmentById(
           garmentToDelete.id,
           sessionToken
@@ -89,8 +131,19 @@ export const DeleteProductContainer = (props) => {
               props.setLogin(false);
             }
             if (res.status === 202) {
-              props.setDeleteResponse(res.data);
-              history.push("delete/result");
+              props.setDeleteResponse({
+                id: garmentToDelete.id,
+                type: garmentToDelete.type,
+                size: garmentToDelete.size,
+                mainColor: garmentToDelete.mainColor,
+                gender: garmentToDelete.gender,
+                mainMaterial: garmentToDelete.mainMaterial,
+                madeIn: garmentToDelete.madeIn,
+                price: garmentToDelete.price,
+                comment: garmentToDelete.comment,
+                images: {},
+              });
+              history.push("delete/result"); // Redirecciona a nueva ruta.
             }
             if (res.status === 404) {
               props.setDeleteResponse({
@@ -128,6 +181,7 @@ export const DeleteProductContainer = (props) => {
       idNotFound={idNotFound}
       setDeleteGarment={setDeleteGarment}
       setSearchGarment={setSearchGarment}
+      goLastPage={goLastPage}
     />
   );
 };

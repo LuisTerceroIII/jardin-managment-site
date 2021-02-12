@@ -1,5 +1,10 @@
 export const formData = {
-  title: "JARDÍN",
+  title: {
+    create: "Crear Prenda",
+    delete: "Borrar Prenda",
+    edit: "Editar Prenda",
+    search: "Buscar Prenda",
+  },
   genders: ["", "Mujer", "Hombre", "Unisex"],
   materials: [
     "",
@@ -224,6 +229,7 @@ export const formData = {
     "Zapatillas",
     "Guantes",
     "Camiseta",
+    "Buzo",
   ],
   sizes: [
     "",

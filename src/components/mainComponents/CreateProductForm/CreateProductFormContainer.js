@@ -4,7 +4,9 @@ import { useHistory } from "react-router-dom";
 import { utils } from "../../../utilFunctions/utils";
 import { JardinApiService } from "../../../services/JardinApiService";
 import localStore from "store";
+import { EditProductPresentation } from "../EditProductForm/EditProductPresentation";
 
+//TODO: Mostrar alertas de error al recibir como respueta 500 o otro status de error.
 export const CreateProductFormContainer = (props) => {
   //history es una variable de React-router-dom
   //Pareciera una pila, puedes ir atras y adelante con funcinoes de history
@@ -12,6 +14,9 @@ export const CreateProductFormContainer = (props) => {
   // history.push("/rutaAIr")
   const history = useHistory();
 
+  const goLastPage = () => {
+    history.goBack();
+  };
   /*
         Si createRequest.newGarment se actualiza se ejecuta useEffect:
 
@@ -36,11 +41,11 @@ export const CreateProductFormContainer = (props) => {
       // Valida que se este navegando con una sesion abierta
       if (!utils().isEmpty(props.createRequest.newGarment)) {
         // valida que se llame
-        const saveWithoutPictures = JardinApiService().saveWithoutPictures(
+        const postGarmentReq = JardinApiService().postGarment(
           props.createRequest.newGarment,
           sessionToken
         );
-        saveWithoutPictures.then((res) => {
+        postGarmentReq.then((res) => {
           if (res) {
             // valida que exista algo como respuesta
             let response = res?.data;
@@ -84,6 +89,9 @@ export const CreateProductFormContainer = (props) => {
   }, [props.createRequest.newGarment]);
 
   return (
-    <CreateProductFormPresentation setCreateRequest={props.setCreateRequest} />
+    <CreateProductFormPresentation
+      setCreateRequest={props.setCreateRequest}
+      goLastPage={goLastPage}
+    />
   );
 };

@@ -1,27 +1,21 @@
 import React from "react";
+import { DeleteProductContainer } from "../DeleteProductForm/DeleteProductContainer";
+import DeleteProductCardContainer from "../../secundaryComponents/DeleteProductCard/DeleteProductCardContainer";
+import "./ResultOfDeleteView.css";
 
 export const ResultOfDeleteView = (props) => {
   const garmentToDelete = props.deleteResponse;
 
   return (
-    <React.Fragment>
-      <h3>Producto eliminado : </h3>
-      <ul>
-        <li>ID : {garmentToDelete.id}</li>
-        <li>Tipo : {garmentToDelete.type}</li>
-        <li>Talle : {garmentToDelete.mainColor}</li>
-        <li>Genero : {garmentToDelete.gender}</li>
-        <li>Material principal : {garmentToDelete.mainMaterial}</li>
-        <li>Origen : {garmentToDelete.madeIn}</li>
-        <li>Precio : {garmentToDelete.price}</li>
-        <li>Comentario : {garmentToDelete.comment}</li>
-      </ul>
+    <div className={"result-view-main-container"}>
+      <h1 className={"result-delete-title"}>Producto eliminado </h1>
+      <DeleteProductCardContainer garment={garmentToDelete} />
       <button
-        className={"form-presentation-crate-button form-presentation-button"}
+        className={"form-presentation-button result-delete-button"}
         onClick={props.goToMenu}
       >
         Volver
       </button>
-    </React.Fragment>
+    </div>
   );
 };

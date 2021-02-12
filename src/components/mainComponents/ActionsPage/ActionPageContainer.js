@@ -1,7 +1,5 @@
 import { ActionPagePresentation } from "./ActionPagePresentation";
 import React, { useEffect } from "react";
-import { JardinApiService } from "../../../services/JardinApiService";
-import Cookie from "js-cookie";
 import localStore from "store";
 
 export const ActionPageContainer = (props) => {
@@ -12,19 +10,19 @@ export const ActionPageContainer = (props) => {
   };
   const paths = [
     {
-      name: "CREATE",
+      name: "CREAR",
       path: "/create",
     },
     {
-      name: "EDIT",
+      name: "EDITAR",
       path: "/edit",
     },
     {
-      name: "SEARCH",
+      name: "BUSCAR",
       path: "/search",
     },
     {
-      name: "DELETE",
+      name: "BORRAR",
       path: "/delete",
     },
   ];

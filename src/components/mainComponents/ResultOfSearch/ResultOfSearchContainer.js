@@ -11,7 +11,9 @@ export const ResultOfSearchContainer = (props) => {
 
   useEffect(() => {
     props.setQuery({ query: {} });
+    console.log("Result of query ::::::::::::::", props.queryResponse);
   }, []);
+
   return (
     <ResultOfSearchPresentation
       queryResponse={props.queryResponse}
