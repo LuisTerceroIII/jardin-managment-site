@@ -31,12 +31,15 @@
         font-size: 250%;
         color: #0000009e;
         transition: font-size 0.5s;
+        cursor: pointer;
+        z-index: 1;
     }
 
     .return-last-page-arrow-button:hover {
         font-size: 275%;
         color: #000000b5;
         transition: font-size 0.5s;
+
     }
 
 

@@ -134,10 +134,15 @@ export const JardinApiService = () => {
     }
   };
 
-  const getGarmentByQuery = async (queryGarment, sessionToken) => {
+  const getGarmentByQuery = async (
+    queryGarment,
+    sessionToken,
+    limit,
+    offset
+  ) => {
     try {
       return await axios({
-        url: `${localhostJardinAPI}/garments`,
+        url: `${localhostJardinAPI}/garments/${limit}/${offset}`,
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -173,6 +178,57 @@ export const JardinApiService = () => {
             console.log("Error: ", err);
         }
         return err.response;
+      } else {
+        console.log("Error: request could not be sent");
+        console.log("Error, no se a podido conectar con el servidor");
+      }
+    }
+  };
+
+  const getSearchTotalElements = async (queryGarment) => {
+    const sessionToken = localStore.get("sessionToken") || null;
+    try {
+      return await axios({
+        url: `${localhostJardinAPI}/garments/search/count-rows`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          sessionToken: sessionToken,
+        },
+        auth: {
+          username: "LuisTerceroIII",
+          password: "5611858Morf",
+        },
+        params: {
+          gender: queryGarment.gender || "",
+          size: queryGarment.size || "",
+          type: queryGarment.type || "",
+          madeIn: queryGarment.madeIn || "",
+          mainMaterial: queryGarment.mainMaterial || "",
+          priceFrom: queryGarment.priceFrom || 0,
+          priceTo: queryGarment.priceTo || 0,
+        },
+      });
+    } catch (err) {
+      if (err.response) {
+        const statusCode = err.response?.status;
+        switch (statusCode) {
+          case 401:
+            console.log("Expired session, log in again", err);
+            console.log("Sesion expirada, ingresa nuevamente", err);
+            break;
+          case 404:
+            console.log("Invalid ID", err);
+            console.log("ID invalido", err);
+            break;
+          case 500:
+            console.log("Error: fail server", err);
+            console.log("Error, no se a podido conectar con el servidor", err);
+            break;
+          default:
+            console.log("Error: request could not be sent", err);
+            console.log("Error, no se a podido conectar con el servidor", err);
+        }
       } else {
         console.log("Error: request could not be sent");
         console.log("Error, no se a podido conectar con el servidor");
@@ -556,5 +612,6 @@ export const JardinApiService = () => {
     deleteGarmentImage: deleteGarmentImage,
     getAllImagesLinks: getAllImagesLinks,
     deleteAllGarmentImages: deleteAllGarmentImages,
+    getSearchTotalElements: getSearchTotalElements,
   };
 };

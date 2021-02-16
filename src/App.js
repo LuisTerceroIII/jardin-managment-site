@@ -181,6 +181,7 @@ function App() {
           <Redirect to={"/"} />
         ) : (
           <ResultOfSearchContainer
+            query={query}
             setQuery={setQuery}
             queryResponse={queryResponse}
           />

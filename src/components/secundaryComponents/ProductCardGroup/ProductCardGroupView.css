@@ -1,0 +1,11 @@
+.search-result-product-card-main-container {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.search-result-product-card-container {
+    margin: 3%;
+    position: relative;
+    left: 15%;
+}

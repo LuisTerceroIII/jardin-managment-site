@@ -34,24 +34,8 @@ export const SearchProductsContainer = (props) => {
     const sessionToken = localStore.get("sessionToken") || null;
     if (sessionToken) {
       if (!utils().isEmpty(props.query.query)) {
-        const queryResult = JardinApiService().getGarmentByQuery(
-          props.query.query,
-          sessionToken
-        );
-        queryResult.then((garments) => {
-          if (garments) {
-            if (garments.status === 401) {
-              localStore.remove("sessionToken");
-              props.setCredentials({});
-              props.setLogin(false);
-            }
-            let response = garments.data || "";
-            props.setQueryResponse(garments.data);
-            if (response.length >= 0 && !utils().isEmpty(props.query.query)) {
-              history.push("/search/results");
-            }
-          }
-        });
+        console.log("QUERYYYYY :::::::::: ", props.query.query);
+        history.push("/search/results");
       }
     } else {
       console.log("Sesion vencida, esta vence cada 24hrs.");
