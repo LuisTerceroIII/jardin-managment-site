@@ -1,33 +1,44 @@
 
 .welcomePage-main-container {
-    display: grid;
+/*    display: grid;
     grid-template-columns: auto;
     grid-template-rows: 35% 20% 20% 20%;
-    justify-content: center;
+    justify-content: center;*/
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
     height: 100%;
     position: absolute;
-    background-image: url("https://images.pexels.com/photos/4068317/pexels-photo-4068317.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260");
+    /*background-image: url("https://images.pexels.com/photos/4068317/pexels-photo-4068317.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260");*/
+    background-image: url("./background-login-page-1.jpg");
+    /*background-image: url("https://images.pexels.com/photos/2565222/pexels-photo-2565222.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"); */
+    background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+
     opacity: 0.9;
 }
 
 .logo-container {
-    width: 300px;
-    color: black;
-    margin-top: 25%;
+    /*color: black;*/
+    color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 5%;
+    margin-bottom: 2.5%;
+    text-shadow: 1px 4px 3px black;
+
+    background-color: #1e26245e;
+    width: auto;
+    border-radius: 5%;
+
 }
 
 .welcomePage-title {
-    font-size: 320%;
+    font-size: 350%;
     font-family: 'Playfair Display', serif;
-    text-align: center;
-    padding-left: 5%;
-    padding-right: 5%;
 }
 
 .input-container {
@@ -38,10 +49,20 @@
 
 }
 .label-login-input {
+    color: white;
+    font-size: 130%;
+    text-shadow: 2px 2px 1px black;
+
+    align-self: flex-start;
+    margin-bottom: 4.5%;
+    margin-top: 5%;
     position: relative;
-    right: 19%;
-    margin-bottom: 1.5%;
-    color: black;
+    right: 15%;
+
+    background-color: #1e26245e;
+    width: auto;
+    border-radius: 5%;
+
 }
 .login-input {
     width: 60%;
@@ -82,161 +103,55 @@
     height: 48px;
     background-color: #ffe10e;
 }
+
+.username-required-error {
+    color: black;
+    background-color: #ffff006b;
+    width: auto;
+    border-radius: 10px;
+    padding: 3%;
+    text-align: center;
+}
 .password-required-error {
+    color: white;
+    background-color: #ee1f1fb3;
+    width: auto;
+    border-radius: 10px;
+    padding: 3%;
+    text-align: center;
+}
+
+.login-invalid-credentials-icon {
+    font-size: 200%;
+    color: yellow;
+    background-color: black;
+    border-radius: 50%;
+    margin-top: 4%;
+}
+
+.login-invalid-credentials-message {
+    margin-top: 4%;
+    margin-bottom: 5%;
+    background-color: #aaacac5e;
+    width: auto;
+    border-radius: 5%;
+}
+
+
+.login-server-error-icon {
+    font-size: 180%;
+    margin-top: 4%;
+    margin-bottom: 4%;
     color: red;
-}
-
-/*My iphone measure*/
-@media only screen and (min-width: 320px) {
-
-    .logo-container {
-        margin-top: 15% !important;
-        text-shadow: 1px 1px 1px black;
-    }
-
-    .input-container {
-        position: relative;
-        top: -20% !important;
-        text-shadow: 0px 0px 1px black;
-    }
-    .login-submit-button {
-        position: relative;
-        bottom: 20% !important;;
-    }
-}
-
-@media only screen and (min-width: 470px) {
-    .login-input {
-        width: 80% !important;
-    }
-    .label-login-input {
-        position: relative;
-        right: 28% !important;
-    }
-}
-@media only screen and (min-width: 700px) {
-    .login-input {
-        width: 100% !important;
-    }
-    .label-login-input {
-        position: relative;
-        right: 38% !important;
-    }
-}
-
-
-@media only screen and (max-width: 1499px) {
-
-    .logo-container {
-        width: 300px;
-        color: black;
-        margin-top: 40%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .welcomePage-title {
-        font-size: 295%;
-        font-family: 'Playfair Display', serif;
-        text-align: center;
-        padding-left: 5%;
-        padding-right: 5%;
-    }
-    .login-form-main-container {
-        position: relative;
-        top: 10%;
-    }
-
-
-    .input-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        font-family: 'Playfair Display', serif;
-        text-shadow: 0px 0px 1px black;
-
-    }
-    .label-login-input {
-        position: relative;
-        right: 28%;
-        margin-bottom: 1.5%;
-        color: black;
-    }
-    .login-input {
-        width: 80%;
-        height: 35px;
-        margin-bottom: 5%;
-        border: 2px solid black;
-        border-radius: 5px;
-        box-shadow:5px 5px 0px black;
-        background-color: white;
-        transition: height 0.5s;
-        font-size: 100%;
-    }
-
-    .login-input:hover {
-        height: 50px;
-        transition: height 0.5s;
-    }
-
-    .login-submit-button:hover {
-        transition: height 0.5s;
-        border: solid white;
-        height: 48px;
-        background-color: #ffe10e;
-    }
-
-    .login-server-error-icon {
-        font-size: 150%;
-        padding: 4%;
-        color: red;
-    }
-
-    .login-server-error-message {
-        margin-bottom: 5%;
-    }
-
-
 
 }
 
-@media only screen and (min-width: 1500px) {
-
-    .login-server-error-icon {
-        font-size: 150%;
-        padding: 4%;
-        color: red;
-    }
-
-    .login-server-error-message {
-        margin-bottom: 5%;
-    }
-    .logo-container {
-
-    }
-    .login-form-main-container {
-        position: relative;
-        bottom: 25%;
-    }
-
-    .label-login-input {
-        position: relative;
-
-        border:1px solid  transparent;
-    }
-
-    .login-input {
-        font-size: 100%;
-    }
+.login-server-error-message {
+    margin-bottom: 5%;
+    background-color: #aaacac5e;
+    width: auto;
+    border-radius: 5%;
 }
-
-
-
-
-
-
-
 
 .welcomePage-buttons {
     display: flex;
@@ -257,4 +172,80 @@
     width: 100px;
     height: 40px;
 }
+
+
+@media only screen and (max-width: 1499px) {
+
+    .logo-container {
+        margin-top: 10%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #1e26245e;
+        width: auto;
+        border-radius: 5%;
+    }
+
+    .welcomePage-title {
+        font-size: 295%;
+        font-family: 'Playfair Display', serif;
+    }
+    .login-form-main-container {
+        margin-top: 5%;
+    }
+
+
+    .input-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-family: 'Playfair Display', serif;
+        text-shadow: 0px 0px 1px black;
+
+    }
+    .label-login-input {
+        background-color: #1e26245e;
+        width: auto;
+        border-radius: 5%;
+
+    }
+    .login-input {
+        width: 120%;
+        height: 35px;
+        margin-bottom: 5%;
+        border: 2px solid black;
+        border-radius: 5px;
+        box-shadow:5px 5px 0px black;
+        background-color: white;
+        transition: height 0.5s;
+        font-size: 100%;
+
+    }
+
+    .login-input:hover {
+        height: 50px;
+        transition: height 0.5s;
+    }
+
+    .login-submit-button:hover {
+        transition: height 0.5s;
+        border: solid white;
+        height: 48px;
+        background-color: #ffe10e;
+    }
+}
+
+@media only screen and (min-width: 1500px) {
+
+    .login-input {
+        font-size: 100%;
+        width: 150%;
+    }
+
+    .label-login-input {
+        right: 25%;
+    }
+}
+
+
 

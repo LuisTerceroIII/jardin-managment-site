@@ -119,7 +119,6 @@ export const CreateProductFormPresentation = (props) => {
           onChange={(e) => onChangeColor(e)}
           placement="right"
         />
-        <label className={"form-presentation-label"}>Imagenes</label>
         <label className={"form-presentation-label"}>Comentario</label>
         <textarea
           className={"form-presentation-textarea"}

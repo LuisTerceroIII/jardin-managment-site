@@ -2,12 +2,19 @@ import React, { useEffect, useState } from "react";
 import "./LoginPagePresentation.css";
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
+import {
+  faExclamationTriangle,
+  faExclamationCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import Loader from "react-loader-spinner";
 
 export const LoginPagePresentation = (props) => {
   const { register, handleSubmit, errors } = useForm();
 
   const onSubmit = (data) => {
+    props.setLoading(true);
+    props.setErrorLogin(false);
+    props.setInvalidCredentials(false);
     props.setCredentials({
       username: data.username,
       password: data.password,
@@ -31,9 +38,16 @@ export const LoginPagePresentation = (props) => {
           <label className={"label-login-input"} id={"username"}>
             Username
           </label>
-          <input className={"login-input"} name={"username"} ref={register} />
+          <input
+            className={"login-input"}
+            name={"username"}
+            ref={register({
+              required: true,
+              minLength: 2,
+            })}
+          />
           {errors.username && (
-            <span className={"password-required-error"}>
+            <span className={"username-required-error"}>
               The username is required
             </span>
           )}
@@ -57,7 +71,27 @@ export const LoginPagePresentation = (props) => {
               The password is required
             </span>
           )}
-          {props.invalidCredentials && <span>Credenciales invalidas!</span>}
+          {props.invalidCredentials && (
+            <span className={"login-invalid-credentials-icon"}>
+              {" "}
+              <FontAwesomeIcon icon={faExclamationCircle} />
+            </span>
+          )}
+          {props.invalidCredentials && (
+            <span className={"login-invalid-credentials-message"}>
+              Credenciales invalidas!
+            </span>
+          )}
+          {props.loading && (
+            <Loader
+              className={"spinner-result-of-search"}
+              type="Oval"
+              color="#00a6de"
+              height={35}
+              width={35}
+              radius={0}
+            />
+          )}
           {props.errorLoginReq && (
             <span className={"login-server-error-icon"}>
               {" "}
@@ -72,7 +106,7 @@ export const LoginPagePresentation = (props) => {
         </div>
 
         <button className={"login-submit-button"} type={"submit"}>
-          Send
+          Entrar
         </button>
 
         <div className={"login-server-error-icon-container"}></div>

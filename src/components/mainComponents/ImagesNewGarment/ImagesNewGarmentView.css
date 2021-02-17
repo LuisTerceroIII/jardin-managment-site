@@ -1,29 +1,43 @@
 .upload-image-group-main-container {
     /*background-image: url("https://images.pexels.com/photos/4466491/pexels-photo-4466491.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260");*/
     background-color: #e5e5e5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
 }
+@media only screen and (max-width: 1499px) {
+    .upload-image-group-container {
+        /*    display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            grid-template-rows: repeat(7,1fr) repeat(1,2fr);
+            height: 1900px;*/
+        display: flex;
+        flex-direction: column;
 
+        padding: 8%;
+
+    }
+}
 .upload-image-group-container {
-    display: grid;
+/*    display: grid;
     grid-template-columns: 1fr 2fr 1fr;
     grid-template-rows: repeat(7,1fr) repeat(1,2fr);
-    height: 1900px;
+    height: 1900px;*/
+    display: flex;
+    flex-direction: column;
 
 }
 
 .upload-image-component-container {
-    grid-column-start: 2;
-    grid-column-end: 3;
+
 }
 .images-upload-group-title {
     font-family: 'Playfair Display', serif;
     text-align: center;
     font-size: 225%;
 
-    grid-column-start: 2;
-    grid-column-end: 3;
-    align-self: center;
 }
 
 .images-upload-group-use-instruction {
@@ -40,8 +54,5 @@
     font-size: 150%;
 }
 .finish-upload-images-button {
-    grid-column-start: 2;
-    grid-column-end: 3;
-    justify-self: center ;
-    align-self: auto;
+    margin-bottom: 10%;
 }

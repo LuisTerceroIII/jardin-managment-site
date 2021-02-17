@@ -4,7 +4,10 @@ import ReactPaginate from "react-paginate";
 import ProductCardGroupContainer from "../../secundaryComponents/ProductCardGroup/ProductCardGroupContainer";
 import Loader from "react-loader-spinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHandPointLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faExclamationTriangle,
+  faHandPointLeft,
+} from "@fortawesome/free-solid-svg-icons";
 
 export const ResultOfSearchPresentation = (props) => {
   return (
@@ -15,7 +18,17 @@ export const ResultOfSearchPresentation = (props) => {
       >
         <FontAwesomeIcon icon={faHandPointLeft} />
       </div>
-      {props.error && <h1>ERROR ...</h1>}
+      {props.error && (
+        <span className={"search-results-server-error-icon"}>
+          {" "}
+          <FontAwesomeIcon icon={faExclamationTriangle} />
+        </span>
+      )}
+      {props.error && (
+        <span className={"search-results-server-error-message"}>
+          Server Error, try again later
+        </span>
+      )}
       {props.loading && (
         <Loader
           className={"spinner-result-of-search"}

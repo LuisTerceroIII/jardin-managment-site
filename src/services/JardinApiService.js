@@ -553,7 +553,7 @@ export const JardinApiService = () => {
       }
     }
   };
-  //TODO: Respuestas 200 ok,401,404,500
+
   const getAllImagesLinks = async (id) => {
     const sessionToken = localStore.get("sessionToken") || null;
     try {

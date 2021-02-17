@@ -1,11 +1,62 @@
-.search-result-product-card-main-container {
-    display: flex;
-    flex-direction: column;
+
+
+@media only screen and (max-width: 1499px) {
+    .search-result-product-card-main-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+    }
+
+    .search-result-product-card-container {
+        margin: 3%;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .search-results-server-error-icon {
+        font-size: 150%;
+        padding: 4%;
+        color: red;
+        align-self: center;
+    }
+
+    .search-results-server-error-message {
+        margin-bottom: 5%;
+        align-self: center;
+        font-family: 'Playfair Display', serif;
+    }
 
 }
 
-.search-result-product-card-container {
-    margin: 3%;
-    position: relative;
-    left: 15%;
+
+@media only screen and (min-width: 1500px) {
+    .search-result-product-card-main-container {
+        display: flex;
+        flex-direction: column;
+
+    }
+
+    .search-result-product-card-container {
+        margin: 3%;
+        position: relative;
+        left: 15%;
+    }
+
+    .search-results-server-error-icon {
+        font-size: 300%;
+        margin-top: 5%;
+        margin-bottom: 2%;
+        color: red;
+        align-self: center;
+    }
+
+    .search-results-server-error-message {
+        margin-bottom: 5%;
+        font-size: 190%;
+        align-self: center;
+
+        font-family: 'Playfair Display', serif;
+    }
 }

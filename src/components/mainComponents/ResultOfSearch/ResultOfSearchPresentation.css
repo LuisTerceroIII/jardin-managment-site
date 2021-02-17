@@ -2,10 +2,13 @@
 
 @media only screen and (max-width: 1499px) {
 
-}
+    .search-result-main-container {
+        display: flex;
+        flex-direction: column;
+        background-color: #eaebec;
+        scroll-behavior: smooth;
 
-@media only screen and (min-width: 1500px) {
-
+    }
 
     .return-last-page-arrow-search {
         position: relative;
@@ -25,12 +28,89 @@
         transition: font-size 0.5s;
 
     }
+
+    .spinner-result-of-search {
+        text-align: center;
+        margin-top: 5%;
+        margin-bottom: 5%;
+        color: #00a6de;
+
+    }
+    .result-search-title {
+        text-align: center;
+        font-family: 'Playfair Display', serif;
+        font-size: 180%;
+        text-decoration: underline;
+        margin-top: 5%;
+        margin-bottom: 1%;
+    }
+
+    .search-result-pagination-main-container {
+        align-self: center;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 5%;
+        height: 50px;
+        width: 90%;
+        border: 2px solid #361d795e;
+        border-radius: 10px;
+        font-family: 'Playfair Display', serif;
+        font-size: 120%;
+    }
+
+    .search-result-pagination-active-page {
+        text-align: center;
+        border: 2px solid #361d795e;
+        width: 30px;
+        height: 30px;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+    .search-result-pagination-inactive-pages {
+        cursor: pointer;
+    }
+
+    .search-result-pagination-previous-bottom {
+        cursor: pointer;
+    }
+    .search-result-pagination-next-bottom {
+        cursor: pointer;
+    }
+
+}
+
+@media only screen and (min-width: 1500px) {
+
+
     .search-result-main-container {
         display: flex;
         flex-direction: column;
         background-color: #eaebec;
+        scroll-behavior: smooth;
 
     }
+
+    .return-last-page-arrow-search {
+        position: relative;
+        left: 5%;
+        transform: translateY(30%);
+        bottom: 1.3%;
+        font-size: 250%;
+        transition: font-size 0.5s;
+        cursor: pointer;
+        z-index: 1;
+        margin-bottom: -3%;
+
+    }
+    .return-last-page-arrow-search:hover {
+        font-size: 275%;
+        color: #000000b5;
+        transition: font-size 0.5s;
+
+    }
+
     .spinner-result-of-search {
         text-align: center;
         margin-top: 5%;
