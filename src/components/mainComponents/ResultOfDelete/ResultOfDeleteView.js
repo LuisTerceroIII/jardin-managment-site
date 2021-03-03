@@ -1,5 +1,4 @@
 import React from "react";
-import { DeleteProductContainer } from "../DeleteProductForm/DeleteProductContainer";
 import DeleteProductCardContainer from "../../secundaryComponents/DeleteProductCard/DeleteProductCardContainer";
 import "./ResultOfDeleteView.css";
 

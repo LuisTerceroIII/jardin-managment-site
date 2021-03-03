@@ -1,13 +1,16 @@
-import React, { useCallback } from "react";
+import React from "react";
 import "./CreateProductFormPresentation.css";
-import InputColor from "react-input-color";
+
 import { useForm } from "react-hook-form";
 import { formData } from "../../../componentData/formsData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHandPointLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faExclamationTriangle,
+  faHandPointLeft,
+} from "@fortawesome/free-solid-svg-icons";
+import Loader from "react-loader-spinner";
 
 export const CreateProductFormPresentation = (props) => {
-  const [color, setColor] = React.useState({});
   const { register, handleSubmit, errors } = useForm();
   const onSubmit = (data) => {
     const garment = {
@@ -15,7 +18,7 @@ export const CreateProductFormPresentation = (props) => {
       gender: data.gender,
       madeIn: data.madeIn,
       mainMaterial: data.mainMaterial,
-      mainColor: color.hex,
+      mainColor: "",
       price: data.price,
       size: data.size,
       type: data.type,
@@ -24,9 +27,6 @@ export const CreateProductFormPresentation = (props) => {
     props.setCreateRequest({
       newGarment: garment,
     });
-  };
-  const onChangeColor = (e) => {
-    setColor(e);
   };
   const genders = formData.genders.map((gender, index) => {
     return <option key={index}>{gender}</option>;
@@ -112,13 +112,6 @@ export const CreateProductFormPresentation = (props) => {
           })}
         />
 
-        <label className={"form-presentation-label"}>Color Principal</label>
-        <InputColor
-          className={"form-presentation-input"}
-          initialValue="#cbdb37"
-          onChange={(e) => onChangeColor(e)}
-          placement="right"
-        />
         <label className={"form-presentation-label"}>Comentario</label>
         <textarea
           className={"form-presentation-textarea"}
@@ -128,6 +121,28 @@ export const CreateProductFormPresentation = (props) => {
           })}
           rows={2}
         />
+        {props.loading && (
+          <Loader
+            className={"spinner-result-of-search"}
+            type="Oval"
+            color="#00a6de"
+            height={35}
+            width={35}
+            radius={0}
+          />
+        )}
+
+        {props.error && (
+          <span className={"get-garment-by-server-error-icon"}>
+            {" "}
+            <FontAwesomeIcon icon={faExclamationTriangle} />
+          </span>
+        )}
+        {props.error && (
+          <span className={"get-garment-by-server-error-message"}>
+            Error conectando con el servidor, intentalo mas tarde ...
+          </span>
+        )}
 
         <input
           type={"submit"}

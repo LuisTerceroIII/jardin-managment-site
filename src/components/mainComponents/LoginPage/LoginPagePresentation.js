@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./LoginPagePresentation.css";
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -35,8 +35,11 @@ export const LoginPagePresentation = (props) => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className={"input-container"}>
-          <label className={"label-login-input"} id={"username"}>
-            Username
+          <label
+            className={"label-login-input label-login-input-username"}
+            id={"username"}
+          >
+            Usuario
           </label>
           <input
             className={"login-input"}
@@ -47,15 +50,16 @@ export const LoginPagePresentation = (props) => {
             })}
           />
           {errors.username && (
-            <span className={"username-required-error"}>
-              The username is required
-            </span>
+            <span className={"username-required-error"}>Ingrese usuario</span>
           )}
         </div>
 
         <div className={"input-container"}>
-          <label className={"label-login-input"} id={"password"}>
-            Password
+          <label
+            className={"label-login-input label-login-input-pass"}
+            id={"password"}
+          >
+            Contraseña
           </label>
           <input
             type={"password"}
@@ -68,7 +72,7 @@ export const LoginPagePresentation = (props) => {
           />
           {errors.password && (
             <span className={"password-required-error"}>
-              The password is required
+              Ingrese contraseña
             </span>
           )}
           {props.invalidCredentials && (
@@ -92,15 +96,16 @@ export const LoginPagePresentation = (props) => {
               radius={0}
             />
           )}
+        </div>
+        <div className={"login-error-container"}>
           {props.errorLoginReq && (
             <span className={"login-server-error-icon"}>
-              {" "}
               <FontAwesomeIcon icon={faExclamationTriangle} />
             </span>
           )}
           {props.errorLoginReq && (
             <span className={"login-server-error-message"}>
-              Server Error, try again later
+              Error conectando con el servidor, intentalo mas tarde ...
             </span>
           )}
         </div>
@@ -108,8 +113,6 @@ export const LoginPagePresentation = (props) => {
         <button className={"login-submit-button"} type={"submit"}>
           Entrar
         </button>
-
-        <div className={"login-server-error-icon-container"}></div>
       </form>
     </div>
   );

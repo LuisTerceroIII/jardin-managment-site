@@ -35,6 +35,16 @@ export const DeleteProductContainer = (props) => {
   const [garmentToDeleteID, setGarmentToDeleteId] = useState("");
   //funciona como badnera, si esta activada se mostrara en vista una texto "Id no valido"
   const [idNotFound, setIDNotFound] = useState(false);
+  const [idSearchStatus, setIdSearchStatus] = useState({
+    loading: false,
+    loaded: false,
+    error: false,
+  });
+  const [deleteStatus, setDeleteStatus] = useState({
+    loading: false,
+    loaded: false,
+    error: false,
+  });
   //Bandera de botones, si deleteGarment = true -> llamada delete a la API
   const [deleteGarment, setDeleteGarment] = useState(false);
   //Bandera de boton busqueda, si searchGarment = true -> llamada get a la API
@@ -52,22 +62,30 @@ export const DeleteProductContainer = (props) => {
   useEffect(() => {
     const sessionToken = localStore.get("sessionToken") || null;
     if (sessionToken) {
+      //Entra si searchGamrnet es verdadero y si se ingreso un valor de id, es decir ya no es "" un string vacio, sino un numero
       if (searchGarment && garmentToDeleteID !== "") {
-        //Entra si searchGamrnet es verdadero y si se ingreso un valor de id, es decir ya no es "" un string vacio, sino un numero
+        setIdSearchStatus({
+          loading: true,
+          loaded: false,
+          error: false,
+        });
+        setIDNotFound(false);
         const response = JardinApiService().getGarmentById(garmentToDeleteID);
+
         response.then((res) => {
           if (res) {
-            //Cambia el estado del garmente que se renderiza en view con los datos del recurso recibido con el id ingresado.
-            //TODO: Crear un objeto garment, pedir links a API, y mezclar ambos objetos,
-            // el recebido por "getGarmentById" y el recibido por getImagesLinksByID
             if (res.status === 202) {
               const garment = res.data;
               const imagesReq = JardinApiService().getAllImagesLinks(
                 res.data?.id
               );
               imagesReq.then((res) => {
-                console.log(res?.data);
                 if (res?.status === 200) {
+                  setIdSearchStatus({
+                    loading: false,
+                    loaded: true,
+                    error: false,
+                  });
                   setGarmentToDelete({
                     id: garment.id,
                     type: garment.type,
@@ -81,6 +99,11 @@ export const DeleteProductContainer = (props) => {
                     images: res.data,
                   });
                 } else {
+                  setIdSearchStatus({
+                    loading: false,
+                    loaded: false,
+                    error: false,
+                  });
                   setGarmentToDelete({
                     id: garment.id,
                     type: garment.type,
@@ -102,8 +125,26 @@ export const DeleteProductContainer = (props) => {
               props.setCredentials({});
               props.setLogin(false);
             } else if (res.status === 404) {
+              setIdSearchStatus({
+                loading: false,
+                loaded: false,
+                error: false,
+              });
               setIDNotFound(true);
+            } else {
+              setIDNotFound(false);
+              setIdSearchStatus({
+                loading: false,
+                loaded: false,
+                error: true,
+              });
             }
+          } else {
+            setIdSearchStatus({
+              loading: false,
+              loaded: false,
+              error: true,
+            });
           }
         });
         //Se setea searchGarment en falso para que no vuelva a entrar, salvo que se oprima el boton otra vez.
@@ -111,12 +152,15 @@ export const DeleteProductContainer = (props) => {
       }
 
       if (deleteGarment && garmentToDelete.id !== "") {
+        setDeleteStatus({
+          loading: true,
+          loaded: false,
+          error: false,
+        });
         const deleteImagesReq = JardinApiService().deleteAllGarmentImages(
           garmentToDeleteID
         );
-        deleteImagesReq.then((res) => {
-          console.log("DELETE IMAGES REQ :::::::::::::", res);
-        });
+        deleteImagesReq.then((res) => {});
 
         const responseOfDelete = JardinApiService().deleteGarmentById(
           garmentToDelete.id,
@@ -125,12 +169,17 @@ export const DeleteProductContainer = (props) => {
         responseOfDelete.then((res) => {
           if (res) {
             //Preguntamos esto, para asegurarnos no tener errores de undefined o typeError
-            if (res.status === 401) {
+            if (res?.status === 401) {
               localStore.remove("sessionToken");
               props.setCredentials({});
               props.setLogin(false);
             }
-            if (res.status === 202) {
+            if (res?.status === 202) {
+              setDeleteStatus({
+                loading: false,
+                loaded: false,
+                error: false,
+              });
               props.setDeleteResponse({
                 id: garmentToDelete.id,
                 type: garmentToDelete.type,
@@ -145,7 +194,14 @@ export const DeleteProductContainer = (props) => {
               });
               history.push("delete/result"); // Redirecciona a nueva ruta.
             }
-            if (res.status === 404) {
+            if (res?.status === 500 || !res) {
+              setDeleteStatus({
+                loading: false,
+                loaded: false,
+                error: true,
+              });
+            }
+            if (res?.status === 404) {
               props.setDeleteResponse({
                 // Se carga un objeto vacia para mostrar en la ruta "resultado"
                 id: "",
@@ -160,6 +216,12 @@ export const DeleteProductContainer = (props) => {
               });
               history.push("delete/result"); // Redirecciona a nueva ruta.
             }
+          } else {
+            setDeleteStatus({
+              loading: false,
+              loaded: false,
+              error: true,
+            });
           }
         });
         setDeleteGarment(false);
@@ -182,6 +244,8 @@ export const DeleteProductContainer = (props) => {
       setDeleteGarment={setDeleteGarment}
       setSearchGarment={setSearchGarment}
       goLastPage={goLastPage}
+      idSearchStatus={idSearchStatus}
+      deleteStatus={deleteStatus}
     />
   );
 };

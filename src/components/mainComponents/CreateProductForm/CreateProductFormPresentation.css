@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 1990px;
+    min-height: 100%;
     background-image: url("https://images.pexels.com/photos/1858409/pexels-photo-1858409.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260");
     background-size: cover;
     background-repeat: no-repeat;
@@ -52,6 +52,7 @@
     transition: height 0.5s;
     align-self: center;
     cursor: pointer;
+    margin-bottom: 5%;
 
 }
 .form-presentation-button:hover {

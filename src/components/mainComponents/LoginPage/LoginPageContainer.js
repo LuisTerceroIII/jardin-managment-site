@@ -24,7 +24,6 @@ export const LoginPageContainer = (props) => {
       );
       processLogin
         .then((res) => {
-          console.log(res);
           if (!res) {
             setErrorLoginReq(true);
             setLoading(false);

@@ -8,9 +8,7 @@ export const ResultOfDeleteContainer = (props) => {
     history.push("/actions");
   };
 
-  useEffect(() => {
-    console.log(props.deleteResponse);
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <ResultOfDeleteView

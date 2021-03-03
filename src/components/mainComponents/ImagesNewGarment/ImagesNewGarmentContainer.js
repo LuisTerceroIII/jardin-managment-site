@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { ImagesNewGarmentView } from "./ImagesNewGarmentView";
 import { useHistory } from "react-router-dom";
-import { CreateProductFormPresentation } from "../CreateProductForm/CreateProductFormPresentation";
 
 export const ImagesNewGarmentContainer = (props) => {
   const history = useHistory();

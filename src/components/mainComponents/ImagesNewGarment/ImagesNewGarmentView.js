@@ -1,7 +1,6 @@
 import React from "react";
 import "./ImagesNewGarmentView.css";
 import { UploadImageContainer } from "../../secundaryComponents/UploadImage/UploadImageContainer";
-import { CreateProductFormPresentation } from "../CreateProductForm/CreateProductFormPresentation";
 
 export const ImagesNewGarmentView = (props) => {
   const garment = props.CreateResponse?.newGarment;

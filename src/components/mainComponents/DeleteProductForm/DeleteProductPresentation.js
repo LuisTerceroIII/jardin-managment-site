@@ -4,16 +4,17 @@ import { useForm } from "react-hook-form";
 import ProductCardContainer from "../../secundaryComponents/ProductCard/ProductCardContainer";
 import { formData } from "../../../componentData/formsData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHandPointLeft } from "@fortawesome/free-solid-svg-icons";
-import DeleteProductCardContainer from "../../secundaryComponents/DeleteProductCard/DeleteProductCardContainer";
+import {
+  faExclamationTriangle,
+  faHandPointLeft,
+} from "@fortawesome/free-solid-svg-icons";
+import Loader from "react-loader-spinner";
 
 export const DeleteProductPresentation = (props) => {
   const { register, handleSubmit, errors } = useForm();
   const garmentToDelete = props.garmentToDelete;
 
-  useEffect(() => {
-    console.log("GARMENT TO DELETE::::::::::::::::", garmentToDelete);
-  }, [garmentToDelete]);
+  useEffect(() => {}, [garmentToDelete]);
   const deleteGarment = () => {
     props.setDeleteGarment(true);
   };
@@ -47,7 +48,6 @@ export const DeleteProductPresentation = (props) => {
         />
         {errors.id && (
           <span>
-            {" "}
             <br />
             ID requerido <br />
           </span>
@@ -59,6 +59,27 @@ export const DeleteProductPresentation = (props) => {
             Id no existe
           </span>
         )}
+        {props.idSearchStatus.loading && (
+          <Loader
+            className={"spinner-result-of-search"}
+            type="Oval"
+            color="#00a6de"
+            height={35}
+            width={35}
+            radius={0}
+          />
+        )}
+
+        {props.idSearchStatus.error && (
+          <span className={"delete-product-server-error-icon"}>
+            <FontAwesomeIcon icon={faExclamationTriangle} />
+          </span>
+        )}
+        {props.idSearchStatus.error && (
+          <span className={"delete-product-server-error-message"}>
+            Error conectando con el servidor, intentalo mas tarde ...
+          </span>
+        )}
         <br />
         <button type={"submit"} className={"form-presentation-button"}>
           Buscar
@@ -67,6 +88,29 @@ export const DeleteProductPresentation = (props) => {
       <div className={"delete-product-view-product-card-container"}>
         <ProductCardContainer garment={garmentToDelete} />
       </div>
+
+      {props.deleteStatus.loading && (
+        <Loader
+          className={"spinner-delete-product"}
+          type="Oval"
+          color="#00a6de"
+          height={35}
+          width={35}
+          radius={0}
+        />
+      )}
+
+      {props.deleteStatus.error && (
+        <span className={"delete-product-server-error-icon"}>
+          {" "}
+          <FontAwesomeIcon icon={faExclamationTriangle} />
+        </span>
+      )}
+      {props.deleteStatus.error && (
+        <span className={"delete-product-server-error-message"}>
+          Error conectando con el servidor, intentalo mas tarde ...
+        </span>
+      )}
 
       <button
         className={"form-presentation-button delete-product-delete-button"}

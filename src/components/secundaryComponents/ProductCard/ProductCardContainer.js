@@ -13,9 +13,7 @@ const ProductCardContainer = (props) => {
       imagesLinks[4] ||
       imagesLinks[5]
   );
-  useEffect(() => {
-    console.log(props.garment);
-  }, [imageURL]);
+  useEffect(() => {}, [imageURL]);
   return (
     <ProductCardView
       garment={props.garment}

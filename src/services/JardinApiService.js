@@ -2,14 +2,17 @@ import axios from "axios";
 import localStore from "store";
 
 export const JardinApiService = () => {
-  const PORT = "3030";
+  const PORT = "8080";
   const jardinApiV1 = "management/jardin-api/v1";
   const localhostJardinAPI = `http://localhost:${PORT}/${jardinApiV1}`;
+  const ipv4JardinAPI = "http://192.168.0.17:8080/management/jardin-api/v1";
 
   const processLogin = async (username, password) => {
     try {
       const response = await axios.post(
-        `${localhostJardinAPI}/login`,
+        /* `${localhostJardinAPI}/login`,*/
+        `${ipv4JardinAPI}/login`,
+        /*`192.168.0.17:3030/${jardinApiV1}/login`,*/
         {
           username: username || "hi", // Se agrego || y los datos comenzaros a llegar con valores completos al servidor. ?????.
           password: password || "5666",
@@ -22,7 +25,6 @@ export const JardinApiService = () => {
         }
       );
 
-      console.log(response.data?.validCredentials); // Respuesta servidor, se espera un True o False. -> response.data
       return response;
     } catch (err) {
       if (err.response) {
@@ -46,6 +48,46 @@ export const JardinApiService = () => {
         }
         return err.response;
       }
+    }
+  };
+
+  const validateSession = async () => {
+    try {
+      const sessionToken = localStore.get("sessionToken") || null;
+      let validateSessionResponse = await axios({
+        url: `${localhostJardinAPI}/validateSession`,
+        /*       url: `${ipv4JardinAPI}/validateSession`,*/
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          sessionToken: sessionToken,
+        },
+        auth: {
+          username: "LuisTerceroIII",
+          password: "5611858Morf",
+        },
+      });
+      return validateSessionResponse;
+    } catch (err) {
+      if (err.response) {
+        const statusCode = err.response.status;
+        switch (statusCode) {
+          case 401:
+            console.log("Expired session, log in again", err);
+            console.log("Sesion expirada, ingresa nuevamente", err);
+            break;
+          case 500:
+            console.log("Error: fail server", err);
+            console.log("Error, no se a podido conectar con el servidor", err);
+            break;
+          default:
+            console.log("Error: ", err);
+        }
+      } else {
+        console.log("Error: request could not be sent");
+        console.log("Error, no se a podido conectar con el servidor");
+      }
+      return err.response;
     }
   };
 
@@ -89,8 +131,9 @@ export const JardinApiService = () => {
   const getGarmentById = async (id) => {
     try {
       const sessionToken = localStore.get("sessionToken") || null;
-      let response = await axios({
-        url: `${localhostJardinAPI}/garment/${id}`,
+      return await axios({
+        /*url: `${localhostJardinAPI}/garment/${id}`,*/
+        url: `${ipv4JardinAPI}/garment/${id}`,
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -104,11 +147,9 @@ export const JardinApiService = () => {
           id: id || null,
         },
       });
-      console.log(response);
-      return response;
     } catch (err) {
-      if (err.response) {
-        const statusCode = err.response.status;
+      if (err?.response) {
+        const statusCode = err.response?.status;
         switch (statusCode) {
           case 404:
             console.log("Invalid ID", err);
@@ -125,12 +166,12 @@ export const JardinApiService = () => {
           default:
             console.log("Error: ", err);
         }
+        return err.response;
       } else {
         console.log("Error: request could not be sent");
         console.log("Error, no se a podido conectar con el servidor");
+        return err.response;
       }
-
-      return err.response;
     }
   };
 
@@ -142,7 +183,8 @@ export const JardinApiService = () => {
   ) => {
     try {
       return await axios({
-        url: `${localhostJardinAPI}/garments/${limit}/${offset}`,
+        /*url: `${localhostJardinAPI}/garments/${limit}/${offset}`,*/
+        url: `${ipv4JardinAPI}/garments/${limit}/${offset}`,
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -189,7 +231,8 @@ export const JardinApiService = () => {
     const sessionToken = localStore.get("sessionToken") || null;
     try {
       return await axios({
-        url: `${localhostJardinAPI}/garments/search/count-rows`,
+        /*url: `${localhostJardinAPI}/garments/search/count-rows`,*/
+        url: `${ipv4JardinAPI}/garments/search/count-rows`,
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -239,7 +282,8 @@ export const JardinApiService = () => {
   const postGarment = async (garment, sessionToken) => {
     try {
       return await axios({
-        url: `${localhostJardinAPI}/garment`,
+        /*url: `${localhostJardinAPI}/garment`,*/
+        url: `${ipv4JardinAPI}/garment`,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -266,11 +310,12 @@ export const JardinApiService = () => {
           default:
             console.log("Error: ", err);
         }
+        return err.response;
       } else {
         console.log("Error: request could not be sent");
         console.log("Error, no se a podido conectar con el servidor");
+        return err.response;
       }
-      return err.response;
     }
   };
 
@@ -278,7 +323,8 @@ export const JardinApiService = () => {
     const { id } = garmentToUpdate;
     try {
       return await axios({
-        url: `http://localhost:3030/management/jardin-api/v1/garment/${id}`,
+        /*url: `${localhostJardinAPI}/garment/${id}`,*/
+        url: `${ipv4JardinAPI}/garment/${id}`,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -321,13 +367,15 @@ export const JardinApiService = () => {
         console.log("Error: request could not be sent");
         console.log("Error, no se a podido conectar con el servidor");
       }
+      return err.response;
     }
   };
 
   const deleteGarmentById = async (id, sessionToken) => {
     try {
       return await axios({
-        url: `http://localhost:3030/management/jardin-api/v1/garment/${id}`,
+        /*url: `http://localhost:3030/management/jardin-api/v1/garment/${id}`,*/
+        url: `${ipv4JardinAPI}/garment/${id}`,
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -358,9 +406,11 @@ export const JardinApiService = () => {
             console.log("Error: request could not be sent", err);
             console.log("Error, no se a podido conectar con el servidor", err);
         }
+        return err.response;
       } else {
         console.log("Error: request could not be sent");
         console.log("Error, no se a podido conectar con el servidor");
+        return err.response;
       }
     }
   };
@@ -369,7 +419,8 @@ export const JardinApiService = () => {
     const sessionToken = localStore.get("sessionToken") || null;
     try {
       return await axios({
-        url: `http://localhost:3030/management/jardin-api/v1/garment-images/${id}/${imageNumber}`,
+        /*url: `http://localhost:3030/management/jardin-api/v1/garment-images/${id}/${imageNumber}`,*/
+        url: `${ipv4JardinAPI}/garment-images/${id}/${imageNumber}`,
         method: "POST",
         data: formData,
         headers: {
@@ -415,9 +466,15 @@ export const JardinApiService = () => {
   };
   const getGarmentImage = async (id, imageNumber) => {
     const sessionToken = localStore.get("sessionToken") || null;
+
+    /*
+    Ruta localhost - desktop
+    `http://localhost:3030/management/jardin-api/v1/garment-images/${id}/${imageNumber}`,
+    */
+
     try {
       return await axios.get(
-        `http://localhost:3030/management/jardin-api/v1/garment-images/${id}/${imageNumber}`,
+        `${ipv4JardinAPI}/garment-images/${id}/${imageNumber}`,
         {
           headers: {
             sessionToken: sessionToken,
@@ -460,9 +517,11 @@ export const JardinApiService = () => {
   };
   const deleteGarmentImage = async (id, imageNumber) => {
     const sessionToken = localStore.get("sessionToken") || null;
+    /* Ruta local host - Desktop
+    `http://localhost:3030/management/jardin-api/v1/garment-images/${id}/${imageNumber}`,*/
     try {
       return await axios.delete(
-        `http://localhost:3030/management/jardin-api/v1/garment-images/${id}/${imageNumber}`,
+        `${ipv4JardinAPI}/garment-images/${id}/${imageNumber}`,
         {
           headers: {
             sessionToken: sessionToken,
@@ -508,19 +567,17 @@ export const JardinApiService = () => {
 
   const deleteAllGarmentImages = async (id) => {
     const sessionToken = localStore.get("sessionToken") || null;
+    /*`http://localhost:3030/management/jardin-api/v1/garment-images/${id}`,*/
     try {
-      return await axios.delete(
-        `http://localhost:3030/management/jardin-api/v1/garment-images/${id}`,
-        {
-          headers: {
-            sessionToken: sessionToken,
-          },
-          auth: {
-            username: "LuisTerceroIII",
-            password: "5611858Morf",
-          },
-        }
-      );
+      return await axios.delete(`${ipv4JardinAPI}/garment-images/${id}`, {
+        headers: {
+          sessionToken: sessionToken,
+        },
+        auth: {
+          username: "LuisTerceroIII",
+          password: "5611858Morf",
+        },
+      });
     } catch (err) {
       if (err.response) {
         const statusCode = err.response?.status;
@@ -556,22 +613,20 @@ export const JardinApiService = () => {
 
   const getAllImagesLinks = async (id) => {
     const sessionToken = localStore.get("sessionToken") || null;
+    /*`http://localhost:3030/management/jardin-api/v1/garment-images/${id}`,*/
     try {
-      return await axios.get(
-        `http://localhost:3030/management/jardin-api/v1/garment-images/${id}`,
-        {
-          headers: {
-            sessionToken: sessionToken,
-          },
-          auth: {
-            username: "LuisTerceroIII",
-            password: "5611858Morf",
-          },
-          params: {
-            id: id,
-          },
-        }
-      );
+      return await axios.get(`${ipv4JardinAPI}/garment-images/${id}`, {
+        headers: {
+          sessionToken: sessionToken,
+        },
+        auth: {
+          username: "LuisTerceroIII",
+          password: "5611858Morf",
+        },
+        params: {
+          id: id,
+        },
+      });
     } catch (err) {
       if (err.response) {
         const statusCode = err.response?.status;
@@ -601,6 +656,7 @@ export const JardinApiService = () => {
 
   return {
     processLogin: processLogin,
+    validateSession: validateSession,
     getAll: getAllGarments,
     getGarmentById: getGarmentById,
     getGarmentByQuery: getGarmentByQuery,
