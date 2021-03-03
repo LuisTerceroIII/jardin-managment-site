@@ -58,7 +58,6 @@ export const CreateProductFormContainer = (props) => {
               created: response?.created,
               newGarment: response?.createdGarment,
             }); // se setea la respuesta para actualizar el estado del componente de resultado
-            console.log(res.status);
             if (res?.status === 401) {
               // Valida, si falla por token invalido
               // se vuelven todos los estado que comprueban el logeo a su estado inicial.
