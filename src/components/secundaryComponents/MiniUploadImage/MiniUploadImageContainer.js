@@ -29,7 +29,6 @@ export const MiniUploadImageContainer = (props) => {
   const [acceptedFiles, setAcceptedFiles] = useState("");
 
   useEffect(() => {
-    console.log(imageURL);
     if (imageURL !== "") {
       setUpload({
         uploading: false,
@@ -50,7 +49,6 @@ export const MiniUploadImageContainer = (props) => {
 
   const uploadImage = (acceptedFiles) => {
     const file = acceptedFiles[0];
-    console.log(file);
     const formData = new FormData();
     formData.append("file", file);
 
@@ -61,9 +59,7 @@ export const MiniUploadImageContainer = (props) => {
     );
     uploadImageReq
       .then((res) => {
-        console.log(res);
         if (res === undefined) {
-          console.log("Undefined");
           setUpload({
             uploading: false,
             uploaded: false,
@@ -97,7 +93,6 @@ export const MiniUploadImageContainer = (props) => {
               }
             })
             .catch((err) => {
-              console.log("GET ::::: " + err);
               setUpload({
                 uploading: false,
                 uploaded: false,
@@ -121,7 +116,6 @@ export const MiniUploadImageContainer = (props) => {
         }
       })
       .catch((err) => {
-        console.log("POST ::::: " + err);
         setUpload({
           uploading: false,
           uploaded: false,
@@ -156,7 +150,6 @@ export const MiniUploadImageContainer = (props) => {
         }
       })
       .catch((err) => {
-        console.log(err);
         setUpload({
           uploading: false,
           uploaded: false,

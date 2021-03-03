@@ -3,6 +3,7 @@
     flex-direction: column;
     width: 100%;
     text-align: center;
+
 }
 .drop-file-container {
     position: relative;
@@ -68,6 +69,7 @@
     background-color: transparent;
     font-size: 1.5em;
     color: black;
+    cursor: pointer;
 
 }
 .button-delete-icon-upload-image:hover {

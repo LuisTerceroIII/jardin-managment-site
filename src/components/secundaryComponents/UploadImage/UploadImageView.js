@@ -12,8 +12,19 @@ import Loader from "react-loader-spinner";
 import "./UploadImageView.css";
 
 export const UploadImageView = (props) => {
+  const [pointer, setPointer] = useState({
+    cursor: "pointer",
+  });
   useEffect(() => {
-    console.log(props.imageURL);
+    if (props.imageURL !== "") {
+      setPointer({
+        cursor: "default",
+      });
+    } else {
+      setPointer({
+        cursor: "pointer",
+      });
+    }
   }, [props.imageURL]);
   const onDrop = useCallback((acceptedFiles) => {
     props.uploadImage(acceptedFiles);
@@ -27,7 +38,7 @@ export const UploadImageView = (props) => {
       <div {...getRootProps()}>
         <input {...getInputProps()} />
         <div className={"drop-file-container"}>
-          <div className={"drop-file-dotted-container"}>
+          <div className={"drop-file-dotted-container"} style={pointer}>
             {props.imageURL !== "" ? (
               <div>
                 <img

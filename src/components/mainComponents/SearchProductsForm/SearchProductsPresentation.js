@@ -1,16 +1,11 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import InputColor from "react-input-color";
 import { formData } from "../../../componentData/formsData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHandPointLeft } from "@fortawesome/free-solid-svg-icons";
 
 export const SearchProductsPresentation = (props) => {
   // Start forms variables ------------------------------------------
-  const [color, setColor] = React.useState({});
-  const onChangeColor = (e) => {
-    setColor(e);
-  };
   const types = formData.types.map((type, index) => {
     return <option key={index}>{type}</option>;
   });
@@ -38,7 +33,7 @@ export const SearchProductsPresentation = (props) => {
       madeIn: data.madeIn,
       mainMaterial: data.mainMaterial,
       // TODO: Resolver formato de color.
-      mainColor: color.hex,
+      mainColor: "",
       priceFrom: data.priceFrom,
       priceTo: data.priceTo,
       size: data.size,
@@ -137,14 +132,6 @@ export const SearchProductsPresentation = (props) => {
           ref={register({
             required: false,
           })}
-        />
-
-        <label className={"form-presentation-label"}>Color Principal</label>
-        <InputColor
-          className={"form-presentation-input"}
-          initialValue="#cbdb37"
-          onChange={(e) => onChangeColor(e)}
-          placement="right"
         />
         <input
           type={"submit"}

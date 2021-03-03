@@ -1,12 +1,9 @@
 import React, { useEffect } from "react";
-import ProductCardView from "../ProductCard/ProductCardView";
 import ProductCardContainer from "../ProductCard/ProductCardContainer";
 import "./ProductCardGroupView.css";
 
 const ProductCardGroupView = (props) => {
-  useEffect(() => {
-    console.log("PRODUCT CARD GROUP :::::::" + props.garments);
-  }, []);
+  useEffect(() => {}, []);
   const productsCards = props.garments.map((garment, key) => {
     return (
       <div

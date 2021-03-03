@@ -64,14 +64,12 @@ export const ResultOfSearchContainer = (props) => {
         links.push(garmentNoImages);
       }
     });
-    console.log("links dentro de la funcion", links);
     return links;
   };
 
   useEffect(() => {
     setLoading(true);
     const sessionToken = localStore.get("sessionToken") || null;
-    console.log("ESTO ENVIO !!!!!", props.query.query);
     const queryResult = JardinApiService().getGarmentByQuery(
       query,
       sessionToken,
@@ -81,8 +79,8 @@ export const ResultOfSearchContainer = (props) => {
 
     queryResult.then((res) => {
       if (res) {
-        if (res?.status === 202) {
-          const links = loadImages(res.data);
+        if (res?.status === 202 || res?.status === 204) {
+          const links = loadImages(res.data || []);
           setTimeout(() => {
             setLoading(false);
             setError(false);
@@ -107,7 +105,6 @@ export const ResultOfSearchContainer = (props) => {
       searchTotalElementsReq.then((res) => {
         if (res) {
           if (res?.status === 202) {
-            console.log("Cantidad de elementos" + res?.data);
             setPageCount(Math.ceil((res?.data || 0) / limit));
           }
         }

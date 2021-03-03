@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import "./EditProductPresentation.css";
 import { useForm } from "react-hook-form";
-import InputColor from "react-input-color";
 import { formData } from "../../../componentData/formsData";
 import MiniUploadImageGroupContainer from "../../secundaryComponents/MiniUploadImageGroup/MiniUploadImageGroupContainer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHandPointLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHandPointLeft,
+  faExclamationTriangle,
+} from "@fortawesome/free-solid-svg-icons";
+import Loader from "react-loader-spinner";
 
 export const EditProductPresentation = (props) => {
-  const [color, setColor] = React.useState({});
   const [submitButton, setSubmitButton] = useState("id");
   const { register, handleSubmit } = useForm();
 
@@ -22,10 +24,6 @@ export const EditProductPresentation = (props) => {
       props.setGarmentToUpdateId(data.id);
       props.setSearchGarment(true);
     }
-  };
-
-  const onChangeColor = (e) => {
-    setColor(e);
   };
 
   const genders = formData.genders.map((gender, index) => {
@@ -76,14 +74,37 @@ export const EditProductPresentation = (props) => {
           className={"form-presentation-input"}
           defaultValue={props.garmentToUpdateId}
           ref={register({
-            required: false,
+            required: true,
           })}
         />
-        {props.idNotFound === true && <span>Id no existe</span>}
+        {props.idNotFound === true && (
+          <span className={"edit-product-view-id-not-found"}>Id no existe</span>
+        )}
+        {props.loadingID && (
+          <Loader
+            className={"spinner-get-garment-by-id"}
+            type="Oval"
+            color="#00a6de"
+            height={35}
+            width={35}
+            radius={0}
+          />
+        )}
+        {props.errorID && (
+          <span className={"get-garment-by-server-error-icon"}>
+            {" "}
+            <FontAwesomeIcon icon={faExclamationTriangle} />
+          </span>
+        )}
+        {props.errorID && (
+          <span className={"get-garment-by-server-error-message"}>
+            Error conectando con el servidor, intentalo mas tarde ...
+          </span>
+        )}
         <button
           type={"submit"}
           onClick={() => setSubmitButton("id")}
-          className={"form-presentation-crate-button form-presentation-button"}
+          className={"form-edit-button"}
         >
           Buscar
         </button>
@@ -152,14 +173,6 @@ export const EditProductPresentation = (props) => {
             required: false,
           })}
         />
-
-        <label className={"form-presentation-label"}>Color Principal</label>
-        <InputColor
-          className={"form-presentation-input"}
-          initialValue="#cbdb37"
-          onChange={(e) => onChangeColor(e)}
-          placement="right"
-        />
         <label className={"form-presentation-label"}>Imagenes</label>
         <MiniUploadImageGroupContainer
           idNotFound={props.idNotFound}
@@ -180,12 +193,44 @@ export const EditProductPresentation = (props) => {
           })}
           rows={2}
         />
+        {props.loadingEdit && (
+          <Loader
+            className={"spinner-result-of-search"}
+            type="Oval"
+            color="#00a6de"
+            height={35}
+            width={35}
+            radius={0}
+          />
+        )}
+
+        {props.errorEdit && (
+          <span className={"get-garment-by-server-error-icon"}>
+            {" "}
+            <FontAwesomeIcon icon={faExclamationTriangle} />
+          </span>
+        )}
+        {props.errorEdit && (
+          <span className={"get-garment-by-server-error-message"}>
+            Error conectando con el servidor, intentalo mas tarde ...
+          </span>
+        )}
+
+        {props.idRequiredMessage && (
+          <span className={"id-required-message"}>
+            Primero selecciona una prenda por su id
+          </span>
+        )}
 
         <input
           type={"submit"}
           value={"Editar"}
           className={"form-presentation-crate-button form-presentation-button"}
-          onClick={() => setSubmitButton("sendPatchGarment")}
+          onClick={async () => {
+            if (!props.idNotFound && !props.errorID) {
+              return setSubmitButton("sendPatchGarment");
+            }
+          }}
         />
       </form>
     </div>

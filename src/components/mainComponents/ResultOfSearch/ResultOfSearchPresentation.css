@@ -1,5 +1,58 @@
+.search-result-error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    flex-wrap: wrap;
+    text-align: center;
+    padding: 2%;
+
+}
+
+.search-results-server-connection-error-icon {
+    color: red;
+    font-size: 250%;
+
+}
+.search-results-server-connection-error-message {
+    font-family: 'Playfair Display', serif;
+    font-size: 150%;
+    margin-top: 1%;
+    margin-bottom: -3%;
+
+}
+@media only screen and (max-width: 450px) {
+    .search-result-product-card-group-main-container {
+        position: relative;
+        left: 50%;
+        transform: translateX(-47.5%);
+    }
+    .result-search-title {
+        position: relative;
+        left: 50%;
+        transform: translateX(-47.5%)  translateY(-70%);
+    }
+    .search-result-pagination-main-container {
+        margin-top: 3%;
 
 
+    }
+    .search-result-pagination-active-page {
+
+    }
+    .search-result-pagination-inactive-pages {
+
+    }
+
+    .search-result-pagination-previous-bottom {
+        cursor: pointer;
+        margin-right: 2%;
+    }
+    .search-result-pagination-next-bottom {
+        cursor: pointer;
+
+    }
+}
 @media only screen and (max-width: 1499px) {
 
     .search-result-main-container {
@@ -51,13 +104,23 @@
         flex-direction: row;
         align-items: center;
         justify-content: center;
-        gap: 5%;
+        position: relative;
         height: 50px;
         width: 90%;
         border: 2px solid #361d795e;
         border-radius: 10px;
         font-family: 'Playfair Display', serif;
         font-size: 120%;
+    }
+
+    .search-results-server-connection-error-icon {
+        font-size: 250%;
+
+    }
+    .search-results-server-connection-error-message{
+        display: flex;
+        width: 160px;
+        font-size: 100%;
     }
 
     .search-result-pagination-active-page {
@@ -70,6 +133,7 @@
     }
     .search-result-pagination-inactive-pages {
         cursor: pointer;
+        padding: 15%;
     }
 
     .search-result-pagination-previous-bottom {
@@ -160,5 +224,9 @@
     .search-result-pagination-next-bottom {
         cursor: pointer;
     }
+
+
+
+
 }
 

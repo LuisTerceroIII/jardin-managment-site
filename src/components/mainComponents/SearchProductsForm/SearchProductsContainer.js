@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { SearchProductsPresentation } from "./SearchProductsPresentation";
 import { useHistory } from "react-router-dom";
-import { JardinApiService } from "../../../services/JardinApiService";
 import { utils } from "../../../utilFunctions/utils";
 import localStore from "store";
 
@@ -34,7 +33,6 @@ export const SearchProductsContainer = (props) => {
     const sessionToken = localStore.get("sessionToken") || null;
     if (sessionToken) {
       if (!utils().isEmpty(props.query.query)) {
-        console.log("QUERYYYYY :::::::::: ", props.query.query);
         history.push("/search/results");
       }
     } else {

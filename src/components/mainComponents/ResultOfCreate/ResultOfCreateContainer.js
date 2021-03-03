@@ -23,17 +23,14 @@ export const ResultOfCreateContainer = (props) => {
   };
 
   useEffect(() => {
-    console.log(props.createResponse);
     props.setCreateRequest({ newGarment: {} });
     const garmentReq = JardinApiService().getGarmentById(
       props.createResponse?.newGarment?.id
     );
     garmentReq.then((res) => {
-      console.log(res.data);
-      if (res.status === 202) {
+      if (res?.status === 202) {
         const imagesReq = JardinApiService().getAllImagesLinks(res.data.id);
         imagesReq.then((res) => {
-          console.log("IMAGESSSS :::::::::::::::::", res.data);
           if (res?.status === 200) {
             setGarment({
               id: props.createResponse?.newGarment?.id,

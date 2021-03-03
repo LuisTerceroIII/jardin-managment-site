@@ -230,6 +230,8 @@ export const formData = {
     "Guantes",
     "Camiseta",
     "Buzo",
+    "Uniforme",
+    "Yo",
   ],
   sizes: [
     "",

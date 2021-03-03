@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import MiniUploadImageGroupView from "./MiniUploadImageGroupView";
-import localStore from "store";
 import { JardinApiService } from "../../../services/JardinApiService";
 
 /*
@@ -20,7 +19,6 @@ const MiniUploadImageGroupContainer = (props) => {
         imagesLinksReq.then((res) => {
           if (res?.status === 200) {
             const images = res.data;
-            console.log(images);
             setImagesLinks({
               linkImage1: images.linkImage1,
               linkImage2: images.linkImage2,

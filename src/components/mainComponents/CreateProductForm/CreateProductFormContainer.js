@@ -4,7 +4,6 @@ import { useHistory } from "react-router-dom";
 import { utils } from "../../../utilFunctions/utils";
 import { JardinApiService } from "../../../services/JardinApiService";
 import localStore from "store";
-import { EditProductPresentation } from "../EditProductForm/EditProductPresentation";
 
 //TODO: Mostrar alertas de error al recibir como respueta 500 o otro status de error.
 export const CreateProductFormContainer = (props) => {
@@ -13,6 +12,9 @@ export const CreateProductFormContainer = (props) => {
   //Aca uso histoy para ir a otro componente (ruta) con el metodo push()
   // history.push("/rutaAIr")
   const history = useHistory();
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const goLastPage = () => {
     history.goBack();
@@ -40,6 +42,8 @@ export const CreateProductFormContainer = (props) => {
     if (sessionToken) {
       // Valida que se este navegando con una sesion abierta
       if (!utils().isEmpty(props.createRequest.newGarment)) {
+        setLoading(true);
+        setError(false);
         // valida que se llame
         const postGarmentReq = JardinApiService().postGarment(
           props.createRequest.newGarment,
@@ -67,6 +71,8 @@ export const CreateProductFormContainer = (props) => {
               response?.created &&
               res?.status !== 500
             ) {
+              setError(true);
+              setLoading(false);
               history.push("/create/upload-images");
             }
 
@@ -75,8 +81,13 @@ export const CreateProductFormContainer = (props) => {
               response?.created === false &&
               res?.status !== 500
             ) {
+              setError(true);
+              setLoading(false);
               history.push("/create/upload-images");
             }
+          } else {
+            setError(true);
+            setLoading(false);
           }
         });
       }
@@ -92,6 +103,8 @@ export const CreateProductFormContainer = (props) => {
     <CreateProductFormPresentation
       setCreateRequest={props.setCreateRequest}
       goLastPage={goLastPage}
+      loading={loading}
+      error={error}
     />
   );
 };
