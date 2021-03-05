@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { MiniUploadImageView } from "./MiniUploadImageView";
 import { JardinApiService } from "../../../services/JardinApiService";
 import localStore from "store";
+import LoggedUserContext from "../../../contexts/LoggedUserContext";
 /*
  * Componente con 4 estados :
  * 1) Uploading -> Muestra un spiner de carga
@@ -16,6 +17,7 @@ import localStore from "store";
  *
  * */
 export const MiniUploadImageContainer = (props) => {
+  const userLogState = useContext(LoggedUserContext);
   const [disabled, setDisabled] = useState(false);
   let imageURL = props.imageURL;
   const garmentID = props.id;
@@ -103,8 +105,8 @@ export const MiniUploadImageContainer = (props) => {
         }
         if (res?.status === 401) {
           localStore.remove("sessionToken");
-          props.setCredentials({});
-          props.setLogin(false);
+          userLogState.setCredentials({});
+          userLogState.setLogin(false);
         }
         if (res?.status === 400 || res?.status === 500) {
           setUpload({

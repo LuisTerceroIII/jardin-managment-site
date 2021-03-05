@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { EditProductPresentation } from "./EditProductPresentation";
 import { useHistory } from "react-router-dom";
 import { JardinApiService } from "../../../services/JardinApiService";
 import localStore from "store";
+import LoggedUserContext from "../../../contexts/LoggedUserContext";
+import JardinReqAndResContext from "../../../contexts/JardinReqResContext";
 
 export const EditProductContainer = (props) => {
+  const userLogState = useContext(LoggedUserContext);
+  const JardinReqAndResStates = useContext(JardinReqAndResContext);
+
   //history es una variable de React-router-dom
   //Pareciera una pila, puedes ir atras y adelante con funcinoes de history
   //Aca uso histoy para ir a otro componente (ruta) con el metodo push()
@@ -48,7 +53,6 @@ export const EditProductContainer = (props) => {
 
   useEffect(() => {
     const sessionToken = localStore.get("sessionToken") || null;
-
     if (sessionToken) {
       if (searchGarment === true) {
         setLoadingID(true);
@@ -62,8 +66,8 @@ export const EditProductContainer = (props) => {
           }
           if (garment?.status === 401) {
             localStore.remove("sessionToken");
-            props.setCredentials({});
-            props.setLogin(false);
+            userLogState.setCredentials({});
+            userLogState.setLogin(false);
           }
           if (garment?.status === 404) {
             setIDNotFound(true);
@@ -102,7 +106,7 @@ export const EditProductContainer = (props) => {
             setLoadingID(false);
             setIDNotFound(false);
             setGarmentToUpdate(garment.data);
-            props.setEditResponse(garment.data);
+            JardinReqAndResStates.setEditResponse(garment.data);
             setRefreshImages(true);
           }
         });
@@ -116,14 +120,14 @@ export const EditProductContainer = (props) => {
         setIdRequiredMessage(false);
         setPatchGarment(false);
         const response = JardinApiService().patchGarmentById(
-          props.editRequest,
+          JardinReqAndResStates.editRequest,
           sessionToken
         );
         response.then((res) => {
           if (res?.status === 401) {
             localStore.remove("sessionToken");
-            props.setCredentials({});
-            props.setLogin(false);
+            userLogState.setCredentials({});
+            userLogState.setLogin(false);
           } else if (res?.status === 500 || !res) {
             setLoadingEdit(false);
             setErrorEdit(true);
@@ -133,18 +137,18 @@ export const EditProductContainer = (props) => {
             setLoadingEdit(false);
             setErrorEdit(false);
           } else {
-            props.setEditResponse(res.data);
+            JardinReqAndResStates.setEditResponse(res.data);
             history.push("/edit/result");
           }
         });
       }
     } else {
       console.log("Sesion vencida, esta vence cada 24hrs.");
-      props.setCredentials({});
+      userLogState.setCredentials({});
       localStore.remove("sessionToken");
-      props.setLogin(false);
+      userLogState.setLogin(false);
     }
-  }, [props.editRequest, searchGarment]);
+  }, [JardinReqAndResStates.editRequest, searchGarment]);
 
   return (
     <EditProductPresentation
@@ -154,9 +158,6 @@ export const EditProductContainer = (props) => {
       garmentToUpdateId={garmentToUpdateId}
       setSearchGarment={setSearchGarment}
       setPatchGarment={setPatchGarment}
-      setEditRequest={props.setEditRequest}
-      setCredentials={props.setCredentials}
-      setLogin={props.setLogin}
       setRefresh={setRefreshImages}
       refresh={refreshImages}
       goLastPage={goLastPage}

@@ -1,17 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
-import { LoginPageContainer } from "./components/mainComponents/LoginPage/LoginPageContainer";
-import { CreateProductFormContainer } from "./components/mainComponents/CreateProductForm/CreateProductFormContainer";
-import { ActionPageContainer } from "./components/mainComponents/ActionsPage/ActionPageContainer";
-import { SearchProductsContainer } from "./components/mainComponents/SearchProductsForm/SearchProductsContainer";
-import { EditProductContainer } from "./components/mainComponents/EditProductForm/EditProductContainer";
-import { DeleteProductContainer } from "./components/mainComponents/DeleteProductForm/DeleteProductContainer";
-import { ResultOfSearchContainer } from "./components/mainComponents/ResultOfSearch/ResultOfSearchContainer";
-import "./App.css";
-import { ResultOfCreateContainer } from "./components/mainComponents/ResultOfCreate/ResultOfCreateContainer";
-import { ResultOfEditContainer } from "./components/mainComponents/ResultOfEdit/ResultOfEditContainer";
-import { ResultOfDeleteContainer } from "./components/mainComponents/ResultOfDelete/ResultOfDeleteContainer";
-import { ImagesNewGarmentContainer } from "./components/mainComponents/ImagesNewGarment/ImagesNewGarmentContainer";
+import LoggedUserContext from "./contexts/LoggedUserContext";
+import JardinReqAndResContext from "./contexts/JardinReqResContext";
+import Routes from "./components/mainComponents/Routes/Routes";
 
 /*
     La aplicación "Jardín Managment" es un "CRUD" con el objetivo de brindar una opción amigable
@@ -27,12 +17,12 @@ function App() {
   const [credentials, setCredentials] = useState({});
 
   // Variables utilizadas para buscar productos.
-  //SearchProductsContainer usa : query y setQueryResponse
-  //SearchProductsPresentation usa : setQuery
-  //ResultOfSearchContainer usa : setQuery
-  //ResultOfSearchPresentation usa : queryResponse
-  const [queryResponse, setQueryResponse] = useState([]);
-  const [query, setQuery] = useState({
+  //SearchProductsContainer usa : searchResponse y setSearchResponse
+  //SearchProductsPresentation usa : setSearchRequest
+  //ResultOfSearchContainer usa : setSearchRequest
+  //ResultOfSearchPresentation usa : searchResponse
+  const [searchResponse, setSearchResponse] = useState([]);
+  const [searchRequest, setSearchRequest] = useState({
     query: {},
   });
   /*
@@ -65,172 +55,35 @@ function App() {
   useEffect(() => {}, []);
 
   return (
-    <Router>
-      {/*LOGIN PAGE*/}
-      <Route exact path={"/"} component={"LoginPageContainer"}>
-        {login === true ? (
-          <Redirect to={"/actions"} />
-        ) : (
-          <LoginPageContainer
-            login={login}
-            setLogin={setLogin}
-            credentials={credentials}
-            setCredentials={setCredentials}
-          />
-        )}
-      </Route>
-
-      {/*ACTIONS PAGE*/}
-      <Route exact path={"/actions"} component={"ActionPageContainer"}>
-        {login === false ? (
-          <Redirect to={"/"} />
-        ) : (
-          <ActionPageContainer
-            setLogin={setLogin}
-            credentials={credentials}
-            setCredentials={setCredentials}
-          />
-        )}
-      </Route>
-
-      {/***************************        MAIN PAGES: CREATE,SEARCH,EDIT,DELETE     **************************/}
-
-      {/*CREATE NEW PRODUCT PAGE*/}
-      <Route exact path={"/create"} component={"CreateProductFormContainer"}>
-        {login === false ? (
-          <Redirect to={"/"} />
-        ) : (
-          <CreateProductFormContainer
-            createRequest={createRequest}
-            setCreateRequest={setCreateRequest}
-            setCreateResponse={setCreateResponse}
-            setLogin={setLogin}
-            setCredentials={setCredentials}
-          />
-        )}
-      </Route>
-      {/*SEARCH PRODUCTS PAGE*/}
-      <Route exact path={"/search"} component={"SearchProductFormContainer"}>
-        {login === false ? (
-          <Redirect to={"/"} />
-        ) : (
-          <SearchProductsContainer
-            setQueryResponse={setQueryResponse}
-            setQuery={setQuery}
-            query={query}
-            setLogin={setLogin}
-            setCredentials={setCredentials}
-          />
-        )}
-      </Route>
-
-      {/*EDIT PRODUCT PAGE*/}
-      <Route exact path={"/edit"} component={"EditProductContainer"}>
-        {login === false ? (
-          <Redirect to={"/"} />
-        ) : (
-          <EditProductContainer
-            editRequest={editRequest}
-            setEditRequest={setEditRequest}
-            setEditResponse={setEditResponse}
-            editResponse={editResponse}
-            setLogin={setLogin}
-            setCredentials={setCredentials}
-          />
-        )}
-      </Route>
-
-      {/*DELETE PAGE*/}
-      <Route exact path={"/delete"} component={"DeleteProductContainer"}>
-        {login === false ? (
-          <Redirect to={"/"} />
-        ) : (
-          <DeleteProductContainer
-            setDeleteResponse={setDeleteResponse}
-            setLogin={setLogin}
-            setCredentials={setCredentials}
-          />
-        )}
-      </Route>
-
-      {/*********** SECONDARIES PAGES************/}
-
-      {/*RESULT OF CREATE PAGE*/}
-      <Route
-        exact
-        path={"/create/result"}
-        component={"ResultOfCreateContainer"}
+    <LoggedUserContext.Provider
+      value={{
+        setCredentials: setCredentials,
+        setLogin: setLogin,
+        login: login,
+        credentials: credentials,
+      }}
+    >
+      <JardinReqAndResContext.Provider
+        value={{
+          createRequest: createRequest,
+          setCreateRequest: setCreateRequest,
+          createResponse: createResponse,
+          setCreateResponse: setCreateResponse,
+          editRequest: editRequest,
+          setEditRequest: setEditRequest,
+          editResponse: editResponse,
+          setEditResponse: setEditResponse,
+          searchRequest: searchRequest,
+          setSearchRequest: setSearchRequest,
+          searchResponse: searchResponse,
+          setSearchResponse: setSearchResponse,
+          deleteResponse: deleteResponse,
+          setDeleteResponse: setDeleteResponse,
+        }}
       >
-        {login === false ? (
-          <Redirect to={"/"} />
-        ) : (
-          <ResultOfCreateContainer
-            setCreateRequest={setCreateRequest}
-            createResponse={createResponse}
-          />
-        )}
-      </Route>
-
-      {/*RESULTS OF SEARCH PAGE*/}
-      <Route
-        exact
-        path={"/search/results"}
-        component={"ResultOfSearchContainer"}
-      >
-        {login === false ? (
-          <Redirect to={"/"} />
-        ) : (
-          <ResultOfSearchContainer
-            query={query}
-            setQuery={setQuery}
-            queryResponse={queryResponse}
-          />
-        )}
-      </Route>
-
-      {/*RESULTS OF EDIT PAGE*/}
-      <Route exact path={"/edit/result"} component={"ResultOfEditContainer"}>
-        {login === false ? (
-          <Redirect to={"/"} />
-        ) : (
-          <ResultOfEditContainer
-            setEditRequest={setEditRequest}
-            editResponse={editResponse}
-          />
-        )}
-      </Route>
-
-      {/*RESULTS OF DELETE PAGE*/}
-      <Route
-        exact
-        path={"/delete/result"}
-        component={"ResultOfDeleteContainer"}
-      >
-        {login === false ? (
-          <Redirect to={"/"} />
-        ) : (
-          <ResultOfDeleteContainer deleteResponse={deleteResponse} />
-        )}
-      </Route>
-
-      {/*********************************************/}
-      {/* Images Component*/}
-      <Route
-        exact
-        path={"/create/upload-images"}
-        component={"ImagesNewGarmentContainer"}
-      >
-        {login === false ? (
-          <Redirect to={"/"} />
-        ) : (
-          <ImagesNewGarmentContainer
-            createResponse={createResponse}
-            setLogin={setLogin}
-            setCredentials={setCredentials}
-          />
-        )}
-      </Route>
-    </Router>
+        <Routes />
+      </JardinReqAndResContext.Provider>
+    </LoggedUserContext.Provider>
   );
 }
 

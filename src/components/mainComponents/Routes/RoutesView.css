@@ -1,0 +1,22 @@
+.return-last-page-arrow-button {
+    position: relative;
+    cursor: pointer;
+    right: 42%;
+    bottom: 2.2%;
+    font-size: 130%;
+    color: #0000009e;
+    transition: font-size 0.5s;
+}
+
+.return-last-page-arrow-button:hover {
+    font-size: 150%;
+    color: #000000b5;
+    transition: font-size 0.5s;
+}
+.title-main-actions {
+    font-family: 'Playfair Display', serif;
+    text-align: center;
+    margin-top: 10%;
+    font-size: 170%;
+    margin-bottom: 4%;
+}

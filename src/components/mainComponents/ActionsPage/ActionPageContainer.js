@@ -1,13 +1,15 @@
 import { ActionPagePresentation } from "./ActionPagePresentation";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import localStore from "store";
 import { JardinApiService } from "../../../services/JardinApiService";
+import LoggedUserContext from "../../../contexts/LoggedUserContext";
 
 export const ActionPageContainer = (props) => {
+  const userLogState = useContext(LoggedUserContext);
   const logout = () => {
     localStore.remove("sessionToken");
-    props.setLogin(false);
-    props.setCredentials({});
+    userLogState.setLogin(false);
+    userLogState.setCredentials({});
   };
   const paths = [
     {
@@ -33,12 +35,13 @@ export const ActionPageContainer = (props) => {
     validateSession.then((res) => {
       if (res) {
         if (res?.status === 401) {
-          props.setCredentials({});
+          userLogState.setCredentials({});
           localStore.remove("sessionToken");
-          props.setLogin(false);
+          userLogState.setLogin(false);
         }
       }
     });
+    return null;
   }, []);
   return <ActionPagePresentation paths={paths} logout={logout} />;
 };

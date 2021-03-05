@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./CreateProductFormPresentation.css";
 
 import { useForm } from "react-hook-form";
@@ -9,8 +9,10 @@ import {
   faHandPointLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import Loader from "react-loader-spinner";
+import JardinReqAndResContext from "../../../contexts/JardinReqResContext";
 
 export const CreateProductFormPresentation = (props) => {
+  const JardinReqAndResStates = useContext(JardinReqAndResContext);
   const { register, handleSubmit, errors } = useForm();
   const onSubmit = (data) => {
     const garment = {
@@ -24,7 +26,7 @@ export const CreateProductFormPresentation = (props) => {
       type: data.type,
     };
 
-    props.setCreateRequest({
+    JardinReqAndResStates.setCreateRequest({
       newGarment: garment,
     });
   };
@@ -69,7 +71,7 @@ export const CreateProductFormPresentation = (props) => {
             required: true,
           })}
         />
-        <label className={"form-presentation-label"}>Genero</label>
+        <label className={"form-presentation-label"}>Figura</label>
         <select
           className={"form-presentation-input"}
           name={"gender"}

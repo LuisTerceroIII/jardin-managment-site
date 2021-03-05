@@ -15,10 +15,7 @@ export const ImagesNewGarmentContainer = (props) => {
   return (
     <ImagesNewGarmentView
       finish={finishUploadImages}
-      CreateResponse={props.createResponse}
       instruction={instruction}
-      setCredentials={props.setCredentials}
-      setLogin={props.setLogin}
     />
   );
 };

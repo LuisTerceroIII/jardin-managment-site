@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CreateProductFormPresentation } from "./CreateProductFormPresentation.js";
 import { useHistory } from "react-router-dom";
 import { utils } from "../../../utilFunctions/utils";
 import { JardinApiService } from "../../../services/JardinApiService";
 import localStore from "store";
+import LoggedUserContext from "../../../contexts/LoggedUserContext";
+import JardinReqAndResContext from "../../../contexts/JardinReqResContext";
 
 //TODO: Mostrar alertas de error al recibir como respueta 500 o otro status de error.
 export const CreateProductFormContainer = (props) => {
+  const userLogState = useContext(LoggedUserContext);
+  const JardinReqAndResStates = useContext(JardinReqAndResContext);
   //history es una variable de React-router-dom
   //Pareciera una pila, puedes ir atras y adelante con funcinoes de history
   //Aca uso histoy para ir a otro componente (ruta) con el metodo push()
@@ -41,12 +45,12 @@ export const CreateProductFormContainer = (props) => {
 
     if (sessionToken) {
       // Valida que se este navegando con una sesion abierta
-      if (!utils().isEmpty(props.createRequest.newGarment)) {
+      if (!utils().isEmpty(JardinReqAndResStates.createRequest.newGarment)) {
         setLoading(true);
         setError(false);
         // valida que se llame
         const postGarmentReq = JardinApiService().postGarment(
-          props.createRequest.newGarment,
+          JardinReqAndResStates.createRequest.newGarment,
           sessionToken
         );
         postGarmentReq.then((res) => {
@@ -54,7 +58,7 @@ export const CreateProductFormContainer = (props) => {
             // valida que exista algo como respuesta
             let response = res?.data;
 
-            props.setCreateResponse({
+            JardinReqAndResStates.setCreateResponse({
               created: response?.created,
               newGarment: response?.createdGarment,
             }); // se setea la respuesta para actualizar el estado del componente de resultado
@@ -62,11 +66,13 @@ export const CreateProductFormContainer = (props) => {
               // Valida, si falla por token invalido
               // se vuelven todos los estado que comprueban el logeo a su estado inicial.
               localStore.remove("sessionToken");
-              props.setCredentials({});
-              props.setLogin(false);
+              userLogState.setCredentials({});
+              userLogState.setLogin(false);
             }
             if (
-              !utils().isEmpty(props.createRequest.newGarment) &&
+              !utils().isEmpty(
+                JardinReqAndResStates.createRequest.newGarment
+              ) &&
               response?.created &&
               res?.status !== 500
             ) {
@@ -76,7 +82,9 @@ export const CreateProductFormContainer = (props) => {
             }
 
             if (
-              !utils().isEmpty(props.createRequest.newGarment) &&
+              !utils().isEmpty(
+                JardinReqAndResStates.createRequest.newGarment
+              ) &&
               response?.created === false &&
               res?.status !== 500
             ) {
@@ -92,15 +100,14 @@ export const CreateProductFormContainer = (props) => {
       }
     } else {
       console.log("Sesion vencida, esta vence cada 24hrs.");
-      props.setCredentials({});
+      userLogState.setCredentials({});
       localStore.remove("sessionToken");
-      props.setLogin(false);
+      userLogState.setLogin(false);
     }
-  }, [props.createRequest.newGarment]);
+  }, [JardinReqAndResStates.createRequest.newGarment]);
 
   return (
     <CreateProductFormPresentation
-      setCreateRequest={props.setCreateRequest}
       goLastPage={goLastPage}
       loading={loading}
       error={error}

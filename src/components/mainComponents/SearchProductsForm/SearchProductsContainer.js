@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { SearchProductsPresentation } from "./SearchProductsPresentation";
 import { useHistory } from "react-router-dom";
 import { utils } from "../../../utilFunctions/utils";
 import localStore from "store";
+import LoggedUserContext from "../../../contexts/LoggedUserContext";
+import JardinReqAndResContext from "../../../contexts/JardinReqResContext";
 
 /*
     Recibe la variable de estado: "query" y "setQuery" y las Pasa a SearchProductsPresentation
@@ -13,6 +15,8 @@ import localStore from "store";
 
 //TODO: Recibir parametros de los selects en el formulario desde la API. De ese modo mostrar solo opciones posibles y validas.
 export const SearchProductsContainer = (props) => {
+  const userLogState = useContext(LoggedUserContext);
+  const JardinReqAndResStates = useContext(JardinReqAndResContext);
   //history es una variable de React-router-dom
   //Pareciera una pila, puedes ir atras y adelante con funcinoes de history
   //Aca uso histoy para ir a otro componente (ruta) con el metodo push()
@@ -27,26 +31,21 @@ export const SearchProductsContainer = (props) => {
   // Es necesario recordar que en la funcion useEffect(), si el objeto query no esta vacio,
   // se va hacia el path "/results" es decir al component "ResultOfSearchContainer"
 
-  //Escucha los cambios en "props.query", si "props.query" no esta vacio, redireciona a mostrar los resultados de la busqueda.
+  //Escucha los cambios en "JardinReqAndResStates.searchRequest", si "JardinReqAndResStates.searchRequest" no esta vacio, redireciona a mostrar los resultados de la busqueda.
   useEffect(() => {
-    //console.log('Query ===',props.query.query) --> Esta en la query con la que se trabaja. Por defecto se setea un obtejo vacio {}.
+    //console.log('Query ===',JardinReqAndResStates.searchRequest.query) --> Esta en la query con la que se trabaja. Por defecto se setea un obtejo vacio {}.
     const sessionToken = localStore.get("sessionToken") || null;
     if (sessionToken) {
-      if (!utils().isEmpty(props.query.query)) {
+      if (!utils().isEmpty(JardinReqAndResStates.searchRequest.query)) {
         history.push("/search/results");
       }
     } else {
       console.log("Sesion vencida, esta vence cada 24hrs.");
-      props.setCredentials({});
+      userLogState.setCredentials({});
       localStore.remove("sessionToken");
-      props.setLogin(false);
+      userLogState.setLogin(false);
     }
-  }, [props.query]);
+  }, [JardinReqAndResStates.searchRequest]);
 
-  return (
-    <SearchProductsPresentation
-      setQuery={props.setQuery}
-      goLastPage={goLastPage}
-    />
-  );
+  return <SearchProductsPresentation goLastPage={goLastPage} />;
 };

@@ -1,19 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ResultOfCreatePresentation } from "./ResultOfCreatePresentation";
 import { useHistory } from "react-router-dom";
 import { JardinApiService } from "../../../services/JardinApiService";
+import JardinReqAndResContext from "../../../contexts/JardinReqResContext";
 
 export const ResultOfCreateContainer = (props) => {
+  const JardinReqAndResStates = useContext(JardinReqAndResContext);
   const [garment, setGarment] = useState({
-    id: props.createResponse?.newGarment?.id,
-    type: props.createResponse?.newGarment?.type,
-    size: props.createResponse?.newGarment?.size,
-    mainColor: props.createResponse?.newGarment?.mainColor,
-    gender: props.createResponse?.newGarment?.gender,
-    mainMaterial: props.createResponse?.newGarment?.mainMaterial,
-    madeIn: props.createResponse?.newGarment?.madeIn,
-    price: props.createResponse?.newGarment?.price,
-    comment: props.createResponse?.newGarment?.comment,
+    id: JardinReqAndResStates.createResponse?.newGarment?.id,
+    type: JardinReqAndResStates.createResponse?.newGarment?.type,
+    size: JardinReqAndResStates.createResponse?.newGarment?.size,
+    mainColor: JardinReqAndResStates.createResponse?.newGarment?.mainColor,
+    gender: JardinReqAndResStates.createResponse?.newGarment?.gender,
+    mainMaterial:
+      JardinReqAndResStates.createResponse?.newGarment?.mainMaterial,
+    madeIn: JardinReqAndResStates.createResponse?.newGarment?.madeIn,
+    price: JardinReqAndResStates.createResponse?.newGarment?.price,
+    comment: JardinReqAndResStates.createResponse?.newGarment?.comment,
     images: {},
   });
   const history = useHistory();
@@ -23,9 +26,9 @@ export const ResultOfCreateContainer = (props) => {
   };
 
   useEffect(() => {
-    props.setCreateRequest({ newGarment: {} });
+    JardinReqAndResStates.setCreateRequest({ newGarment: {} });
     const garmentReq = JardinApiService().getGarmentById(
-      props.createResponse?.newGarment?.id
+      JardinReqAndResStates.createResponse?.newGarment?.id
     );
     garmentReq.then((res) => {
       if (res?.status === 202) {
@@ -33,15 +36,18 @@ export const ResultOfCreateContainer = (props) => {
         imagesReq.then((res) => {
           if (res?.status === 200) {
             setGarment({
-              id: props.createResponse?.newGarment?.id,
-              type: props.createResponse?.newGarment?.type,
-              size: props.createResponse?.newGarment?.size,
-              mainColor: props.createResponse?.newGarment?.mainColor,
-              gender: props.createResponse?.newGarment?.gender,
-              mainMaterial: props.createResponse?.newGarment?.mainMaterial,
-              madeIn: props.createResponse?.newGarment?.madeIn,
-              price: props.createResponse?.newGarment?.price,
-              comment: props.createResponse?.newGarment?.comment,
+              id: JardinReqAndResStates.createResponse?.newGarment?.id,
+              type: JardinReqAndResStates.createResponse?.newGarment?.type,
+              size: JardinReqAndResStates.createResponse?.newGarment?.size,
+              mainColor:
+                JardinReqAndResStates.createResponse?.newGarment?.mainColor,
+              gender: JardinReqAndResStates.createResponse?.newGarment?.gender,
+              mainMaterial:
+                JardinReqAndResStates.createResponse?.newGarment?.mainMaterial,
+              madeIn: JardinReqAndResStates.createResponse?.newGarment?.madeIn,
+              price: JardinReqAndResStates.createResponse?.newGarment?.price,
+              comment:
+                JardinReqAndResStates.createResponse?.newGarment?.comment,
               images: res.data,
             });
           }
@@ -49,11 +55,5 @@ export const ResultOfCreateContainer = (props) => {
       }
     });
   }, []);
-  return (
-    <ResultOfCreatePresentation
-      createRsponse={props.createResponse}
-      goToMenu={goToMenu}
-      garment={garment}
-    />
-  );
+  return <ResultOfCreatePresentation goToMenu={goToMenu} garment={garment} />;
 };

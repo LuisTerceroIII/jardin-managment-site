@@ -1,26 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { LoginPagePresentation } from "./LoginPagePresentation";
 import { JardinApiService } from "../../../services/JardinApiService";
 import { utils } from "../../../utilFunctions/utils";
 import localStore from "store";
+import LoggedUserContext from "../../../contexts/LoggedUserContext";
 
 export const LoginPageContainer = (props) => {
+  const userLogState = useContext(LoggedUserContext);
   const [invalidCredentials, setInvalidCredentials] = useState(false); // Bandera para mostrar un simple mensaje, is las credenciales no son validas
   const [errorLoginReq, setErrorLoginReq] = useState(false);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     const sessionToken = localStore.get("sessionToken") || null;
     if (sessionToken) {
-      props.setLogin(true);
+      userLogState.setLogin(true);
     } else {
       console.log("Sesion vencida");
-      props.setLogin(false);
+      userLogState.setLogin(false);
     }
 
-    if (!utils().isEmpty(props.credentials)) {
+    if (!utils().isEmpty(userLogState.credentials)) {
       const processLogin = JardinApiService().processLogin(
-        props.credentials.username,
-        props.credentials.password
+        userLogState.credentials.username,
+        userLogState.credentials.password
       );
       processLogin
         .then((res) => {
@@ -35,7 +37,7 @@ export const LoginPageContainer = (props) => {
               setInvalidCredentials(false);
               setErrorLoginReq(false);
               setLoading(false);
-              props.setLogin(true);
+              userLogState.setLogin(true);
             }
 
             if (res?.status === 404) {
@@ -55,13 +57,10 @@ export const LoginPageContainer = (props) => {
           }
         });
     }
-  }, [props.credentials]);
+  }, [userLogState.credentials]);
 
   return (
     <LoginPagePresentation
-      login={props.login}
-      setLogin={props.setLogin}
-      setCredentials={props.setCredentials}
       invalidCredentials={invalidCredentials}
       errorLoginReq={errorLoginReq}
       loading={loading}

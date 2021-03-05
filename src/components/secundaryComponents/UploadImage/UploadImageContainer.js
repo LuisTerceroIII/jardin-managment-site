@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import "./UploadImageView.css";
 import { UploadImageView } from "./UploadImageView";
 import localStore from "store";
 import { JardinApiService } from "../../../services/JardinApiService";
+import LoggedUserContext from "../../../contexts/LoggedUserContext";
 
 export const UploadImageContainer = (props) => {
+  const userLogState = useContext(LoggedUserContext);
   /*
         uploading : muestra un spiner.
         uploaded : muestra icono de exito.
@@ -66,9 +68,9 @@ export const UploadImageContainer = (props) => {
         }
 
         if (res.status === 401) {
-          props.setCredentials({});
+          userLogState.setCredentials({});
           localStore.remove("sessionToken");
-          props.setLogin(false);
+          userLogState.setLogin(false);
         }
 
         if (res?.status === 400 || res?.status === 500) {
@@ -82,8 +84,8 @@ export const UploadImageContainer = (props) => {
       .catch((err) => {
         if (err.response?.status === 401) {
           localStore.remove("sessionToken");
-          props.setCredentials({});
-          props.setLogin(false);
+          userLogState.setCredentials({});
+          userLogState.setLogin(false);
         }
         setImageURL("");
       });
@@ -113,9 +115,9 @@ export const UploadImageContainer = (props) => {
         }
 
         if (res?.status === 401) {
-          props.setCredentials({});
+          userLogState.setCredentials({});
           localStore.remove("sessionToken");
-          props.setLogin(false);
+          userLogState.setLogin(false);
         }
       })
       .catch((err) => {

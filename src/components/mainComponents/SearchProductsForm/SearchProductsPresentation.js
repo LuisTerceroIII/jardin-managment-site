@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { formData } from "../../../componentData/formsData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHandPointLeft } from "@fortawesome/free-solid-svg-icons";
+import JardinReqAndResContext from "../../../contexts/JardinReqResContext";
 
 export const SearchProductsPresentation = (props) => {
+  const JardinReqAndResStates = useContext(JardinReqAndResContext);
   // Start forms variables ------------------------------------------
   const types = formData.types.map((type, index) => {
     return <option key={index}>{type}</option>;
@@ -42,7 +44,7 @@ export const SearchProductsPresentation = (props) => {
     let query = {
       query: garment,
     };
-    props.setQuery(query);
+    JardinReqAndResStates.setSearchRequest(query);
   };
 
   return (
@@ -80,7 +82,7 @@ export const SearchProductsPresentation = (props) => {
           {sizes}
         </select>
 
-        <label className={"form-presentation-label"}>Genero</label>
+        <label className={"form-presentation-label"}>Figura</label>
         <select
           className={"form-presentation-input"}
           name={"gender"}

@@ -14,8 +14,6 @@ const MiniUploadImageGroupView = (props) => {
           id={props.id}
           imageNumber={1}
           imageURL={imagesLinks.linkImage1 ?? ""}
-          setCredentials={props.setCredentials}
-          setLogin={props.setLogin}
           setRefresh={props.setRefresh}
         />
       </div>
@@ -24,8 +22,6 @@ const MiniUploadImageGroupView = (props) => {
           id={props.id}
           imageNumber={2}
           imageURL={imagesLinks.linkImage2 ?? ""}
-          setCredentials={props.setCredentials}
-          setLogin={props.setLogin}
           setRefresh={props.setRefresh}
         />
       </div>
@@ -34,8 +30,6 @@ const MiniUploadImageGroupView = (props) => {
           id={props.id}
           imageNumber={3}
           imageURL={imagesLinks.linkImage3 ?? ""}
-          setCredentials={props.setCredentials}
-          setLogin={props.setLogin}
           setRefresh={props.setRefresh}
         />
       </div>
@@ -44,8 +38,6 @@ const MiniUploadImageGroupView = (props) => {
           id={props.id}
           imageNumber={4}
           imageURL={imagesLinks.linkImage4 ?? ""}
-          setCredentials={props.setCredentials}
-          setLogin={props.setLogin}
           setRefresh={props.setRefresh}
         />
       </div>
@@ -54,8 +46,6 @@ const MiniUploadImageGroupView = (props) => {
           id={props.id}
           imageNumber={5}
           imageURL={imagesLinks.linkImage5 ?? ""}
-          setCredentials={props.setCredentials}
-          setLogin={props.setLogin}
           setRefresh={props.setRefresh}
         />
       </div>
@@ -64,8 +54,6 @@ const MiniUploadImageGroupView = (props) => {
           id={props.id}
           imageNumber={6}
           imageURL={imagesLinks.linkImage6 ?? ""}
-          setCredentials={props.setCredentials}
-          setLogin={props.setLogin}
           setRefresh={props.setRefresh}
         />
       </div>

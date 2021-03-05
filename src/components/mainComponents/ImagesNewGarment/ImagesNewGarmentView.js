@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./ImagesNewGarmentView.css";
 import { UploadImageContainer } from "../../secundaryComponents/UploadImage/UploadImageContainer";
+import JardinReqAndResContext from "../../../contexts/JardinReqResContext";
 
 export const ImagesNewGarmentView = (props) => {
-  const garment = props.CreateResponse?.newGarment;
+  const JardinReqAndResStates = useContext(JardinReqAndResContext);
+  const garment = JardinReqAndResStates.createResponse?.newGarment;
 
   return (
     <div className="upload-image-group-main-container">
@@ -15,62 +17,32 @@ export const ImagesNewGarmentView = (props) => {
             {props.instruction}
           </h6>
           <h6 className={"images-upload-group-image-number"}>1.</h6>
-          <UploadImageContainer
-            id={garment.id}
-            imageNumber={1}
-            setCredentials={props.setCredentials}
-            setLogin={props.setLogin}
-          />
+          <UploadImageContainer id={garment.id} imageNumber={1} />
         </div>
 
         <div className={"upload-image-component-container"}>
           <h6 className={"images-upload-group-image-number"}>2.</h6>
-          <UploadImageContainer
-            id={garment.id}
-            imageNumber={2}
-            setCredentials={props.setCredentials}
-            setLogin={props.setLogin}
-          />
+          <UploadImageContainer id={garment.id} imageNumber={2} />
         </div>
 
         <div className={"upload-image-component-container"}>
           <h6 className={"images-upload-group-image-number"}>3.</h6>
-          <UploadImageContainer
-            id={garment.id}
-            imageNumber={3}
-            setCredentials={props.setCredentials}
-            setLogin={props.setLogin}
-          />
+          <UploadImageContainer id={garment.id} imageNumber={3} />
         </div>
 
         <div className={"upload-image-component-container"}>
           <h6 className={"images-upload-group-image-number"}>4.</h6>
-          <UploadImageContainer
-            id={garment.id}
-            imageNumber={4}
-            setCredentials={props.setCredentials}
-            setLogin={props.setLogin}
-          />
+          <UploadImageContainer id={garment.id} imageNumber={4} />
         </div>
 
         <div className={"upload-image-component-container"}>
           <h6 className={"images-upload-group-image-number"}>5.</h6>
-          <UploadImageContainer
-            id={garment.id}
-            imageNumber={5}
-            setCredentials={props.setCredentials}
-            setLogin={props.setLogin}
-          />
+          <UploadImageContainer id={garment.id} imageNumber={5} />
         </div>
 
         <div className={"upload-image-component-container"}>
           <h6 className={"images-upload-group-image-number"}>6.</h6>
-          <UploadImageContainer
-            id={garment.id}
-            imageNumber={6}
-            setCredentials={props.setCredentials}
-            setLogin={props.setLogin}
-          />
+          <UploadImageContainer id={garment.id} imageNumber={6} />
         </div>
 
         <input

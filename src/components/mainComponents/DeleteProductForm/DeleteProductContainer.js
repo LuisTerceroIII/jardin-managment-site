@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DeleteProductPresentation } from "./DeleteProductPresentation";
 import { JardinApiService } from "../../../services/JardinApiService";
 import { useHistory } from "react-router-dom";
 import localStore from "store";
+import LoggedUserContext from "../../../contexts/LoggedUserContext";
+import JardinReqAndResContext from "../../../contexts/JardinReqResContext";
 
 /*
 * El componente de borrado tiene dos botones, 1 para buscar un producto por su id
@@ -17,6 +19,8 @@ import localStore from "store";
 * */
 
 export const DeleteProductContainer = (props) => {
+  const userLogState = useContext(LoggedUserContext);
+  const JardinReqAndResStates = useContext(JardinReqAndResContext);
   //Garment que se renderiza en componente vista
   const [garmentToDelete, setGarmentToDelete] = useState({
     id: "",
@@ -122,8 +126,8 @@ export const DeleteProductContainer = (props) => {
               setIDNotFound(false);
             } else if (res.status === 401) {
               localStore.remove("sessionToken");
-              props.setCredentials({});
-              props.setLogin(false);
+              userLogState.setCredentials({});
+              userLogState.setLogin(false);
             } else if (res.status === 404) {
               setIdSearchStatus({
                 loading: false,
@@ -171,8 +175,8 @@ export const DeleteProductContainer = (props) => {
             //Preguntamos esto, para asegurarnos no tener errores de undefined o typeError
             if (res?.status === 401) {
               localStore.remove("sessionToken");
-              props.setCredentials({});
-              props.setLogin(false);
+              userLogState.setCredentials({});
+              userLogState.setLogin(false);
             }
             if (res?.status === 202) {
               setDeleteStatus({
@@ -180,7 +184,7 @@ export const DeleteProductContainer = (props) => {
                 loaded: false,
                 error: false,
               });
-              props.setDeleteResponse({
+              JardinReqAndResStates.setDeleteResponse({
                 id: garmentToDelete.id,
                 type: garmentToDelete.type,
                 size: garmentToDelete.size,
@@ -202,7 +206,7 @@ export const DeleteProductContainer = (props) => {
               });
             }
             if (res?.status === 404) {
-              props.setDeleteResponse({
+              JardinReqAndResStates.setDeleteResponse({
                 // Se carga un objeto vacia para mostrar en la ruta "resultado"
                 id: "",
                 type: "",
@@ -228,9 +232,9 @@ export const DeleteProductContainer = (props) => {
       }
     } else {
       console.log("Sesion vencida, esta vence cada 24hrs.");
-      props.setCredentials({});
+      userLogState.setCredentials({});
       localStore.remove("sessionToken");
-      props.setLogin(false);
+      userLogState.setLogin(false);
     }
   }, [searchGarment, deleteGarment]);
 

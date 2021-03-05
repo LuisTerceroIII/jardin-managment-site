@@ -37,8 +37,6 @@ const MiniUploadImageGroupContainer = (props) => {
     <MiniUploadImageGroupView
       id={garmentID}
       imagesLinks={imagesLinks}
-      setCredentials={props.setCredentials}
-      setLogin={props.setLogin}
       setRefresh={props.setRefresh}
     />
   );

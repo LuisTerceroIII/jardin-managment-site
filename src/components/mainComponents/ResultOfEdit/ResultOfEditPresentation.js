@@ -5,7 +5,7 @@ import "./ResultOfEditPresentation.css";
 export const ResultOfEditPresentation = (props) => {
   return (
     <div className={"result-of-create-main-container"}>
-      <h1 className={"result-create-title"}>Updated Garment </h1>
+      <h1 className={"result-create-title"}>Prenda actualizada</h1>
 
       <div className={"product-card-container"}>
         <ProductCardContainer garment={props.garment} />

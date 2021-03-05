@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./EditProductPresentation.css";
 import { useForm } from "react-hook-form";
 import { formData } from "../../../componentData/formsData";
@@ -9,8 +9,11 @@ import {
   faExclamationTriangle,
 } from "@fortawesome/free-solid-svg-icons";
 import Loader from "react-loader-spinner";
+import LoggedUserContext from "../../../contexts/LoggedUserContext";
+import JardinReqAndResContext from "../../../contexts/JardinReqResContext";
 
 export const EditProductPresentation = (props) => {
+  const JardinReqAndResStates = useContext(JardinReqAndResContext);
   const [submitButton, setSubmitButton] = useState("id");
   const { register, handleSubmit } = useForm();
 
@@ -19,7 +22,7 @@ export const EditProductPresentation = (props) => {
   const onSubmit = (data) => {
     if (submitButton === "sendPatchGarment") {
       props.setPatchGarment(true);
-      props.setEditRequest(data);
+      JardinReqAndResStates.setEditRequest(data);
     } else {
       props.setGarmentToUpdateId(data.id);
       props.setSearchGarment(true);
@@ -129,7 +132,7 @@ export const EditProductPresentation = (props) => {
             required: false,
           })}
         />
-        <label className={"form-presentation-label"}>Genero</label>
+        <label className={"form-presentation-label"}>Figura</label>
         <select
           className={"form-presentation-input"}
           name={"gender"}
@@ -177,8 +180,6 @@ export const EditProductPresentation = (props) => {
         <MiniUploadImageGroupContainer
           idNotFound={props.idNotFound}
           id={props.garmentToUpdateId}
-          setCredentials={props.setCredentials}
-          setLogin={props.setLogin}
           setRefresh={props.setRefresh}
           refresh={props.refresh}
         />
@@ -226,7 +227,7 @@ export const EditProductPresentation = (props) => {
           type={"submit"}
           value={"Editar"}
           className={"form-presentation-crate-button form-presentation-button"}
-          onClick={async () => {
+          onClick={() => {
             if (!props.idNotFound && !props.errorID) {
               return setSubmitButton("sendPatchGarment");
             }

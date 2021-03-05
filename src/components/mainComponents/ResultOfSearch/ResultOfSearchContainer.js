@@ -1,18 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { ResultOfSearchPresentation } from "./ResultOfSearchPresentation";
 import { useHistory } from "react-router-dom";
 import { JardinApiService } from "../../../services/JardinApiService";
 import localStore from "store";
+import JardinReqAndResContext from "../../../contexts/JardinReqResContext";
 
 export const ResultOfSearchContainer = (props) => {
-  const [query, setQuery] = useState(props.query?.query);
+  const JardinReqAndResStates = useContext(JardinReqAndResContext);
+  const [query, setQuery] = useState(
+    JardinReqAndResStates.searchRequest?.query
+  );
 
   const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
 
   const [pageCount, setPageCount] = useState(0);
-  const [activePage, setActivePage] = useState(0);
   const [garments, setGarments] = useState([]); // variable que contiene a todos los elementos
   const [limit, setLimit] = useState(5);
   const [offset, setOffset] = useState(0);
@@ -100,7 +103,7 @@ export const ResultOfSearchContainer = (props) => {
     });
     if (pageCount === 0) {
       const searchTotalElementsReq = JardinApiService().getSearchTotalElements(
-        props.query.query
+        JardinReqAndResStates.searchRequest.query
       );
       searchTotalElementsReq.then((res) => {
         if (res) {
@@ -111,7 +114,7 @@ export const ResultOfSearchContainer = (props) => {
       });
     }
 
-    props.setQuery({ query: {} });
+    JardinReqAndResStates.setSearchRequest({ query: {} });
   }, [offset]);
 
   return (

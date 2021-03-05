@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import "./LoginPagePresentation.css";
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,15 +7,16 @@ import {
   faExclamationCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import Loader from "react-loader-spinner";
+import LoggedUserContext from "../../../contexts/LoggedUserContext";
 
 export const LoginPagePresentation = (props) => {
   const { register, handleSubmit, errors } = useForm();
-
+  const userLogState = useContext(LoggedUserContext);
   const onSubmit = (data) => {
     props.setLoading(true);
     props.setErrorLogin(false);
     props.setInvalidCredentials(false);
-    props.setCredentials({
+    userLogState.setCredentials({
       username: data.username,
       password: data.password,
     });
@@ -83,7 +84,7 @@ export const LoginPagePresentation = (props) => {
           )}
           {props.invalidCredentials && (
             <span className={"login-invalid-credentials-message"}>
-              Credenciales invalidas!
+              Credenciales invalidas
             </span>
           )}
           {props.loading && (

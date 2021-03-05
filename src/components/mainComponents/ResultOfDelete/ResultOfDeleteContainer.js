@@ -10,10 +10,5 @@ export const ResultOfDeleteContainer = (props) => {
 
   useEffect(() => {}, []);
 
-  return (
-    <ResultOfDeleteView
-      deleteResponse={props.deleteResponse}
-      goToMenu={goToMenu}
-    />
-  );
+  return <ResultOfDeleteView goToMenu={goToMenu} />;
 };
